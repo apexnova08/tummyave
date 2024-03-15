@@ -5,31 +5,14 @@ $email = $_POST["email"];
 $username = $_POST["username"];
 $password = $_POST["password"];
 
-$host = "localhost";
-$dbname = "tummy_test_db";
-$dbuser = "root";
-$dbpass = "";
-
-$conn = mysqli_connect(
-    hostname: $host,
-    username: $dbuser,
-    password: $dbpass, 
-    database: $dbname,
-    port: 3307);
-
-if (mysqli_connect_errno()) {
-    die("Connection error: " . mysqli_connect_error());
-}
-
-echo "sakses";
+$mysqli = require __DIR__ . "/database.php";
 
 $sql = "INSERT INTO users (name, email, username, password, type) VALUES (?, ?, ?, ?, 1)";
 
-$stmt = mysqli_stmt_init($conn);
+$stmt = $mysqli->stmt_init();
 
-if (!mysqli_stmt_prepare($stmt, $sql))
-{
-    die(mysqli_error($conn));
+if (!$stmt->prepare($sql)) {
+    die("SQL error: " . $mysqli->errno);
 }
 
 mysqli_stmt_bind_param($stmt, "ssss",
@@ -38,6 +21,12 @@ mysqli_stmt_bind_param($stmt, "ssss",
                        $username,
                        $password);
 
-mysqli_stmt_execute($stmt);
-
-echo "Record saved.";
+if ($stmt->execute())
+{
+    echo "Record saved.";
+}
+else
+{
+    echo "sex";
+    die ("sex");
+}
