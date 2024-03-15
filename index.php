@@ -28,13 +28,9 @@
 
 <body>
 
-<!--Loader-->
-<div class="loader"> 
-   <div class="cssload-container">
-     <div class="cssload-circle"></div>
-     <div class="cssload-circle"></div>
-   </div>
-</div>
+<?php 
+include 'global/loader.php';
+?>
 
 <?php 
 include 'global/customerheader.php';

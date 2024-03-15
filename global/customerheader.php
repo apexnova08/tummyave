@@ -54,7 +54,7 @@
                         <a data-toggle="dropdown" href="#" class="dropdown-toggle">Order Now</a>
                         <ul class="dropdown-menu">
                           <li><a href="account/register.php">Register</a></li>
-                          <li><a href="account/login.php">Login</a></li>
+                          <li><a href="login.php">Login</a></li>
                         </ul>
                       </li>
                       
