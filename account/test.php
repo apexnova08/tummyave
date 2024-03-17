@@ -5,7 +5,7 @@ $email = $_POST["email"];
 $username = $_POST["username"];
 $password = $_POST["password"];
 
-$mysqli = require __DIR__ . "/database.php";
+$mysqli = require __DIR__ . "database.php";
 
 $sql = "INSERT INTO users (name, email, username, password, type) VALUES (?, ?, ?, ?, 1)";
 
@@ -23,7 +23,7 @@ mysqli_stmt_bind_param($stmt, "ssss",
 
 if ($stmt->execute())
 {
-    echo "Record saved.";
+    header("location: processes/signup-success.html");
 }
 else
 {
