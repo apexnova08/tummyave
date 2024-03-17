@@ -25,7 +25,7 @@ include 'global/loader.html';
 ?>
 
 <?php 
-include 'global/customerheader.html';
+include 'global/customerheader.php';
 ?>
 
 <!--Page header & Title-->

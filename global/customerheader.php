@@ -1,3 +1,13 @@
+<?php
+session_start();
+if (isset($_SESSION["user_id"]))
+{
+  $mysqli = require __DIR__ . "/../database.php";
+  $sql = "SELECT * FROM users WHERE id = {$_SESSION["user_id"]}";
+  $result = $mysqli->query($sql);
+  $user = $result->fetch_assoc();
+}
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -47,15 +57,19 @@
                       
                           <li><a href="about.html">About Us</a></li>
                           <li><a href="template.php">FAQ</a></li>
-                        
+                      
                       <li class="dropdown">
-                        <a data-toggle="dropdown" href="#" class="dropdown-toggle">Order Now</a>
+                        <a data-toggle="dropdown" href="#" class="dropdown-toggle">Account</a>
                         <ul class="dropdown-menu">
-                          <li><a href="account/register.php">Register</a></li>
-                          <li><a href="account/login.php">Login</a></li>
+                          <?php if (isset($user)): ?>
+                            <li><a href="account/account.php"><?= htmlspecialchars($user["name"]) ?></a></li>
+                            <li><a href="account/logout.php">Logout</a></li>
+                          <?php else: ?>
+                            <li><a href="account/register.php">Register</a></li>
+                            <li><a href="account/login.php">Login</a></li>
+                          <?php endif; ?>
                         </ul>
                       </li>
-                      
                     </ul>
                   </div>
               </nav>
