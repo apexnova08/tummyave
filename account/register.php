@@ -9,17 +9,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
 {
   $mysqli = require __DIR__ . "/../database.php";
 
-  #check for dupe username
+  $username = $_POST["username"];
   $duperaw = $mysqli->query("SELECT COUNT(*) AS total FROM users WHERE (username = '$username')");
   $dupes = $duperaw->fetch_assoc();
-  if ($dupes['total'] != "0")
+  if ($dupes['total'] === "0")
   {
-    echo "lol";
-  }
-  else
-  {
+    session_start();
+    session_regenerate_id();
 
+    $_SESSION["name"] = $_POST["name"];
+    $_SESSION["email"] = $_POST["email"];
+    $_SESSION["username"] = $_POST["username"];
+    $_SESSION["password"] = $_POST["password"];
+
+    header("Location: processes/register-process.php");
+    exit;
   }
+  $username_taken = true;
 }
 ?>
 
@@ -43,21 +49,32 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
 <form method="post">
   <div>
     <label for="name">Name</label>
-    <input type="text" id="name" name="name">
+    <input type="text" id="name" name="name"
+    value="<?= htmlspecialchars($_POST["name"] ?? "") ?>">
   </div>
   <div>
     <label for="email">Email</label>
-    <input type="email" id="email" name="email">
+    <input type="email" id="email" name="email"
+    value="<?= htmlspecialchars($_POST["email"] ?? "") ?>">
   </div>
+  <br/>
+
   <div>
     <label for="username">Username</label>
-    <input type="text" id="username" name="username">
+    <input type="text" id="username" name="username"
+    value="<?= htmlspecialchars($_POST["username"] ?? "") ?>">
   </div>
+  <?php if ($username_taken): ?>
+    <em style="color: red;">Username already taken</em>
+  <?php endif; ?>
+  <br/>
+
   <div>
     <label for="password">Passsword</label>
     <input type="password" id="password" name="password">
   </div>
-
+  <br/>
+  
   <button>Register</button>
 
 </form>
