@@ -58,8 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
 <form method="post">
   <div>
     <label for="username">Username</label>
-    <input type="text" id="username" name="username"
-    value="<?= htmlspecialchars($_POST["username"] ?? "") ?>">
+    <input type="file" id="image" name="image">
   </div>
 
   <div>
