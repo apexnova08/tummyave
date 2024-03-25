@@ -22,6 +22,7 @@ print_r(generateID(getCurrentDateTime()));
 
 <!--#####-->
 <h1>Admin</h1>
+<a href="createfood.php">log in</a>
 
 </body>
 </html>

@@ -17,6 +17,26 @@ function generateID(string $datestring)
 
 function uploadImage(string $filename)
 {
-    
+    // Reject uploaded file larger than 1MB
+    if ($_FILES["image"]["size"] > 10485760) {
+        exit('File too large (max 1MB)');
+    }
+
+    // Use fileinfo to get the mime type
+    $mime_types = ["image/gif", "image/png", "image/jpeg"];
+    if ( ! in_array($_FILES["image"]["type"], $mime_types)) {
+        exit("Invalid file type");
+        return;
+    }
+
+    // Upload
+    $pathinfo = pathinfo($_FILES["image"]["name"]);
+    $filename = $filename . "." . $pathinfo["extension"];
+    $destination = __DIR__ . "/../img-uploads/" . $filename;
+
+    if ( ! move_uploaded_file($_FILES["image"]["tmp_name"], $destination)) {
+        exit("Can't move uploaded file");
+        return;
+    }
 }
 ?>

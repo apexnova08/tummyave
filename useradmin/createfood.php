@@ -57,13 +57,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
 
 <form method="post">
   <div>
-    <label for="username">Username</label>
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name">
+  </div>
+  <div>
+    <label for="image">Image</label>
     <input type="file" id="image" name="image">
   </div>
-
   <div>
-    <label for="password">Password</label>
-    <input type="password" id="password" name="password">
+    <label for="cost">Cost</label>
+    <input type="number" id="cost" name="cost">
+  </div>
+  <div>
+    <label for="desc">Description</label>
+    <textarea id="desc" name="desc"></textarea>
   </div>
   <br/>
 
