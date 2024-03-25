@@ -1,5 +1,8 @@
 <?php 
 include 'processes/redirect.php';
+
+require __DIR__ . "/../global/funcs.php";
+print_r(generateID(getCurrentDateTime()));
 ?>
 
 <!doctype html>
