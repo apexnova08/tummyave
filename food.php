@@ -1,3 +1,11 @@
+<?php
+
+$mysqli = require __DIR__ . "/database.php";
+
+
+
+?>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -43,114 +51,6 @@ include 'global/customerheader.php';
 </section>
 
 
-
-<!--Welcome-->
-<section id="welcome" class="padding">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-         <h2 class="heading">Welcome to Tummy Avenue</h2>
-         <hr class="heading_space">
-      </div>
-      <div class="col-md-7 col-sm-6">
-        <p class="half_space">Launched in Kawit, Cavite. Tummy Avenue has grown from a...</p>
-        <p class="half_space"></p>
-        <p class="half_space">Further Info.</p>
-        
-      </div>
-      <div class="col-md-5 col-sm-6">
-       <img class="img-responsive" src="images/NA.jpg" alt="welcome JKS">
-      </div>
-    </div>
-  </div>
-</section> 
-
-
-<!--Food Facilities-->
-<section id="food" class="padding bg_grey">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <h2 class="heading">Our &nbsp; Menu &nbsp; Categories</h2>
-        <hr class="heading_space">
-      </div>
-    </div>
-    <div class="row">
-    <div class="col-md-4">
-        <ul class="menu_widget">
-          <li>All Day Breakfast</li>
-          <li>Appetizers</li>
-          <li>Bowls</li>
-          <li>Burgers & Sandwiches</li>
-          <li>Chicken Wings</li>
-          <li>Chao Panlaban</li>
-          <li>Pasta</li>
-          <li>Group Treats</li>
-          <li>Add-ons & Extras</li>
-          
-        </ul>
-      </div>
-      <div class="col-md-8 grid_layout">
-      <div class="row">
-      <div class="zerogrid">
-          <div class="wrap-container">
-            <div class="wrap-content clearfix">
-              <div class="col-1-2">
-              <div class="wrap-col first">
-                  <div class="item-container"> 
-                   <img src="images/Different Wings.jpg" style="width: center; height: 255px;" alt="cook"/>
-                   <div class="overlay">
-                       <a class="overlay-inner fancybox" href="images/Different Wings.jpg" data-fancybox-group="gallery">
-                           Chicken Wings
-                       </a> 
-                   </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-1-2">
-              <div class="wrap-col first">
-                  <div class="item-container"> 
-                   <img src="images/burger sizzle.jpg" style="width: center; height: 255px;" alt="cook"/> 
-                   <div class="overlay">
-                      <a class="overlay-inner fancybox" href="images/burger sizzle.jpg" data-fancybox-group="gallery">
-                         Burger
-                      </a>
-                   </div>
-                   </div>
-                </div>
-              </div>
-              <div class="col-1-2">
-              <div class="wrap-col">
-                  <div class="item-container"> 
-                   <img src="images/Shrimp in a Bowl.jpg" style="width: center; height: 255px;" alt="cook"/> 
-                   <div class="overlay">
-                       <a class="overlay-inner fancybox" href="images/Shrimp in a Bowl.jpg" data-fancybox-group="gallery">
-                          Bowls
-                       </a>
-                   </div>
-                    </div>
-                </div>
-              </div>
-              <div class="col-1-2">
-              <div class="wrap-col">
-                  <div class="item-container"> 
-                   <img src="images/Carbonara.jpg" style="width: center; height: 255px;" alt="cook"/> 
-                   <div class="overlay">
-                       <a class="fancybox overlay-inner" href="images/Carbonara.jpg" data-fancybox-group="gallery"> 
-                         Pasta
-                       </a>
-                    </div>
-                   </div>
-                 </div>
-               </div>
-            </div>
-          </div>
-        </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!--Featured Food -->
 <section id="news" class="bg_grey padding">
@@ -225,6 +125,67 @@ include 'global/customerheader.php';
   </div>
 </section>
 
+
+<!--Food Facilities-->
+<section id="food" class="padding bg_grey">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="heading">Our &nbsp; Menu &nbsp; Categories</h2>
+        <hr class="heading_space">
+      </div>
+    </div>
+    <div class="row">
+    <div class="col-md-4">
+        <ul class="menu_widget">
+          <li>All Day Breakfast</li>
+          <li>Appetizers</li>
+          <li>Bowls</li>
+          <li>Burgers & Sandwiches</li>
+          <li>Chicken Wings</li>
+          <li>Chao Panlaban</li>
+          <li>Pasta</li>
+          <li>Group Treats</li>
+          <li>Add-ons & Extras</li>
+          
+        </ul>
+      </div>
+      <div class="col-md-8 grid_layout">
+      <div class="row">
+      <div class="zerogrid">
+          <div class="wrap-container">
+            <div class="wrap-content clearfix">
+
+              <?php
+              $result = $mysqli->query("SELECT * FROM foods");
+              while ($row = $result->fetch_assoc()) {
+              ?>
+              
+              <div class="col-1-2">
+                <div class="wrap-col first">
+                  <div class="item-container"> 
+                   <img src="<?= 'img-uploads/' . $row['image'] ?>" style="width: center; height: 255px; object-fit: cover;" alt="cook"/>
+                   <div class="overlay">
+                      <a class="overlay-inner fancybox" href="images/Different Wings.jpg" data-fancybox-group="gallery">
+                        <?php echo $row["name"]; ?>
+                      </a> 
+                   </div>
+                  </div>
+                </div>
+              </div>
+
+              <?php
+              }
+              ?>
+
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- testinomial -->
 <section id="testinomial" class="padding">

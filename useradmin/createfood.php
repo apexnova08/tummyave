@@ -3,35 +3,6 @@ include 'processes/redirect.php';
 ?>
 
 <?php
-$is_invalid = false;
-
-if ($_SERVER["REQUEST_METHOD"] === "POST")
-{
-  $mysqli = require __DIR__ . "/../database.php";
-
-  $sql = sprintf("SELECT * FROM users WHERE username = '%s'", $mysqli->real_escape_string($_POST["username"]));
-  $result = $mysqli->query($sql);
-  $user = $result->fetch_assoc();
-  if ($user)
-  {
-    if (password_verify($_POST["password"], $user["password"]))
-    {
-      session_start();
-      session_regenerate_id();
-      $_SESSION["user_id"] = $user["id"];
-
-      if ($user["type"] === "0") { header("Location: ../user0/index.php"); }
-      elseif ($user["type"] === "1") { header("Location: ../userowner/index.php"); }
-      elseif ($user["type"] === "2") { header("Location: ../useradmin/index.php"); }
-      elseif ($user["type"] === "3") { header("Location: ../usercashier/index.php"); }
-      elseif ($user["type"] === "4") { header("Location: ../index.php"); }
-
-      exit;
-    }
-  }
-
-  $is_invalid = true;
-}
 ?>
 
 <!doctype html>
@@ -51,11 +22,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
 
 <!--#####-->
 <h1>Login</h1>
-<?php if ($is_invalid): ?>
-  <em style="color: red;">Invalid login</em>
-<?php endif; ?>
 
-<form method="post">
+<form enctype="multipart/form-data" action="processes/createfood-process.php" method="post">
   <div>
     <label for="name">Name</label>
     <input type="text" id="name" name="name">

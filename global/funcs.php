@@ -38,5 +38,7 @@ function uploadImage(string $filename)
         exit("Can't move uploaded file");
         return;
     }
+
+    return $filename;
 }
 ?>
