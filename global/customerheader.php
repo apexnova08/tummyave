@@ -63,6 +63,16 @@ if (isset($_SESSION["user_id"]))
                         <ul class="dropdown-menu">
                           <?php if (isset($user)): ?>
                             <li><a href="account/account.php"><?= htmlspecialchars($user["name"]) ?></a></li>
+                            <?php if ($user["type"] == 0): ?>
+                              <li><a href="user0/">Super Admin</a></li>
+                            <?php elseif ($user["type"] == 1): ?>
+                              <li><a href="userowner/">Owner Panel</a></li>
+                            <?php elseif ($user["type"] == 2): ?>
+                              <li><a href="useradmin/">Admin Panel</a></li>
+                            <?php elseif ($user["type"] == 3): ?>
+                              <li><a href="usercashier/">Cashier Panel</a></li>
+                            <?php endif ?>
+                            <li><a href="account/logout.php">Orders (tba)</a></li>
                             <li><a href="account/logout.php">Logout</a></li>
                           <?php else: ?>
                             <li><a href="account/register.php">Register</a></li>

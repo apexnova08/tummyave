@@ -2,8 +2,6 @@
 
 $mysqli = require __DIR__ . "/database.php";
 
-
-
 ?>
 
 <!doctype html>
@@ -167,7 +165,7 @@ include 'global/customerheader.php';
                    <img src="<?= 'img-uploads/' . $row['image'] ?>" style="width: center; height: 255px; object-fit: cover;" alt="cook"/>
                    <div class="overlay">
                       <a class="overlay-inner fancybox" href="images/Different Wings.jpg" data-fancybox-group="gallery">
-                        <?php echo $row["name"]; ?>
+                        <?= $row["name"]; ?>
                       </a> 
                    </div>
                   </div>
