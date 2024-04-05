@@ -20,7 +20,7 @@ if (!$stmt->prepare($sql)) {
 mysqli_stmt_bind_param($stmt, "ssss", $name, $cost, $image, $desc);
 if ($stmt->execute())
 {
-    header("location: createfood-success.php");
+    header("location: ../foodslist.php");
 }
 else
 {

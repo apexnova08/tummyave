@@ -1,7 +1,7 @@
 <?php
 
 $host = "localhost";
-$dbname = "tummy_test_db";
+$dbname = "tummy";
 $dbuser = "root";
 $dbpass = "";
 
