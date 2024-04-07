@@ -161,12 +161,16 @@ include 'global/customerheader.php';
               
               <div class="col-1-2">
                 <div class="wrap-col first">
-                  <div class="item-container"> 
+                  <div class="item-container">
                    <img src="<?= 'img-uploads/' . $row['image'] ?>" style="width: center; height: 255px; object-fit: cover;" alt="cook"/>
                    <div class="overlay">
-                      <a class="overlay-inner fancybox" href="images/Different Wings.jpg" data-fancybox-group="gallery">
+                    <form >
+                      <p class="overlay-inner">
                         <?= $row["name"]; ?>
-                      </a> 
+                      </p>
+                      <input type="submit" name="action" value="add to cart" style="height:50px; width:100px; color:white; background-color:orangered;"/>
+                      <input type="hidden" name="id" value="<?= $row['id']; ?>"/>
+                    </form>
                    </div>
                   </div>
                 </div>

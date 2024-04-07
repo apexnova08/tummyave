@@ -16,6 +16,11 @@ $mysqli = require __DIR__ . "/../database.php";
     <title>Admin Panel | Menu</title>
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+    
+    <!--NAV-->
+    <?php 
+    include 'nav.html';
+    ?>
 
 </head>
 
@@ -46,7 +51,7 @@ $mysqli = require __DIR__ . "/../database.php";
             <td>₱<?= $row["cost"] ?></td>
             <td><form method="post" action="updatefood.php">
                 <input type="submit" name="action" value="edit"/>
-                <input type="hidden" name="id" value="<?php echo $row['id']; ?>"/>
+                <input type="hidden" name="id" value="<?= $row['id']; ?>"/>
             </form></td>
         </tr>
         <?php
@@ -54,6 +59,7 @@ $mysqli = require __DIR__ . "/../database.php";
         ?>
     </table>
 </div>
+<a href="createfood.php"><button>Add food</button></a>
 
 </body>
 </html>

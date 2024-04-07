@@ -2,7 +2,6 @@
 include 'processes/redirect.php';
 
 require __DIR__ . "/../global/funcs.php";
-print_r(generateID(getCurrentDateTime()));
 ?>
 
 <!doctype html>
@@ -15,6 +14,11 @@ print_r(generateID(getCurrentDateTime()));
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
 
+    <!--NAV-->
+    <?php 
+    include 'nav.html';
+    ?>
+
 </head>
 
 <body>
@@ -22,7 +26,6 @@ print_r(generateID(getCurrentDateTime()));
 
 <!--#####-->
 <h1>Admin</h1>
-<a href="createfood.php">log in</a>
 
 </body>
 </html>

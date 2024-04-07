@@ -42,7 +42,7 @@ include 'processes/redirect.php';
   </div>
   <br/>
 
-  <button>Login</button>
+  <button>Add</button>
 </form>
 
 </body>

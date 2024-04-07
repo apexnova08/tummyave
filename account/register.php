@@ -39,6 +39,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
 
+  <!--NAV-->
+  <?php 
+  include 'nav.html';
+  ?>
+
 </head>
 
 <body>

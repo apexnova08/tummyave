@@ -16,7 +16,7 @@ if (isset($_POST["id"]))
     $result = $mysqli->query($sql);
     $item = $result->fetch_assoc();
 }
-if (isset($_POST["name"]))
+elseif (isset($_POST["name"]))
 {
     $id = $_POST["id2"];
     $name = $_POST["name"];
@@ -31,7 +31,28 @@ if (isset($_POST["name"]))
     mysqli_stmt_bind_param($stmt, "sss", $name, $cost, $desc);
     if ($stmt->execute())
     {
-        header("javascript:history.go(-1)");
+        header("location: foodslist.php");
+    }
+    else
+    {
+        echo "sex";
+        die ("sex");
+    }
+}
+else
+{
+    $id = $_POST["id2"];
+    $image = uploadImage(generateID(getCurrentDateTime()));
+    
+    $sql = "UPDATE foods SET image = ? WHERE id = '$id'";
+    $stmt = $mysqli->stmt_init();
+    if (!$stmt->prepare($sql)) {
+        die("SQL error: " . $mysqli->errno);
+    }
+    mysqli_stmt_bind_param($stmt, "s", $image);
+    if ($stmt->execute())
+    {
+        header("location: foodslist.php");
     }
     else
     {
