@@ -20,11 +20,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
       session_regenerate_id();
       $_SESSION["user_id"] = $user["id"];
 
-      if ($user["type"] === "0") { header("Location: ../user0/index.php"); }
-      elseif ($user["type"] === "1") { header("Location: ../userowner/index.php"); }
-      elseif ($user["type"] === "2") { header("Location: ../useradmin/index.php"); }
-      elseif ($user["type"] === "3") { header("Location: ../usercashier/index.php"); }
-      elseif ($user["type"] === "4") { header("Location: ../index.php"); }
+      if ($user["type"] === "0") { header("Location: ../user0/"); }
+      elseif ($user["type"] === "1") { header("Location: ../userowner/"); }
+      elseif ($user["type"] === "2") { header("Location: ../useradmin/"); }
+      elseif ($user["type"] === "3") { header("Location: ../usercashier/"); }
+      elseif ($user["type"] === "4") { header("Location: ../"); }
 
       exit;
     }

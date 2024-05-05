@@ -15,7 +15,7 @@ while ($foodrow = $foodresult->fetch_assoc())
     $foodarray[$foodrow["id"]] = $foodrow;
 }
 
-$foodtotalcost = 0;
+$foodtotal = 0;
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $foodid = $_POST["id"];
@@ -40,9 +40,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
 <!--#####-->
-<a href="../food.php"><button>Get more food</button></a>
-<h1>Your Cart</h1>
+<a href="cart.php"><button>Back to Cart</button></a>
+<h1>Checkout</h1>
 
+<h2>Items</h2>
 <div>
     <table>
         <tr style="background-color: darkorange; color: black;">
@@ -50,41 +51,31 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <td>Name</td>
             <td>Amount</td>
             <td>Subtotal</td>
-            <td></td>
         </tr>
 
         <?php
         $result = $mysqli->query("SELECT * FROM carts WHERE user_id = '$userId'");
         while ($row = $result->fetch_assoc()) {
 
-            $foodtotalcost = $foodtotalcost + ($foodarray[$row["food_id"]]["cost"] * $row["amount"]);
+            $foodtotal = $foodtotal + ($foodarray[$row["food_id"]]["cost"] * $row["amount"]);
         ?>
         <tr>
             <td><img src="<?= '../img-uploads/' . $foodarray[$row["food_id"]]["image"] ?>" style="width: 100px; height: 50px; object-fit: cover;" alt="image"/></td>
             <td><?= $foodarray[$row["food_id"]]["name"] ?></td>
             <td><?= $row["amount"] ?></td>
             <td>₱<?= $foodarray[$row["food_id"]]["cost"] * $row["amount"] ?></td>
-            <td><form method="post">
-                <input type="submit" name="action" value="remove" style="background-color: red;"/>
-                <input type="hidden" name="id" value="<?= $row['id']; ?>"/>
-            </form></td>
         </tr>
         <?php
         }
         ?>
     </table>
-    <?php
-    if (mysqli_num_rows($result) === 0)
-    {
-        echo "<h2 style='width: 100%; text-align: center;'>(Empty)</h2>";
-    } else {
-    ?>
-    <h2>₱<?= $foodtotalcost ?> Total</h2>
-    <a href="checkout.php"><button>Checkout</button></a>
-    <?php } ?>
 </div>
 
+<h2>₱<?= $foodtotal ?> Total</h2>
 
+<form action="processes/checkout-process.php" method="post">
+    <input type="submit" value="Place Order"/>
+</form>
 
 </body>
 </html>

@@ -19,7 +19,7 @@ $mysqli = require __DIR__ . "/../database.php";
     
     <!--NAV-->
     <?php 
-    include 'nav.html';
+    include 'nav.php';
     ?>
 
 </head>

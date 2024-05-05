@@ -16,7 +16,7 @@ require __DIR__ . "/../global/funcs.php";
 
     <!--NAV-->
     <?php 
-    include 'nav.html';
+    include 'nav.php';
     ?>
 
 </head>

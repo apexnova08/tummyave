@@ -1,7 +1,5 @@
 <?php
-
 $mysqli = require __DIR__ . "/database.php";
-
 ?>
 
 <!doctype html>
@@ -38,7 +36,7 @@ include 'global/customerheader.php';
 <section id="page_header">
 <div class="page_title">
   <div class="container">
-    <div class="row">
+    <div class="rowfoods">
       <div class="col-md-12">
          <h2 class="title">Our Food</h2>
          <p>Check out our menu and some of our special, featured best sellers!</p>
@@ -48,18 +46,16 @@ include 'global/customerheader.php';
 </div>  
 </section>
 
-
-
 <!--Featured Food -->
 <section id="news" class="bg_grey padding">
   <div class="container">
-    <div class="row">
+    <div class="rowfoods">
       <div class="col-md-12 text-center">
       <h2 class="heading">Featured &nbsp; Food</h2>
       <hr class="heading_space">
       </div>
     </div>
-    <div class="row">
+    <div class="rowfoods">
       <div class="col-md-12">
         <div class="cheffs_wrap_slider">
           <div id="news-slider" class="owl-carousel">
@@ -123,17 +119,16 @@ include 'global/customerheader.php';
   </div>
 </section>
 
-
 <!--Food Facilities-->
 <section id="food" class="padding bg_grey">
   <div class="container">
-    <div class="row">
+    <div class="rowfoods">
       <div class="col-md-12">
         <h2 class="heading">Our &nbsp; Menu &nbsp; Categories</h2>
         <hr class="heading_space">
       </div>
     </div>
-    <div class="row">
+    <div class="rowfoods">
     <div class="col-md-4">
         <ul class="menu_widget">
           <li>All Day Breakfast</li>
@@ -149,27 +144,24 @@ include 'global/customerheader.php';
         </ul>
       </div>
       <div class="col-md-8 grid_layout">
-      <div class="row">
+      <div class="rowfoods">
       <div class="zerogrid">
           <div class="wrap-container">
             <div class="wrap-content clearfix">
 
               <?php
               $result = $mysqli->query("SELECT * FROM foods");
-              while ($row = $result->fetch_assoc()) {
+              while ($rowfoods = $result->fetch_assoc()) {
               ?>
-              
+
               <div class="col-1-2">
                 <div class="wrap-col first">
                   <div class="item-container">
-                   <img src="<?= 'img-uploads/' . $row['image'] ?>" style="width: center; height: 255px; object-fit: cover;" alt="cook"/>
+                   <img src="<?= 'img-uploads/' . $rowfoods['image'] ?>" style="width: center; height: 255px; object-fit: cover;" alt="<?= $rowfoods['name']; ?>"/>
                    <div class="overlay">
-                    <form >
-                      <p class="overlay-inner">
-                        <?= $row["name"]; ?>
-                      </p>
-                      <input type="submit" name="action" value="add to cart" style="height:50px; width:100px; color:white; background-color:orangered;"/>
-                      <input type="hidden" name="id" value="<?= $row['id']; ?>"/>
+                    <form action="usercustomer/foodpage.php" method="post" style="height: 100%;">
+                      <input class="overlay-inner" type="submit" value="<?= $rowfoods['name']; ?>" style="height:100%; width:100%; cursor: pointer"/>
+                      <input type="hidden" name="foodId" value="<?= $rowfoods['id']; ?>"/>
                     </form>
                    </div>
                   </div>
@@ -192,13 +184,13 @@ include 'global/customerheader.php';
 <!-- testinomial -->
 <section id="testinomial" class="padding">
   <div class="container">
-  <div class="row">
+  <div class="rowfoods">
       <div class="col-md-12 text-center">
       <h2 class="heading">Our &nbsp; Happy &nbsp; Customers</h2>
       <hr class="heading_space">
       </div>
     </div>
-    <div class="row">
+    <div class="rowfoods">
       <div class="col-md-12">
       <div id="testinomial-slider" class="owl-carousel text-center">
         <div class="item">

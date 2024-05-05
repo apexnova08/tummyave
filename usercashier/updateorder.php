@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 if (isset($_POST["id"]))
 {
     $id = $_POST["id"];
-    $sql = sprintf("SELECT * FROM foods WHERE id = '%s'", $mysqli->real_escape_string($id));
+    $sql = sprintf("SELECT * FROM orders WHERE id = '%s'", $mysqli->real_escape_string($id));
     $result = $mysqli->query($sql);
     $item = $result->fetch_assoc();
 }
@@ -116,8 +116,6 @@ else
 <form method="post">
     <button style="background-color: red;">Disable</button>
 </form>
-
-<div style="background-color:black; width:50px; height:50px; position:absolute; margin:auto; top: 0"></div>
 
 </body>
 </html>

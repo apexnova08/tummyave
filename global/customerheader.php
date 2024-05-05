@@ -53,7 +53,7 @@ if (isset($_SESSION["user_id"]))
                       </li>
                       <li><a href="food.php">Our Food</a></li>
                       
-                      <li><a href="reservation.html">Reservation</a></li>
+                      <li><a href="reservation.php">Reservation</a></li>
                       
                           <li><a href="about.html">About Us</a></li>
                           <li><a href="template.php">FAQ</a></li>
@@ -72,7 +72,7 @@ if (isset($_SESSION["user_id"]))
                             <?php elseif ($user["type"] == 3): ?>
                               <li><a href="usercashier/">Cashier Panel</a></li>
                             <?php endif ?>
-                            <li><a href="account/logout.php">Orders (tba)</a></li>
+                            <li><a href="usercustomer/cart.php">Cart</a></li>
                             <li><a href="account/logout.php">Logout</a></li>
                           <?php else: ?>
                             <li><a href="account/register.php">Register</a></li>
