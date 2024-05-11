@@ -8,12 +8,12 @@ if (isset($_SESSION["user_id"]))
     
     if ($user["type"] != "0" && $user["type"] != "4")
     {
-        header("Location: ../");
+        header("Location: ../../");
     }
 }
 else
 {
-    header("Location: ../account/login.php");
+    header("Location: ../../account/login.php");
 }
 session_abort();
 ?>

@@ -1,3 +1,35 @@
+.epic-bebas {
+    font-family: BebasRegular;
+}
+.epic-sansr {
+    font-family: open_sansregular;
+}
+.epic-sansb {
+    font-family: open_sansbold;
+}
+.epic-sanssb {
+    font-family: open_sanssemibold;
+}
+.epic-btn {
+    padding: 10px;
+    background-color: #E25111;
+    color: white;
+    font-family: BebasRegular;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+.epic-btn:hover {
+    background-color: white;
+    color: #E25111;
+    transition: .5s;
+}
+
+
+
+
+
+/* ## MODAL ## */
 /* The Modal (background) */
 .epic-modal {
     display: none; /* Hidden by default */
@@ -66,4 +98,109 @@
     padding: 2px 16px;
     background-color: #5cb85c;
     color: white;
+}
+
+
+
+
+
+/* ## CALENDAR ## */
+.epic-calendar {
+    margin: 50px 0 200px 0;
+    font-family: Verdana, sans-serif;
+}
+.epic-calendar ul {list-style-type: none;}
+.epic-month {
+    padding: 70px 25px;
+    width: 100%;
+    background: #E25111;
+    text-align: center;
+}
+
+.epic-month ul {
+    margin: 0;
+    padding: 0;
+}
+.epic-month ul li {
+    color: white;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+.epic-month .prev {
+    float: left;
+    padding-top: 10px;
+}
+.epic-month .next {
+    float: right;
+    padding-top: 10px;
+}
+.epic-weekdays {
+    margin: 0;
+    padding: 10px 0;
+    background-color: #ddd;
+}
+.epic-weekdays li {
+    margin: 0;
+    display: inline-block;
+    width: 13.6%;
+    color: #666;
+    text-align: center;
+}
+.epic-days {
+    padding: 10px 0;
+    background: #eee;
+    margin: 0;
+}
+.epic-days li {
+    list-style-type: none;
+    display: inline-block;
+    width: 13.6%;
+    text-align: center;
+    font-size:12px;
+    color: #555;
+}
+.epic-days li div {
+    height: 50px;
+    position: relative;
+}
+.epic-days li .epic-dayEnabled {
+    cursor: pointer;
+}
+.epic-days li .epic-dayEnabled:hover {
+    background-color: #ddd;
+    transition: .2s;
+}
+.epic-days li .epic-dayEnabled:active {
+    background-color: #aaa;
+    transition: .2s;
+}
+.epic-days li .epic-dayDisabled {
+    color: #aaa;
+}
+.epic-days li .epic-user-reserved {
+    background: #E25111;
+    color: white !important
+}
+.epic-days li div div {
+    width: 100%;
+    height: fit-content;
+    position: absolute;
+    top: 20%;
+}
+.epic-days li div div label {
+    width: 100%;
+    font-weight: normal;
+}
+
+/* Add media queries for smaller screens */
+@media screen and (max-width:720px) {
+    .epic-weekdays li, .epic-days li {width: 13.1%;}
+}
+@media screen and (max-width: 420px) {
+    .epic-weekdays li, .days li {width: 12.5%;}
+    .epic-days li .active {padding: 2px;}
+}
+@media screen and (max-width: 290px) {
+    .epic-weekdays li, .epic-days li {width: 12.2%;}
 }

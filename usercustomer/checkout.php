@@ -38,7 +38,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <body>
 
-
 <!--#####-->
 <a href="cart.php"><button>Back to Cart</button></a>
 <h1>Checkout</h1>

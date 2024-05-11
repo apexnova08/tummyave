@@ -16,7 +16,6 @@ if (isset($_SESSION["user_id"]))
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
     </head>
     <body>
       <!--Topbar-->
