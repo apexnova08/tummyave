@@ -23,13 +23,11 @@ $mysqli = require __DIR__ . "/../database.php";
 
 <body>
 
-
 <!--#####-->
 <div>
     <div style="position: relative; display: inline-block; width: 100%">
         <h1 style="float: left; margin: 0;">Active Accounts</h1>
         <a href="../account/createaccount.php" style="float: right;"><button>Create Account</button></a>
-        
     </div>
     <table>
         <tr style="background-color: darkorange; color: black;">
@@ -40,7 +38,7 @@ $mysqli = require __DIR__ . "/../database.php";
         </tr>
 
         <?php
-        $result_active = $mysqli->query("SELECT * FROM users WHERE type = 3 AND disabled = false");
+        $result_active = $mysqli->query("SELECT * FROM users WHERE (type = 2 OR type = 3) AND disabled = false");
         while ($row = $result_active->fetch_assoc()) {
         ?>
         <tr>
@@ -75,7 +73,7 @@ $mysqli = require __DIR__ . "/../database.php";
         </tr>
 
         <?php
-        $result_disabled = $mysqli->query("SELECT * FROM users WHERE type = 3 AND disabled = true");
+        $result_disabled = $mysqli->query("SELECT * FROM users WHERE (type = 2 OR type = 3) AND disabled = true");
         while ($row = $result_disabled->fetch_assoc()) {
         ?>
         <tr>

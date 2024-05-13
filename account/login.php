@@ -19,6 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
       session_start();
       session_regenerate_id();
       $_SESSION["user_id"] = $user["id"];
+      $_SESSION["user_type"] = $user["type"];
 
       if ($user["type"] === "0") { header("Location: ../user0/"); }
       elseif ($user["type"] === "1") { header("Location: ../userowner/"); }

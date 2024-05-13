@@ -3,12 +3,15 @@
 }
 .epic-sansr {
     font-family: open_sansregular;
+    font-weight: normal;
 }
 .epic-sansb {
     font-family: open_sansbold;
+    font-weight: normal;
 }
 .epic-sanssb {
     font-family: open_sanssemibold;
+    font-weight: normal;
 }
 .epic-btn {
     padding: 10px;
@@ -18,11 +21,40 @@
     font-size: 18px;
     text-transform: uppercase;
     letter-spacing: 3px;
+    cursor: pointer;
+    border: none;
 }
 .epic-btn:hover {
-    background-color: white;
-    color: #E25111;
+    background-color: black;
+    color: white;
     transition: .5s;
+}
+.epic-btn-radius {
+    padding: 10px;
+    background-color: #E25111;
+    color: white;
+    font-family: open_sansregular;
+    font-size: 15px;
+    font-weight: normal;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    border-radius: 20%;
+    cursor: pointer;
+    border: none;
+}
+.epic-btn-radius:hover {
+    background-color: black;
+    color: white;
+    transition: .5s;
+}
+.epic-txtbox {
+    padding: 10px;
+    color: #222;
+    font-family: open_sansregular;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    border-bottom: 1px solid #aaa;
 }
 
 
@@ -35,7 +67,7 @@
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
+    padding-top: 150px; /* Location of the box */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
@@ -44,8 +76,6 @@
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
-
-/* Modal Content */
 .epic-modal-content {
     position: relative;
     background-color: #fefefe;
@@ -59,44 +89,35 @@
     animation-name: epic-modal-animatetop;
     animation-duration: 0.4s
 }
-
-/* Add Animation */
 @-webkit-keyframes epic-modal-animatetop {
     from {top:-300px; opacity:0} 
     to {top:0; opacity:1}
 }
-
 @keyframes epic-modal-animatetop {
     from {top:-300px; opacity:0}
     to {top:0; opacity:1}
 }
-
-/* The Close Button */
 .epic-modal-close {
     color: white;
     float: right;
     font-size: 28px;
     font-weight: bold;
 }
-
 .epic-modal-close:hover,
 .epic-modal-close:focus {
     color: #000;
     text-decoration: none;
     cursor: pointer;
 }
-
 .epic-modal-header {
-    padding: 2px 16px;
-    background-color: #5cb85c;
+    padding: 10px 16px;
+    background-color: #E25111;
     color: white;
 }
-
-.epic-modal-body {padding: 2px 16px;}
-
+.epic-modal-body {padding: 20px;}
 .epic-modal-footer {
-    padding: 2px 16px;
-    background-color: #5cb85c;
+    padding: 10px 16px;
+    background-color: #E25111;
     color: white;
 }
 
@@ -106,7 +127,7 @@
 
 /* ## CALENDAR ## */
 .epic-calendar {
-    margin: 50px 0 200px 0;
+    margin: 50px 0 50px 0;
     font-family: Verdana, sans-serif;
 }
 .epic-calendar ul {list-style-type: none;}
@@ -116,7 +137,6 @@
     background: #E25111;
     text-align: center;
 }
-
 .epic-month ul {
     margin: 0;
     padding: 0;
@@ -184,9 +204,9 @@
 }
 .epic-days li div div {
     width: 100%;
-    height: fit-content;
+    height: 50px;
     position: absolute;
-    top: 20%;
+    padding-top: 10px;
 }
 .epic-days li div div label {
     width: 100%;
@@ -203,4 +223,16 @@
 }
 @media screen and (max-width: 290px) {
     .epic-weekdays li, .epic-days li {width: 12.2%;}
+}
+
+
+
+
+
+/* ## GLOBAL ## */
+/* Remove arrows on number input */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

@@ -1,5 +1,4 @@
 <?php
-
 include 'processes/redirect.php';
 
 require __DIR__ . "/../global/funcs.php";
@@ -54,14 +53,14 @@ while ($rowuser = $result_users->fetch_assoc())
         <tr>
             <td><?= $rowrsv["rsv_date"] ?></td>
             <td><?= $users[$rowrsv["user_id"]]["name"] ?></td>
-            <td><?= $users[$rowrsv["user_id"]]["email"] ?></td>
+            <td><?= $users[$rowrsv["user_id"]]["contact"] ?></td>
         </tr>
         <?php
         }
         ?>
     </table>
     <?php
-    if (mysqli_num_rows($result_reserved) === 0)
+    if (mysqli_num_rows($result_rsv) === 0)
     {
         echo "<h2 style='width: 100%; text-align: center;'>(Empty)</h2>";
     }
@@ -86,7 +85,7 @@ while ($rowuser = $result_users->fetch_assoc())
         <tr>
             <td><?= $rowreq["rsv_date"] ?></td>
             <td><?= $users[$rowreq["user_id"]]["name"] ?></td>
-            <td><?= $users[$rowreq["user_id"]]["email"] ?></td>
+            <td><?= $users[$rowreq["user_id"]]["contact"] ?></td>
             <td><?= $rowreq["req_date"] ?></td>
             <td><form method="post" action="processes/reserve-process.php">
                 <input type="submit" name="reserve" value="accept"/>
@@ -98,7 +97,7 @@ while ($rowuser = $result_users->fetch_assoc())
         ?>
     </table>
     <?php
-    if (mysqli_num_rows($result_requested) === 0)
+    if (mysqli_num_rows($result_req) === 0)
     {
         echo "<h2 style='width: 100%; text-align: center;'>(Empty)</h2>";
     }

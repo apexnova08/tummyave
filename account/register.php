@@ -19,6 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
 
     $_SESSION["name"] = $_POST["name"];
     $_SESSION["email"] = $_POST["email"];
+    $_SESSION["contact"] = $_POST["contact"];
     $_SESSION["username"] = $_POST["username"];
     $_SESSION["password"] = $_POST["password"];
 
@@ -62,6 +63,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
     <input type="email" id="email" name="email"
     value="<?= htmlspecialchars($_POST["email"] ?? "") ?>">
   </div>
+  <div>
+    <label for="contact">Contact No.</label>
+    <input type="text" maxlength="11" id="contact" name="contact"
+    value="<?= htmlspecialchars($_POST["contact"] ?? "") ?>">
+  </div>
   <br/>
 
   <div>
@@ -83,6 +89,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
   <button>Register</button>
 
 </form>
+
+<script>
+document.getElementById("contact").addEventListener('input', (e) => {
+  var contact = e.target.value;
+  var c = contact[contact.length - 1]
+  if (!(c >= '0' && c <= '9')) e.target.value = contact.substring(0, contact.length - 1);
+})
+</script>
 
 </body>
 </html>

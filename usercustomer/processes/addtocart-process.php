@@ -1,5 +1,5 @@
 <?php
-include 'processes/process-redirect.php';
+include 'process-redirect.php';
 
 $mysqli = require __DIR__ . "/../../database.php";
 
@@ -19,7 +19,7 @@ if (!$stmt->prepare($sql)) {
 mysqli_stmt_bind_param($stmt, "sss", $userid, $_POST["foodId"], $_POST["amount"]);
 if ($stmt->execute())
 {
-    echo '<script type="text/javascript">', 'history.go(-2);', '</script>';
+    header("location: ../../food.php");
 }
 else
 {

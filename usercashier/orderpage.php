@@ -34,11 +34,7 @@ if (isset($_POST["update"]))
 {
     if ($order["is_paid"] === '0')
     {
-        $sql = "UPDATE orders SET is_paid = '1', status = 'Pending' WHERE id = '$id'";
-    }
-    elseif ($order["status"] === "Pending")
-    {
-        $sql = "UPDATE orders SET status = 'Preparing' WHERE id = '$id'";
+        $sql = "UPDATE orders SET is_paid = '1', status = 'Preparing' WHERE id = '$id'";
     }
     elseif ($order["status"] === "Preparing")
     {
@@ -85,7 +81,8 @@ if (isset($_POST["update"]))
 
 <label><b>Customer</b></label><br/>
 <label><?= $user["name"] ?></label><br/>
-<label><?= $user["email"] ?></label><br/><br/>
+<label><?= $user["email"] ?></label><br/>
+<label><?= $user["contact"] ?></label><br/><br/>
 
 <label><b>Payment</b></label><br/>
 <label>₱<?= $order["total_cost"] ?></label>

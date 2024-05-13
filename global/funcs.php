@@ -1,5 +1,12 @@
 <?php
+// ## VARS
+$usertypes = array("0"=>"Super Admin", "1"=>"Owner", "2"=>"Admin", "3"=>"Cashier", "4"=>"Customer");
 
+
+
+
+
+// ## FUNCS
 function getCurrentDateTime()
 {
     date_default_timezone_set("Asia/Manila");

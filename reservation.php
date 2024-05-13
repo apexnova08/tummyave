@@ -32,7 +32,7 @@ include 'global/customerheader.php';
     <div class="page_title">
         <div class="container">
             <div class="col-md-12">
-                <h2 class="title">Book a reservation</h2>
+                <h2 class="title">Book &nbsp; a &nbsp; reservation</h2>
                 <p>Check out our menu and some of our special, featured best sellers!</p>
             </div>
         </div>
@@ -148,8 +148,8 @@ include 'global/customerheader.php';
                         </form>
                     </li>
                     <li>
-                    <?= getMonthName($sMonth)["MMMM"] ?><br>
-                    <span style="font-size:18px"><?= $sYear ?></span>
+                    <h2 id="selectedMonth"><?= getMonthName($sMonth)["MMMM"] ?></h2>
+                    <span id="selectedYear" class="epic-sanssb" style="font-size:18px"><?= $sYear ?></span>
                     </li>
                 </ul>
             </div>
@@ -190,7 +190,7 @@ include 'global/customerheader.php';
                 }
 
                 // DISABLE RESERVED DAYS
-                function DisplayDay(string $sYear, string $sMonth, string $sDay, string $userid)
+                function DisplayDay(string $sYear, string $sMonth, int $sDay, string $userid)
                 {
                     $mysqli = require __DIR__ . "/database.php";
                     $date = $sYear . "/" . $sMonth . "/" . $sDay;
@@ -198,25 +198,19 @@ include 'global/customerheader.php';
 
                     if ($rsv)
                     {
-                        if ($rsv["status"] === "Reserved") { ?> <li><div class="<?php if ($rsv["user_id"] === $userid) echo "epic-user-reserved"; else echo "epic-dayDisabled"; ?>"><div style="top: 10%;"><label><?= $sDay ?></label><label class="epic-bebas">Reserved</label></div></div></li> <?php }
+                        if ($rsv["status"] === "Reserved") { ?> <li><div class="<?php if ($rsv["user_id"] === $userid) echo "epic-user-reserved"; else echo "epic-dayDisabled"; ?>"><div style="padding-top: 5px;"><label><?= $sDay ?></label><label class="epic-bebas">Reserved</label></div></div></li> <?php }
                         else 
                         { 
-                            if ($rsv["user_id"] === $userid) { ?> <li><div class="epic-dayDisabled"><div style="top: 10%;"><label><?= $sDay ?></label><label><i>Requested</i></label></div></div></li> <?php }
-                            else { ?> <li><div class="epic-dayEnabled"><div><label><?= $sDay ?></label></div></div></li> <?php }
+                            if ($rsv["user_id"] === $userid) { ?> <li><div class="epic-dayDisabled"><div style="padding-top: 5px;"><label><?= $sDay ?></label><label><i>Requested</i></label></div></div></li> <?php }
+                            else { ?> <li><div class="epic-dayEnabled"><div id="epicday"><?= $sDay ?></div></div></li> <?php }
                         }
                     }
-                    else { ?> <li><div class="epic-dayEnabled"><div><?= $sDay ?></div></div></li> <?php }
+                    else { ?> <li><div class="epic-dayEnabled"><div id="epicday"><?= $sDay ?></div></div></li> <?php }
                 }
                 ?>
             </ul>
         </div>
-        <form method="post" action="usercustomer/processes/reserve-process.php">
-            <label id="sDay">epic</label>
-            <input type="hidden" name="day" id="submitDay">
-            <input type="hidden" name="month" value="<?= $sMonth ?>">
-            <input type="hidden" name="year" value="<?= $sYear ?>">
-            <input type="submit" class="epic-btn" name="request" value="Submit">
-        </form>
+        <h4 class="epic-sanssb" style="width: 100%; text-align: center;"><i>(Select a suitable date to reserve)</i></h4>
     </div>
 </section>
 
@@ -228,17 +222,59 @@ include 'global/customerfooter.html';
 ?>
 <a href="#" id="back-top"><i class="fa fa-angle-up fa-2x"></i></a>
 
+<!-- The Modal -->
+<div id="epicModal" class="epic-modal">
+    <div class="epic-modal-content" style="width: 50%;">
+        <div class="epic-modal-header">
+            <span class="epic-modal-close">&times;</span>
+            <h2>Request &nbsp; a &nbsp; Reservation</h2>
+        </div>
+        <div class="epic-modal-body">
+            <h3>Submit a reservation request on:</h3></br>
+            <h2 id="modalDateString"></h2></br></br>
+            <form action="usercustomer/processes/reserve-process.php" method="post" style="overflow: hidden;">
+                <label class="epic-sansr">Remarks</label>
+                <textarea placeholder="Remarks..." id="modalRemarks" style="width: 100%; height: 100px; padding: 10px; overflow: hidden; resize: none;" name="remarks"></textarea>
+                <input type="hidden" name="day" id="submitDay">
+                <input type="hidden" name="month" value="<?= $sMonth ?>">
+                <input type="hidden" name="year" value="<?= $sYear ?>">
+                <input class="epic-btn" style="float: right;" name="request" type="submit">
+            </form>
+        </div>
+        <div class="epic-modal-footer"><i>tummy-avenue.com</i></div>
+    </div>
+</div>
+
 <!--JS-->
 <?php 
 include 'global/customerjs.html';
 ?>
-
 <script>
-const daysArr = document.querySelectorAll(".epic-dayEnabled");
+let year = document.getElementById("selectedYear").innerHTML;
+let month = document.getElementById("selectedMonth").innerHTML;
+let txtDate = document.getElementById("modalDateString");
+
+const daysArr = document.querySelectorAll("#epicday");
 daysArr.forEach(bt=>{
     bt.addEventListener('click', (e) => {
+        daystring = e.target.innerHTML.trim();
+        document.getElementById("modalRemarks").value = "";
+        epicOpenModal();
+        
+        weekDay = "";
+        weekDayNum = new Date(month + " " + daystring + ", " + year).getDay();
+        if (weekDayNum === 0) weekDay = "Sunday";
+        else if (weekDayNum === 1) weekDay = "Monday";
+        else if (weekDayNum === 2) weekDay = "Tuesday";
+        else if (weekDayNum === 3) weekDay = "Wednesday";
+        else if (weekDayNum === 4) weekDay = "Thursday";
+        else if (weekDayNum === 5) weekDay = "Friday";
+        else if (weekDayNum === 6) weekDay = "Saturday";
+
+        txtDate.innerHTML = month + " &nbsp; " + daystring + ", &nbsp; " + year + " &nbsp; (" + weekDay + ")";
+        
+        document.getElementById("submitDay").value = daystring;
         document.getElementById("sDay").innerHTML = e.target.innerHTML;
-        document.getElementById("submitDay").value = e.target.innerHTML;
     })
 })
 </script>
