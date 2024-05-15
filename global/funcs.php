@@ -1,6 +1,8 @@
 <?php
 // ## VARS
 $usertypes = array("0"=>"Super Admin", "1"=>"Owner", "2"=>"Admin", "3"=>"Cashier", "4"=>"Customer");
+$boolstring = array("0"=>"False", "1"=>"True");
+$paidString = array("0"=>"Unpaid", "1"=>"Paid");
 
 
 
@@ -40,8 +42,9 @@ function getDay(string $datestring)
 }
 function getTime(string $datestring)
 {
-    $arr = explode(" ", $datestring);
-    return $arr[1];
+    $datearr = explode(" ", $datestring);
+    $timearr = explode(":", $datearr[1]);
+    return array("his"=>$datearr[1], "hi"=>$timearr[0] . ":" . $timearr[1]);
 }
 function getMonthName(string $month)
 {
@@ -80,6 +83,12 @@ function getWeekDayName(string $day)
     elseif ((int)$day === 5) return array("dddd"=>"Friday", "ddd"=>"Fri");
     elseif ((int)$day === 6) return array("dddd"=>"Saturday", "ddd"=>"Sat");
     else return array("dddd"=>"Error: Undefined weekday - " . $day, "ddd"=>"Error: Undefined weekday - " . $day);
+}
+function getLongDateFormat(string $rawdatestring)
+{
+    $datestring = getMonthName($rawdatestring)["MMMM"] . " " . getDay($rawdatestring) . ", " . getYear($rawdatestring);
+    if (str_contains($rawdatestring, " ")) $datestring = $datestring . " &nbsp; " . getTime($rawdatestring)["hi"];
+    return $datestring;
 }
 
 function generateID(string $datestring)

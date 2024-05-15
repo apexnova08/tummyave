@@ -28,9 +28,11 @@ $mysqli = require __DIR__ . "/../database.php";
 
 
 <!--#####-->
-<h1>Orders</h1>
-
 <div>
+    <div style="position: relative; display: inline-block; width: 100%">
+        <h1 style="float: left; margin: 0;">Orders</h1>
+        <a href="orderhistory.php" style="float: right;"><button>Order History</button></a>
+    </div>
     <table>
         <tr style="background-color: darkorange; color: black;">
             <td>Order</td>

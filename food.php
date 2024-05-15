@@ -39,6 +39,7 @@ include 'global/customerheader.php';
         <div>
             <h2 class="heading">Featured &nbsp; Food</h2>
             <hr class="heading_space">
+            
         </div>
             <div>
                 <div class="col-md-12">
@@ -107,9 +108,22 @@ include 'global/customerheader.php';
 
 <section id="food" class="padding bg_grey">
     <div class="container">
-        <div>
+        <div class="text-center">
             <h2 class="heading">Our &nbsp; Menu</h2>
             <hr class="heading_space">
+            <div class="work-filter">
+                <ul class="text-center">
+                    <li><a href="javascript:;" data-filter="all" class="active filter">All Foods</a></li>
+                    <?php
+                    $resultctg = $mysqli->query("SELECT * FROM categories WHERE NOT hidden");
+                    while ($row = $resultctg->fetch_assoc()) {
+                    ?>
+                    <li><a href="javascript:;" data-filter=".<?= $row["id"] ?>" class="filter"><?= $row["name"] ?></a></li>
+                    <?php
+                    }
+                    ?>
+                </ul>
+            </div>
         </div>
         <div>
             <div class="grid_layout">
@@ -117,29 +131,32 @@ include 'global/customerheader.php';
                     <div class="wrap-container">
                         <div>
 
-                        <?php
-                        $result = $mysqli->query("SELECT * FROM foods");
-                        while ($rowfoods = $result->fetch_assoc()) {
-                        ?>
+                            <?php
+                            $result = $mysqli->query("SELECT * FROM foods");
+                            while ($row = $result->fetch_assoc()) {
+                            ?>
 
-                        <div class="col-1-3">
-                            <div class="wrap-col first">
-                                <div class="item-container">
-                                    <img src="<?= 'img-uploads/' . $rowfoods['image'] ?>" style="width: center; height: 255px; object-fit: cover;" alt="<?= $rowfoods['name']; ?>"/>
-                                    <div class="overlay food-item" style="cursor: pointer;">
-                                        <p class="overlay-inner"><?= $rowfoods['name']; ?></p>
-                                        <input type="hidden" value="<?= $rowfoods['id']; ?>"/>
-                                        <input type="hidden" value="<?= $rowfoods['cost']; ?>"/>
-                                        <input type="hidden" value="<?= $rowfoods['image']; ?>"/>
-                                        <input type="hidden" value="<?= $rowfoods['description']; ?>"/>
+                            <div class="col-1-3 mix work-item <?= $row["category"] ?>">
+                                <div class="wrap-col first" style="overflow: hidden; padding: 0 0 10px 0; margin: 0 10px 30px 10px; box-shadow: 2px 2px 10px;">
+                                    <div class="item-container" style="border-bottom: 2px solid #E25111;">
+                                        <img src="<?= 'img-uploads/' . $row['image'] ?>" style="width: center; height: 255px; object-fit: cover;" alt="<?= $row['name']; ?>"/>
+                                        <div class="overlay food-item" style="cursor: pointer;">
+                                            <p class="overlay-inner" style="pointer-events: none;"><?= $row['name']; ?></p>
+                                            <input type="hidden" value="<?= $row['id']; ?>"/>
+                                            <input type="hidden" value="<?= $row['cost']; ?>"/>
+                                            <input type="hidden" value="<?= $row['image']; ?>"/>
+                                            <input type="hidden" value="<?= $row['description']; ?>"/>
+                                        </div>
+                                    </div>
+                                    <div class="epic-orangetxt" style="float: right;">
+                                        ₱<span style="font-size: 25px;"><?= $row['cost']; ?>.00</span>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <?php
-                        }
-                        ?>
+                            <?php
+                            }
+                            ?>
 
                         </div>
                     </div>
@@ -158,6 +175,8 @@ include 'global/customerheader.php';
         </div>
     </div>
 </section>
+
+
 
 <!--Page Footer-->
 <?php 
@@ -183,7 +202,7 @@ include 'global/customerfooter.html';
                     <input id="modalFoodAmount" class="epic-txtbox" style="width: 100px; text-align: center;" type="number" name="amount" value="1">
                     <button class="epic-btn-radius" onclick="amountAdd()" type="button"><i class="fa fa-plus"></i></button>
                     <input class="epic-btn" style="margin-left: 20px;" type="submit">
-                    <label id="modalFoodCost" class="epic-sansr" style="font-size:20px; margin-left: 20px;">PHP 0.00</label>
+                    <label class="epic-orangetxt" style="margin-left: 20px;">₱<span id="modalFoodCost" style="font-size: 25px;">0.00</span></label>
                 </form>
             </div>
         </div>
@@ -208,7 +227,7 @@ daysArr.forEach(bt=>{
         document.getElementById("modalFoodId").value =  e.target.children[1].value;
 
         selectedFoodCost = parseInt(e.target.children[2].value);
-        document.getElementById("modalFoodCost").innerHTML = "PHP " + e.target.children[2].value + ".00";
+        document.getElementById("modalFoodCost").innerHTML = e.target.children[2].value + ".00";
         txtAmount.value = "1";
 
         epicOpenModal();
@@ -236,7 +255,7 @@ function setNewAmount(amount)
     else if (amount < 1) newAmount = 1;
 
     txtAmount.value = newAmount.toString();
-    document.getElementById("modalFoodCost").innerHTML = "PHP " + (selectedFoodCost * newAmount).toString() + ".00";
+    document.getElementById("modalFoodCost").innerHTML = (selectedFoodCost * newAmount).toString() + ".00";
 }
 </script>
  

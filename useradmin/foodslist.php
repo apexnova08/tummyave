@@ -26,9 +26,11 @@ $mysqli = require __DIR__ . "/../database.php";
 
 
 <!--#####-->
-<h1>Menu</h1>
-
 <div>
+    <div style="position: relative; display: inline-block; width: 100%">
+        <h1 style="float: left; margin: 0;">Food Menu</h1>
+        <a href="createfood.php" style="float: right;"><button>Create Food</button></a>
+    </div>
     <table>
         <tr style="background-color: darkorange; color: black;">
             <td>ID</td>
@@ -57,7 +59,6 @@ $mysqli = require __DIR__ . "/../database.php";
         ?>
     </table>
 </div>
-<a href="createfood.php"><button>Add food</button></a>
 
 </body>
 </html>

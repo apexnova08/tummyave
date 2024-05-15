@@ -28,10 +28,11 @@ $mysqli = require __DIR__ . "/../database.php";
 
 
 <!--#####-->
-<a href="reservations.php"><button>Back</button></a>
-
 <div>
-    <h1>History</h1>
+    <div style="position: relative; display: inline-block; width: 100%">
+        <h1 style="float: left; margin: 0;">History</h1>
+        <a href="reservations.php" style="float: right;"><button>Back</button></a>
+    </div>
     <table>
         <tr style="background-color: darkorange; color: black;">
             <td>Date Requested</td>

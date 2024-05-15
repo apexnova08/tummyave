@@ -29,7 +29,6 @@ $mysqli = require __DIR__ . "/../database.php";
     <div style="position: relative; display: inline-block; width: 100%">
         <h1 style="float: left; margin: 0;">Active Accounts</h1>
         <a href="../account/createaccount.php" style="float: right;"><button>Create Account</button></a>
-        
     </div>
     <table>
         <tr style="background-color: darkorange; color: black;">

@@ -73,6 +73,8 @@ session_abort();
                               <li><a href="usercashier/">Cashier Panel</a></li>
                             <?php endif ?>
                             <li><a href="usercustomer/cart.php">Cart</a></li>
+                            <li><a href="usercustomer/orders.php">Orders</a></li>
+                            <li><a href="usercustomer/reservations.php">Reservations</a></li>
                             <li><a href="account/logout.php">Logout</a></li>
                           <?php else: ?>
                             <li><a href="account/register.php">Register</a></li>

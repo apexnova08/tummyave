@@ -8,19 +8,16 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 }
 
 $name = $_POST["name"];
-$image = uploadImage(generateID(getCurrentDateTime()));
-$cost = $_POST["cost"];
-$desc = $_POST["desc"];
 
-$sql = "INSERT INTO foods (name, cost, image, description, category, archived) VALUES (?, ?, ?, ?, 'N/A', 0)";
+$sql = "INSERT INTO categories (name) VALUES (?)";
 $stmt = $mysqli->stmt_init();
 if (!$stmt->prepare($sql)) {
     die("SQL error: " . $mysqli->errno);
 }
-mysqli_stmt_bind_param($stmt, "ssss", $name, $cost, $image, $desc);
+mysqli_stmt_bind_param($stmt, "s", $name);
 if ($stmt->execute())
 {
-    header("location: ../foodslist.php");
+    header("location: ../categories.php");
 }
 else die("error");
 

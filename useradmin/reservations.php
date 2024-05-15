@@ -35,10 +35,11 @@ while ($rowuser = $result_users->fetch_assoc())
 
 
 <!--#####-->
-<a href="rsvhistory.php"><button>History</button></a>
-
 <div>
-    <h1>Reservations</h1>
+    <div style="position: relative; display: inline-block; width: 100%">
+        <h1 style="float: left; margin: 0;">Reservations</h1>
+        <a href="rsvhistory.php" style="float: right;"><button>History</button></a>
+    </div>
     <table>
         <tr style="background-color: darkorange; color: black;">
             <td>Reservation Date</td>
@@ -60,10 +61,7 @@ while ($rowuser = $result_users->fetch_assoc())
         ?>
     </table>
     <?php
-    if (mysqli_num_rows($result_rsv) === 0)
-    {
-        echo "<h2 style='width: 100%; text-align: center;'>(Empty)</h2>";
-    }
+    if (mysqli_num_rows($result_rsv) === 0) echo "<h2 style='width: 100%; text-align: center;'>(Empty)</h2>";
     ?>
 </div>
 

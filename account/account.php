@@ -32,7 +32,7 @@ if (!$user) die ("Error: user not found");
 <div>
     <h1>Your <?= $usertypes[$user["type"]] ?> Account</h1>
     <h3>Information</h3>
-    <form action="processes/update-process.php" method="post">
+    <form enctype="multipart/form-data" action="processes/update-process.php" method="post">
         <label for="name">Name:</label>
         <div>
             <input id="txtVal" style="float: left;" name="name" type="text" value="<?= $user["name"] ?>" disabled="true">
@@ -41,7 +41,7 @@ if (!$user) die ("Error: user not found");
             <button style="background-color: red;" id="btnCancelEdit" type="button" hidden="true">Cancel</button>
         </div>
     </form>
-    <form action="processes/update-process.php" method="post">
+    <form enctype="multipart/form-data" action="processes/update-process.php" method="post">
         <label for="username">Username:</label>
         <div>
             <input id="txtVal" style="float: left;" name="username" type="text" value="<?= $user["username"] ?>" disabled="true">
@@ -56,7 +56,7 @@ if (!$user) die ("Error: user not found");
     if ($user["type"] === "4")
     {
     ?>
-    <form action="processes/update-process.php" method="post">
+    <form enctype="multipart/form-data" action="processes/update-process.php" method="post">
         <label for="email">Email:</label>
         <div>
             <input id="txtVal" style="float: left;" name="email" type="email" value="<?= $user["email"] ?>" disabled="true">
@@ -65,7 +65,7 @@ if (!$user) die ("Error: user not found");
             <button style="background-color: red;" id="btnCancelEdit" type="button" hidden="true">Cancel</button>
         </div>
     </form>
-    <form action="processes/update-process.php" method="post">
+    <form enctype="multipart/form-data" action="processes/update-process.php" method="post">
         <label for="contact">Contact No.:</label>
         <div>
             <input id="txtVal" style="float: left;" name="contact" type="text" maxlength="11" value="<?= $user["contact"] ?>" disabled="true">
@@ -79,7 +79,7 @@ if (!$user) die ("Error: user not found");
     ?>
 
     <h3>Password</h3>
-    <form action="processes/update-process.php" method="post">
+    <form enctype="multipart/form-data" action="processes/update-process.php" method="post">
         <button id="btnEditPass" type="button">Edit password</button>
         <div id="pnlPassword" hidden="true">
             <label for="cpassword">Current Password:</label>

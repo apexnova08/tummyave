@@ -14,6 +14,7 @@ $user = $mysqli->query("SELECT * FROM users WHERE id = '$userid'")->fetch_assoc(
 if (!$user) die ("Error: user not found");
 
 $val = "empty string";
+$sql = "";
 if (isset($_POST["name"]))
 {
     $val = $_POST["name"];

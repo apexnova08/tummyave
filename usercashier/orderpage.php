@@ -49,11 +49,7 @@ if (isset($_POST["update"]))
     {
         header("location: ../usercashier/");
     }
-    else
-    {
-        echo "sex";
-        die ("sex");
-    }
+    else die ("Error updating order.");
 }
 ?>
 
@@ -91,10 +87,17 @@ if (isset($_POST["update"]))
 <label><b>Status</b></label><br/>
 <label><?= $order["status"] ?></label><br/><br/><br/>
 
-<form method="post">
+<?php
+if (!$order["is_closed"])
+{
+?>
+<form enctype="multipart/form-data" method="post">
     <input type="submit" name="update" value="Mark as Paid"/>
     <input type="hidden" name="id" value="<?= $id ?>"/>
 </form>
+<?php
+}
+?>
 <br/><br/>
 
 <h2>Items</h2>

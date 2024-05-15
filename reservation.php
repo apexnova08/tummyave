@@ -51,9 +51,9 @@ include 'global/customerheader.php';
             $result_rsv = $mysqli->query("SELECT * FROM reservations WHERE user_id = '$userid' AND status = 'Reserved'");
             while ($rowrsv = $result_rsv->fetch_assoc()) {
             ?>
-            <div class="row" style="padding-top: 50px; border-bottom: 1px solid #aaa;">
+            <div class="row epic-li">
                 <div class="col-md-8">
-                    <h3 class="epic-bebas"><?= getMonthName($rowrsv["rsv_date"])["MMMM"] . " " . getDay($rowrsv["rsv_date"]) . ", " . getYear($rowrsv["rsv_date"]) ?></h3>
+                    <h3 class="epic-bebas"><?= getLongDateFormat($rowrsv["rsv_date"]) ?></h3>
                     <p class="epic-sanssb"><?= getWeekDayName($rowrsv["rsv_date"])["dddd"] ?></p>
                 </div>
                 <div class="col-md-4" style="text-align: right;">
@@ -65,9 +65,9 @@ include 'global/customerheader.php';
             $result_req = $mysqli->query("SELECT * FROM reservations WHERE user_id = '$userid' AND status = 'Requested'");
             while ($rowreq = $result_req->fetch_assoc()) {
             ?>
-            <div class="row" style="padding-top: 50px; border-bottom: 1px solid #aaa;">
+            <div class="row epic-li">
                 <div class="col-md-8">
-                    <h3 class="epic-bebas"><?= getMonthName($rowreq["rsv_date"])["MMMM"] . " " . getDay($rowreq["rsv_date"]) . ", " . getYear($rowreq["rsv_date"]) ?></h3>
+                    <h3 class="epic-bebas"><?= getLongDateFormat($rowreq["rsv_date"]) ?></h3>
                     <p class="epic-sanssb"><?= getWeekDayName($rowreq["rsv_date"])["dddd"] ?></p>
                 </div>
                 <div class="col-md-4" style="text-align: right;">
@@ -234,7 +234,7 @@ include 'global/customerfooter.html';
             <h2 id="modalDateString"></h2></br></br>
             <form action="usercustomer/processes/reserve-process.php" method="post" style="overflow: hidden;">
                 <label class="epic-sansr">Remarks</label>
-                <textarea placeholder="Remarks..." id="modalRemarks" style="width: 100%; height: 100px; padding: 10px; overflow: hidden; resize: none;" name="remarks"></textarea>
+                <textarea placeholder="Type here..." id="modalRemarks" style="width: 100%; height: 100px; padding: 10px; overflow: hidden; resize: none;" name="remarks"></textarea>
                 <input type="hidden" name="day" id="submitDay">
                 <input type="hidden" name="month" value="<?= $sMonth ?>">
                 <input type="hidden" name="year" value="<?= $sYear ?>">

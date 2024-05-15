@@ -9,6 +9,7 @@ session_abort();
     <li style="float: left;"><a href="categories.php"><button>Food Categories</button></a></li>
     <li style="float: left;"><a href="reservations.php"><button>Reservations</button></a></li>
     <li style="float: left;"><a href="feedbacks.php"><button>Feedbacks</button></a></li>
+    <li style="float: left;"><a href="news.php"><button>News</button></a></li>
     <li style="float: left;"><a href="accounts.php"><button>Accounts</button></a></li>
     <?php
     if ($usertype === "0")

@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
 <button onclick="goBack()">Back</button>
 
 <h1>Create Account</h1>
-<form method="post">
+<form enctype="multipart/form-data" method="post">
     <div>
         <label for="type">Account type</label>
         <select name="type" required>

@@ -13,6 +13,19 @@
     font-family: open_sanssemibold;
     font-weight: normal;
 }
+.epic-sanss {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: normal;
+}
+.epic-orangetxt {
+    font-family: Arial;
+    font-weight: normal;
+    color: #E25111;
+    font-size: 18px;
+}
+.epic-black {
+    color: black;
+}
 .epic-btn {
     padding: 10px;
     background-color: #E25111;
@@ -55,6 +68,52 @@
     text-transform: uppercase;
     letter-spacing: 3px;
     border-bottom: 1px solid #aaa;
+}
+.epic-li {
+    padding-top: 30px;
+    border-bottom: 1px solid #aaa;
+}
+.epic-li .right {
+    text-align: right;
+}
+.epic-li .right form {
+    margin: auto;
+}
+.epic-a {
+    font-family: open_sansbold;
+    padding: 20px;
+    font-size: 18px;
+    color: #E25111;
+}
+.epic-a:hover {
+    color: black;
+    transition: .2s;
+}
+.epic-header {
+    padding: 0 20px;
+    font-size: 18px;
+    background-color: black;
+    color: white;
+}
+.epic-header ul {
+    display: inline-block;
+    overflow: hidden;
+    padding: 0;
+}
+.epic-header ul li {
+    float: left;
+    padding: 10px 20px;
+    margin: 0 10px;
+    cursor: pointer;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+}
+.epic-header ul li:hover {
+    background-color: white;
+    color: #E25111;
+    transition: .5s;
 }
 
 
