@@ -1,5 +1,14 @@
 <?php
 $mysqli = require __DIR__ . "/database.php";
+require __DIR__ . "/global/funcs.php";
+
+// GET USERS
+$users = array();
+$result_users = $mysqli->query("SELECT * FROM users");
+while ($rowuser = $result_users->fetch_assoc())
+{
+    $users[$rowuser["id"]] = $rowuser;
+}
 ?>
 
 <!doctype html>
@@ -34,77 +43,44 @@ include 'global/customerheader.php';
 </section>
 
 <!-- ## CONTENT HERE ## -->
+<?php
+$reqscountraw = $mysqli->query("SELECT COUNT(*) AS total FROM foods WHERE NOT archived AND featured");
+$reqscount = $reqscountraw->fetch_assoc();
+if ($reqscount['total'] != "0")
+{
+?>
 <section id="news" class="padding bg_white">
     <div class="container">
         <div>
             <h2 class="heading">Featured &nbsp; Food</h2>
             <hr class="heading_space">
-            
         </div>
-            <div>
-                <div class="col-md-12">
-                    <div class="cheffs_wrap_slider">
-                        <div id="news-slider" class="owl-carousel">
-                            <div class="item">
-                                <div class="news_content">
-                                <img src="images/NA.jpg" alt="Docotor">
-                                <div class="date_comment">
-                                    <span>22<small>apr</small></span>
-                                    <a href="#."><i class="icon-comment"></i> 5</a>
-                                </div>
-                                <div class="comment_text">
-                                    <h3><a href="#.">Food Name</a></h3>
-                                    <p>Description</p>
-                                </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="news_content">
-                                <img src="images/NA.jpg" alt="Docotor">
-                                <div class="date_comment">
-                                    <span>22<small>apr</small></span>
-                                    <a href="#."><i class="icon-comment"></i> 5</a>
-                                </div>
-                                <div class="comment_text">
-                                    <h3><a href="#.">Food Name</a></h3>
-                                    <p>Description</p>
-                                </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="news_content">
-                                <img src="images/NA.jpg" alt="Docotor">
-                                <div class="date_comment">
-                                    <span>22<small>apr</small></span>
-                                    <a href="#."><i class="icon-comment"></i> 5</a>
-                                </div>
-                                <div class="comment_text">
-                                    <h3><a href="#.">Food Name</a></h3>
-                                    <p>Description</p>
-                                </div>
-                                </div>
-                            </div>
-                            
-                            <div class="item">
-                                <div class="news_content">
-                                <img src="images/NA.jpg" alt="Docotor">
-                                <div class="date_comment">
-                                    <span>22<small>apr</small></span>
-                                    <a href="#."><i class="icon-comment"></i> 5</a>
-                                </div>
-                                <div class="comment_text">
-                                    <h3><a href="#.">Food Name</a></h3>
-                                    <p>Description</p>
-                                </div>
-                            </div>
+        <div class="col-md-12">
+            <div class="cheffs_wrap_slider">
+                <div id="news-slider" class="owl-carousel">
+
+                    <?php
+                    $resultfeat = $mysqli->query("SELECT * FROM foods WHERE NOT archived AND featured");
+                    while ($row = $resultfeat->fetch_assoc()) {
+                    ?>
+                    <a href="img-uploads/<?= $row["image"] ?>"><div id="newsItem" class="item epic-texthover" style="padding: 0; margin: 10px; box-shadow: 2px 2px 10px;">
+                        <div class="news_content" style="pointer-events: none;">
+                            <img src="img-uploads/<?= $row["image"] ?>" style="width: center; height: 255px; object-fit: cover;"  alt="news banner">
+                            <h3 style="padding: 10px;"><?= $row["name"] ?></h3>
                         </div>
-                    </div>
+                    </div></a>
+                    <?php
+                    }
+                    ?>
+                    
                 </div>
             </div>
         </div>
     </div>
 </section>
-
+<?php
+}
+?>
 
 <section id="food" class="padding bg_grey">
     <div class="container">
@@ -167,11 +143,26 @@ include 'global/customerheader.php';
 </section>
 
 
-<section id="section_name" class="padding bg_grey">
+<section id="section_name" class="padding bg_white">
     <div class="container">
-        <div>
-            <h2 id="test" class="heading">Title &nbsp; Grey &nbsp; Section</h2>
+        <div class="col-md-12 text-center">
+            <h2 class="heading">Our &nbsp; Happy &nbsp; Customers</h2>
             <hr class="heading_space">
+        </div>
+        <div class="row">
+      <div class="col-md-12">
+        <div id="testinomial-slider" class="owl-carousel text-center">
+            <?php
+            $resultnews = $mysqli->query("SELECT * FROM feedbacks WHERE NOT hidden");
+            while ($row = $resultnews->fetch_assoc()) {
+            ?>
+            <div class="item">
+                <h3><?= $row["feedback"] ?></h3>
+                <p><?= $users[$row["user_id"]]["name"] ?></p>
+            </div>
+            <?php
+            }
+            ?>
         </div>
     </div>
 </section>

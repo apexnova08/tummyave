@@ -55,4 +55,16 @@ elseif (isset($_POST["enable"]))
     if ($mysqli->query($sql)) header("location: ../../useradmin/");
     else die ("error");
 }
+elseif (isset($_POST["unfeature"]))
+{
+    $sql = "UPDATE foods SET featured = false WHERE id = '$id'";
+    if ($mysqli->query($sql)) header("location: ../../useradmin/");
+    else die ("error");
+}
+elseif (isset($_POST["feature"]))
+{
+    $sql = "UPDATE foods SET featured = true WHERE id = '$id'";
+    if ($mysqli->query($sql)) header("location: ../../useradmin/");
+    else die ("error");
+}
 ?>

@@ -33,13 +33,22 @@ $item = $result->fetch_assoc();
 
 <!--#####-->
 <section id="topBtns" style="padding-top: 30px;">
-    <div class="container">
-        <form style="overflow: hidden;" enctype="multipart/form-data" action="processes/updatefood-process.php" method="post">
+    <div class="container" style="overflow: hidden;">
+        <form style="float: right; margin-left: 30px;" enctype="multipart/form-data" action="processes/updatefood-process.php" method="post">
             <?php
             if (!$item["archived"])
-                echo '<button style="float: right;" name="disable" class="epic-btnred">Remove &nbsp; Food &nbsp; from &nbsp; Menu</button>';
+                echo '<button name="disable" class="epic-btnred">Remove &nbsp; Food &nbsp; from &nbsp; Menu</button>';
             else
-                echo '<button style="float: right;" name="enable" class="epic-btn">Add &nbsp; Food &nbsp; to &nbsp; Menu</button>';
+                echo '<button name="enable" class="epic-btn">Add &nbsp; Food &nbsp; to &nbsp; Menu</button>';
+            ?>
+            <input type="hidden" name="id" value="<?= $id ?>"/>
+        </form>
+        <form style="float: right;" enctype="multipart/form-data" action="processes/updatefood-process.php" method="post">
+            <?php
+            if ($item["featured"])
+                echo '<button name="unfeature" class="epic-btnred">Remove &nbsp; From &nbsp; Featured &nbsp; Foods</button>';
+            else
+                echo '<button name="feature" class="epic-btn">Feature &nbsp; this &nbsp; Food</button>';
             ?>
             <input type="hidden" name="id" value="<?= $id ?>"/>
         </form>

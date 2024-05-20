@@ -38,7 +38,7 @@ $mysqli = require __DIR__ . "/../database.php";
         </div>
         <div>
             <?php
-            $result = $mysqli->query("SELECT * FROM foods");
+            $result = $mysqli->query('SELECT * FROM foods ORDER BY archived, featured DESC');
             while ($row = $result->fetch_assoc()) {
             ?>
             <div class="row epic-li">
@@ -47,7 +47,7 @@ $mysqli = require __DIR__ . "/../database.php";
                     <div style="margin: 10px 0 0 20px; float: left;">
                         <h3 class="epic-bebas"><?= $row["name"] ?></h3>
                         <h4 class="epic-sanssb"><span class="epic-sanss">₱</span><?= $row["cost"] ?>.00</h4></br>
-                        <label class="epic-sanssb">Item ID: <?= $row["id"] ?> &nbsp; &nbsp; <i style="color: <?= $boolColor[$row["archived"]] ?>;"><?= $enabledString[$row["archived"]] ?></i></label>
+                        <label class="epic-sanssb">Item ID: <?= $row["id"] ?> &nbsp; &nbsp; <i style="color: <?= $boolColor[$row["archived"]] ?>;"><?= $enabledString[$row["archived"]] ?></i><?php if ($row["featured"]) echo ' &nbsp; <i style="color: gold;">Featured</i>'; ?></label>
                     </div>
                 </div>
                 <div class="col-md-4 right" style="margin-top: 10px;">

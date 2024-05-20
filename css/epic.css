@@ -1,3 +1,6 @@
+html { 
+    scroll-behavior: smooth;
+}
 .epic-bebas {
     font-family: BebasRegular;
 }
