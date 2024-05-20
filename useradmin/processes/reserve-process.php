@@ -8,21 +8,43 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 
 // INIT
 $id = $_POST["id"];
-$rsv = $mysqli->query("SELECT * FROM reservations WHERE id = '$id'")->fetch_assoc();
-$rsvdate = $rsv["rsv_date"];
-$cdate = getCurrentDateTime();
 
-// RESERVE
-if (!$mysqli->query("UPDATE reservations SET status = 'Reserved', process_date = '$cdate' WHERE id = '$id'"))
+if (isset($_POST["accept"]))
 {
-    die ("sex");
-}
+    $rsv = $mysqli->query("SELECT * FROM reservations WHERE id = '$id'")->fetch_assoc();
+    $rsvdate = $rsv["rsv_date"];
+    $cdate = getCurrentDateTime();
 
-// DECLINE OTHER REQUESTS ON SAME DATE
-if ($mysqli->query("UPDATE reservations SET status = 'Denied', process_date = '$cdate' WHERE rsv_date = '$rsvdate' AND NOT id = '$id'"))
-{
-    echo '<script type="text/javascript">', 'history.go(-1);', '</script>';
+    // RESERVE
+    if (!$mysqli->query("UPDATE reservations SET status = 'Reserved', process_date = '$cdate' WHERE id = '$id'"))
+    {
+        die ("error");
+    }
+
+    // DECLINE OTHER REQUESTS ON SAME DATE
+    if ($mysqli->query("UPDATE reservations SET status = 'Denied', process_date = '$cdate' WHERE rsv_date = '$rsvdate' AND NOT id = '$id'"))
+    {
+        header("location: ../reservations.php");
+    }
+    else die ("error");
 }
-else die ("sex");
+else if (isset($_POST["reject"]))
+{
+    $cdate = getCurrentDateTime();
+    if ($mysqli->query("UPDATE reservations SET status = 'Denied', process_date = '$cdate' WHERE id = '$id'"))
+    {
+        header("location: ../reservations.php");
+    }
+    else die ("error");
+}
+else if (isset($_POST["close"]))
+{
+    $cdate = getCurrentDateTime();
+    if ($mysqli->query("UPDATE reservations SET status = 'Cancelled', process_date = '$cdate' WHERE id = '$id'"))
+    {
+        header("location: ../reservations.php");
+    }
+    else die ("error");
+}
 
 ?>

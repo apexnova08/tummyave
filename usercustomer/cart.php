@@ -32,13 +32,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Admin Panel | Menu</title>
     
-    <!--CSS-->
+    <!--CSS AND NAV-->
     <?php 
-    include 'cfolder/css.html';
-    ?>
-    
-    <!--NAV-->
-    <?php 
+    include '../global/uf/css.html';
     include 'nav.php';
     ?>
 
@@ -98,9 +94,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <!--Page Footer-->
 <?php 
-include 'cfolder/footer.html';
+include '../global/uf/footer.html';
 ?>
 <a href="#" id="back-top"><i class="fa fa-angle-up fa-2x"></i></a>
+
+<!--JS-->
+<?php 
+include '../global/uf/js.html';
+?>
 
 </body>
 </html>

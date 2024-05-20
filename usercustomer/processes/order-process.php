@@ -23,10 +23,6 @@ if ($stmt->execute())
 {
     header("location: ../foodslist.php");
 }
-else
-{
-    echo "sex";
-    die ("sex");
-}
+else die ("Error.");
 
 ?>

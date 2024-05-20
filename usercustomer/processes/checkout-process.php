@@ -8,7 +8,8 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 
 // GET USER ID
 session_start();
-$userid = $_SESSION["user_id"];
+$userid = "empty";
+if (isset($_SESSION["user_id"])) $userid = $_SESSION["user_id"];
 session_abort();
 
 // INIT
@@ -33,7 +34,7 @@ if (!$stmt->prepare($sql)) {
 mysqli_stmt_bind_param($stmt, "ss", $datetime, $userid);
 if (!$stmt->execute())
 {
-    die ("sex");
+    die ("Error.");
 }
 
 // GET ORDER ID
@@ -53,7 +54,7 @@ while ($cartrow = $cartresult->fetch_assoc())
     mysqli_stmt_bind_param($stmt, "sssss", $orderid, $cartrow["food_id"], $foodarray[$cartrow["food_id"]]["cost"], $cartrow["amount"], $subtotal);
     if (!$stmt->execute())
     {
-        die ("sex");
+        die ("Error.");
     }
 
     $totalitems = $totalitems + $cartrow["amount"];
@@ -67,18 +68,13 @@ if (!$stmt->prepare($sql)) {
     die("SQL error: " . $mysqli->errno);
 }
 mysqli_stmt_bind_param($stmt, "sss", $totalitems, $totalcost, $totalcost);
-if (!$stmt->execute())
-{
-    die ("sex");
-}
+if (!$stmt->execute()) die ("Error.");
 
 // REMOVE ITEMS FROM CART
 $sql = "DELETE FROM carts WHERE user_id = '$userid'";
 
 if ($mysqli->query($sql)) {
-    header("location: ../../");
-} else {
-    die ("sex");
-}
+    header("location: ../orders.php");
+} else die ("Error.");
 
 ?>

@@ -48,7 +48,7 @@ include 'global/customerheader.php';
         </div>
         <div>
             <?php
-            $result_rsv = $mysqli->query("SELECT * FROM reservations WHERE user_id = '$userid' AND status = 'Reserved'");
+            $result_rsv = $mysqli->query("SELECT * FROM reservations WHERE user_id = '$userid' AND status = 'Reserved' AND DATE(rsv_date) > '" . getCurrentDate() . "'");
             while ($rowrsv = $result_rsv->fetch_assoc()) {
             ?>
             <div class="row epic-li">
@@ -62,7 +62,7 @@ include 'global/customerheader.php';
             </div>
             <?php
             }
-            $result_req = $mysqli->query("SELECT * FROM reservations WHERE user_id = '$userid' AND status = 'Requested'");
+            $result_req = $mysqli->query("SELECT * FROM reservations WHERE user_id = '$userid' AND status = 'Requested' AND DATE(rsv_date) >= '" . getCurrentDate() . "'");
             while ($rowreq = $result_req->fetch_assoc()) {
             ?>
             <div class="row epic-li">
@@ -234,7 +234,7 @@ include 'global/customerfooter.html';
             <h2 id="modalDateString"></h2></br></br>
             <form action="usercustomer/processes/reserve-process.php" method="post" style="overflow: hidden;">
                 <label class="epic-sansr">Remarks</label>
-                <textarea placeholder="Type here..." id="modalRemarks" style="width: 100%; height: 100px; padding: 10px; overflow: hidden; resize: none;" name="remarks"></textarea>
+                <textarea placeholder="Type here..." id="modalRemarks" style="width: 100%; height: 100px; padding: 10px; overflow: auto; resize: none;" name="remarks"></textarea>
                 <input type="hidden" name="day" id="submitDay">
                 <input type="hidden" name="month" value="<?= $sMonth ?>">
                 <input type="hidden" name="year" value="<?= $sYear ?>">
@@ -259,7 +259,6 @@ daysArr.forEach(bt=>{
     bt.addEventListener('click', (e) => {
         daystring = e.target.innerHTML.trim();
         document.getElementById("modalRemarks").value = "";
-        epicOpenModal();
         
         weekDay = "";
         weekDayNum = new Date(month + " " + daystring + ", " + year).getDay();
@@ -274,7 +273,7 @@ daysArr.forEach(bt=>{
         txtDate.innerHTML = month + " &nbsp; " + daystring + ", &nbsp; " + year + " &nbsp; (" + weekDay + ")";
         
         document.getElementById("submitDay").value = daystring;
-        document.getElementById("sDay").innerHTML = e.target.innerHTML;
+        epicOpenModal();
     })
 })
 </script>

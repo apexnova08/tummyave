@@ -9,7 +9,8 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 }
 
 session_start();
-$userid = $_SESSION["user_id"];
+$userid = "empty";
+if (isset($_SESSION["user_id"])) $userid = $_SESSION["user_id"];
 session_abort();
 
 if (isset($_POST["request"]))
@@ -25,7 +26,7 @@ if (isset($_POST["request"]))
     }
     mysqli_stmt_bind_param($stmt, "ssss", $userid, $cdate, $rsv_date, $remarks);
     if ($stmt->execute()) header("location: ../../reservation.php"); 
-    else die ("sex");
+    else die ("Error.");
 }
 elseif (isset($_POST["cancel"]))
 {
@@ -33,6 +34,6 @@ elseif (isset($_POST["cancel"]))
     $sql = "DELETE FROM reservations WHERE id = '$id'";
 
     if ($mysqli->query($sql)) header("location: ../../reservation.php");
-    else die ("sex");
+    else die ("Error.");
 }
 ?>

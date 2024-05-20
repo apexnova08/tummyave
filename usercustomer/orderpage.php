@@ -1,8 +1,6 @@
 <?php 
 include 'processes/redirect.php';
-?>
 
-<?php
 require __DIR__ . "/../global/funcs.php";
 $mysqli = require __DIR__ . "/../database.php";
 
@@ -28,29 +26,6 @@ $order = $result->fetch_assoc();
 $sql = sprintf("SELECT * FROM users WHERE id = '%s'", $mysqli->real_escape_string($order["user_id"]));
 $result = $mysqli->query($sql);
 $user = $result->fetch_assoc();
-
-// UPDATE
-if (isset($_POST["update"]))
-{
-    if ($order["is_paid"] === '0')
-    {
-        $sql = "UPDATE orders SET is_paid = '1', status = 'Preparing' WHERE id = '$id'";
-    }
-    elseif ($order["status"] === "Preparing")
-    {
-        $sql = "UPDATE orders SET status = 'Ready for pickup' WHERE id = '$id'";
-    }
-    elseif ($order["status"] === "Ready for pickup")
-    {
-        $sql = "UPDATE orders SET status = 'Picked up', is_closed = true WHERE id = '$id'";
-    }
-    
-    if ($mysqli->query($sql))
-    {
-        header("location: ../usercashier/");
-    }
-    else die ("Error updating order.");
-}
 ?>
 
 <!doctype html>
@@ -61,14 +36,10 @@ if (isset($_POST["update"]))
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Admin Panel | Menu</title>
     
-    <!--CSS-->
+    <!--CSS AND NAV-->
     <?php 
-    include 'cfolder/css.html';
-    ?>
-    
-    <!--NAV-->
-    <?php 
-    include 'top.php';
+    include '../global/uf/css.html';
+    include '../global/uf/top.html';
     ?>
 
 </head>
@@ -103,7 +74,7 @@ if (isset($_POST["update"]))
         </div>
         
         <div class="col-md-12" style="margin-top: 40px;">
-            <h3 class="epic-bebas">Items</h3>
+            <h3 class="epic-bebas">Items &nbsp; (<?= $order["total_items"] ?>)</h3>
             <?php
             $result = $mysqli->query("SELECT * FROM order_items WHERE order_id = '$id'");
             while ($row = $result->fetch_assoc()) {
@@ -127,13 +98,41 @@ if (isset($_POST["update"]))
             ?>
         </div>
     </div>
+    <div style="text-align: center; margin-top: 50px;">
+        <label class="epic-sansb epic-txt16">Satisfied with our food and service?</label></br>
+        <button onclick="epicOpenModal()" class="epic-btn">Leave us a Feedback!</button>
+    </div>
 </section>
+
 
 <!--Page Footer-->
 <?php 
-include 'cfolder/footer.html';
+include '../global/uf/footer.html';
 ?>
 <a href="#" id="back-top"><i class="fa fa-angle-up fa-2x"></i></a>
+
+<!-- The Modal -->
+<div id="epicModal" class="epic-modal">
+    <div class="epic-modal-content" style="width: 50%;">
+        <div class="epic-modal-header">
+            <span class="epic-modal-close">&times;</span>
+            <h2>Leave &nbsp; a &nbsp; Feedback</h2>
+        </div>
+        <div class="epic-modal-body">
+            <h3>Your feedback</h3>
+            <form enctype="multipart/form-data" action="processes/feedback-process.php" method="post" style="overflow: hidden;">
+                <textarea placeholder="Type here..." style="width: 100%; height: 100px; padding: 10px; overflow: auto; resize: none;" name="feedback"></textarea>
+                <input class="epic-btn" style="float: right;" type="submit">
+            </form>
+        </div>
+        <div class="epic-modal-footer"><i>tummy-avenue.com</i></div>
+    </div>
+</div>
+
+<!--JS-->
+<?php 
+include '../global/uf/js.html';
+?>
 
 </body>
 </html>

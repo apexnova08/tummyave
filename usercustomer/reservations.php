@@ -18,13 +18,9 @@ session_abort();
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Admin Panel | Menu</title>
     
-    <!--CSS-->
+    <!--CSS AND NAV-->
     <?php 
-    include 'cfolder/css.html';
-    ?>
-    
-    <!--NAV-->
-    <?php 
+    include '../global/uf/css.html';
     include 'nav.php';
     ?>
 
@@ -42,7 +38,7 @@ session_abort();
         </div>
         <div>
             <?php
-            $result = $mysqli->query("SELECT * FROM reservations WHERE user_id = '$userid' AND NOT status = 'Requested' ORDER BY rsv_date desc");
+            $result = $mysqli->query("SELECT * FROM reservations WHERE user_id = '$userid' AND ((NOT status = 'Requested' AND NOT status = 'Reserved') OR DATE(rsv_date) <= '" . getCurrentDate() . "') ORDER BY rsv_date desc");
             while ($row = $result->fetch_assoc()) {
             ?>
             <div class="row epic-li">
@@ -51,10 +47,7 @@ session_abort();
                     <p class="epic-sanssb"><?= getWeekDayName($row["rsv_date"])["dddd"] ?></p>
                 </div>
                 <div class="col-md-4" style="text-align: right;">
-                    <?php
-                    if ($row["status"] === "Reserved") echo '<label class="epic-bebas" style="margin-right: 20px; font-weight: normal; color: #E25111;">Reserved</label>';
-                    elseif ($row["status"] != "Requested") { ?> <label class="epic-bebas" style="margin-right: 20px; font-weight: normal; color: red;"><?= $row["status"] ?></label> <?php }
-                    ?>
+                    <em class="epic-sanssb" style="margin-right: 20px; color: <?= getRHSColor($row["status"]) ?>;"><?= getRHS($row["status"]) ?></em>
                 </div>
             </div>
             <?php
@@ -66,9 +59,14 @@ session_abort();
 
 <!--Page Footer-->
 <?php 
-include 'cfolder/footer.html';
+include '../global/uf/footer.html';
 ?>
 <a href="#" id="back-top"><i class="fa fa-angle-up fa-2x"></i></a>
+
+<!--JS-->
+<?php 
+include '../global/uf/js.html';
+?>
 
 </body>
 </html>

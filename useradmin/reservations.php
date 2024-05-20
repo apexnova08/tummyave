@@ -11,7 +11,6 @@ while ($rowuser = $result_users->fetch_assoc())
 {
     $users[$rowuser["id"]] = $rowuser;
 }
-
 ?>
 
 <!doctype html>
@@ -22,10 +21,9 @@ while ($rowuser = $result_users->fetch_assoc())
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Admin Panel | Menu</title>
     
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
-    
-    <!--NAV-->
+    <!--CSS AND NAV-->
     <?php 
+    include '../global/uf/css.html';
     include 'nav.php';
     ?>
 
@@ -33,74 +31,161 @@ while ($rowuser = $result_users->fetch_assoc())
 
 <body>
 
-
 <!--#####-->
-<div>
-    <div style="position: relative; display: inline-block; width: 100%">
-        <h1 style="float: left; margin: 0;">Reservations</h1>
-        <a href="rsvhistory.php" style="float: right;"><button>History</button></a>
+<?php
+$reqscountraw = $mysqli->query("SELECT COUNT(*) AS total FROM reservations WHERE status = 'Requested' AND DATE(rsv_date) > '" . getCurrentDate() . "'");
+$reqscount = $reqscountraw->fetch_assoc();
+if ($reqscount['total'] != "0")
+{
+?>
+<section id="requests" class="padding bg_white">
+    <div class="container">
+        <div>
+            <h2 class="heading">Reservation &nbsp; Requests</h2>
+            <hr class="heading_space">
+        </div>
+        <div>
+            <?php
+            $result_req = $mysqli->query("SELECT * FROM reservations WHERE status = 'Requested' AND DATE(rsv_date) > '" . getCurrentDate() . "' ORDER BY rsv_date DESC");
+            while ($row = $result_req->fetch_assoc()) {
+            ?>
+            <div class="row epic-li">
+                <div class="col-md-6" style="overflow: hidden; margin-bottom: 10px;">
+                    <h3 class="epic-bebas"><?= getLongDateFormat($row["rsv_date"]) ?></h3>
+                    <label class="epic-sanssb"><?= $users[$row["user_id"]]["name"] ?> &nbsp;•&nbsp; <span><?= $users[$row["user_id"]]["contact"] ?></span></label>
+                    <input type="hidden" value="<?= $row["remarks"] ?>">
+                    <input type="hidden" value="<?= $row["id"] ?>">
+                </div>
+                <div class="col-md-6 right">
+                    <button id="btnReq" class="epic-btn">Details</button>
+                </div>
+            </div>
+            <?php
+            } if (mysqli_num_rows($result_req) === 0) echo "<p class='epic-sansr' style='text-align: center; color: #777'>( Empty )</p>";
+            ?>
+        </div>
     </div>
-    <table>
-        <tr style="background-color: darkorange; color: black;">
-            <td>Reservation Date</td>
-            <td>Name</td>
-            <td>Contact</td>
-        </tr>
+</section>
+<?php
+}
+?>
 
-        <?php
-        $result_rsv = $mysqli->query("SELECT * FROM reservations WHERE status = 'Reserved'");
-        while ($rowrsv = $result_rsv->fetch_assoc()) {
-        ?>
-        <tr>
-            <td><?= $rowrsv["rsv_date"] ?></td>
-            <td><?= $users[$rowrsv["user_id"]]["name"] ?></td>
-            <td><?= $users[$rowrsv["user_id"]]["contact"] ?></td>
-        </tr>
-        <?php
-        }
-        ?>
-    </table>
-    <?php
-    if (mysqli_num_rows($result_rsv) === 0) echo "<h2 style='width: 100%; text-align: center;'>(Empty)</h2>";
-    ?>
+<section id="reservations" class="padding bg_white">
+    <div class="container">
+        <div style="text-align: right;"><a href="rsvhistory.php" class="epic-a">Reservation History ></a></div>
+        <div>
+            <h2 class="heading">Reservations</h2>
+            <hr class="heading_space">
+        </div>
+        <div>
+            <?php
+            $result_rsv = $mysqli->query("SELECT * FROM reservations WHERE status = 'Reserved' AND DATE(rsv_date) > '" . getCurrentDate() . "' ORDER BY rsv_date DESC");
+            while ($row = $result_rsv->fetch_assoc()) {
+            ?>
+            <div class="row epic-li">
+                <div class="col-md-6" style="overflow: hidden; margin-bottom: 10px;">
+                    <h3 class="epic-bebas"><?= getLongDateFormat($row["rsv_date"]) ?></h3>
+                    <label class="epic-sanssb"><?= $users[$row["user_id"]]["name"] ?> &nbsp;•&nbsp; <span><?= $users[$row["user_id"]]["contact"] ?></span></label>
+                    <input type="hidden" value="<?= $row["remarks"] ?>">
+                    <input type="hidden" value="<?= $row["id"] ?>">
+                </div>
+                <div class="col-md-6 right">
+                    <button id="btnRsv" class="epic-btn">Details</button>
+                </div>
+            </div>
+            <?php
+            } if (mysqli_num_rows($result_rsv) === 0) echo "<p class='epic-sansr' style='text-align: center; color: #777'>( Empty )</p>";
+            ?>
+        </div>
+    </div>
+</section>
+
+<!-- The Modal -->
+<div id="epicModal" class="epic-modal">
+    <div class="epic-modal-content" style="width: 50%;">
+        <div class="epic-modal-header">
+            <span class="epic-modal-close">&times;</span>
+            <h2>Reservation &nbsp; Details</h2>
+        </div>
+        <div class="epic-modal-body" style="overflow: hidden;">
+            <h2 id="modalDateText">Date</h2>
+            <p id="modalCustomer" class="epic-sanssb epic-txt16">Customer Name &nbsp;•&nbsp; Contact</p>
+            <p id="modalRemarks" class="epic-sans epic-txt16">"<em>Remarks</em>"</p>
+            <div style="overflow: hidden; margin-top: 20px;">
+                <form id="formAccept" enctype="multipart/form-data" method="post" action="processes/reserve-process.php">
+                    <button name="accept" class="epic-btn" style="float: right; margin-left: 10px;">Accept</button>
+                    <input id="idAccept" type="hidden" name="id"/>
+                </form>
+                <form enctype="multipart/form-data" method="post" action="processes/reserve-process.php">
+                    <button id="btnRed" class="epic-btnred" style="float: right;">Red Button</button>
+                    <input id="idRed" type="hidden" name="id"/>
+                </form>
+            </div>
+        </div>
+        <div class="epic-modal-footer"><i>tummy-avenue.com</i></div>
+    </div>
 </div>
 
-<div>
-    <h1>Requests</h1>
-    <table>
-        <tr style="background-color: darkorange; color: black;">
-            <td>Reservation Date</td>
-            <td>Name</td>
-            <td>Contact</td>
-            <td>Date Requested</td>
-            <td></td>
-        </tr>
+<a href="#" id="back-top"><i class="fa fa-angle-up fa-2x"></i></a>
 
-        <?php
-        $result_req = $mysqli->query("SELECT * FROM reservations WHERE status = 'Requested'");
-        while ($rowreq = $result_req->fetch_assoc()) {
-        ?>
-        <tr>
-            <td><?= $rowreq["rsv_date"] ?></td>
-            <td><?= $users[$rowreq["user_id"]]["name"] ?></td>
-            <td><?= $users[$rowreq["user_id"]]["contact"] ?></td>
-            <td><?= $rowreq["req_date"] ?></td>
-            <td><form method="post" action="processes/reserve-process.php">
-                <input type="submit" name="reserve" value="accept"/>
-                <input type="hidden" name="id" value="<?= $rowreq['id']; ?>"/>
-            </form></td>
-        </tr>
-        <?php
-        }
-        ?>
-    </table>
-    <?php
-    if (mysqli_num_rows($result_req) === 0)
-    {
-        echo "<h2 style='width: 100%; text-align: center;'>(Empty)</h2>";
-    }
-    ?>
-</div>
+<!--JS-->
+<?php 
+include '../global/uf/js.html';
+?>
+
+<script>
+let txtDate = document.getElementById("modalDateText");
+let txtCustomer = document.getElementById("modalCustomer");
+let txtRemarks = document.getElementById("modalRemarks");
+
+let formAccept = document.getElementById("formAccept");
+let btnRed = document.getElementById("btnRed");
+let idAccept = document.getElementById("idAccept");
+let idRed = document.getElementById("idRed");
+
+const reqBtn = document.querySelectorAll("#btnReq");
+reqBtn.forEach(bt=>{
+    bt.addEventListener('click', (e) => {
+        valsSec = e.target.parentElement.parentElement.children[0];
+        txtDate.innerHTML = valsSec.children[0].innerHTML;
+        txtCustomer.innerHTML = valsSec.children[1].innerHTML;
+
+        if (valsSec.children[2].value)
+            txtRemarks.innerHTML = '<em>"' + valsSec.children[2].value + '"</em>';
+        else
+            txtRemarks.innerHTML = "";
+
+        formAccept.hidden = false;
+        btnRed.name = "reject";
+        btnRed.innerHTML = "Deny";
+        idAccept.value = valsSec.children[3].value;
+        idRed.value = valsSec.children[3].value;
+        
+        epicOpenModal();
+    })
+})
+
+const rsvBtn = document.querySelectorAll("#btnRsv");
+rsvBtn.forEach(bt=>{
+    bt.addEventListener('click', (e) => {
+        valsSec = e.target.parentElement.parentElement.children[0];
+        txtDate.innerHTML = valsSec.children[0].innerHTML;
+        txtCustomer.innerHTML = valsSec.children[1].innerHTML;
+
+        if (valsSec.children[2].value)
+            txtRemarks.innerHTML = '<em>"' + valsSec.children[2].value + '"</em>';
+        else
+            txtRemarks.innerHTML = "";
+
+        formAccept.hidden = true;
+        btnRed.name = "close";
+        btnRed.innerHTML = "Cancel Reservation";
+        idRed.value = valsSec.children[3].value;
+        
+        epicOpenModal();
+    })
+})
+</script>
 
 </body>
 </html>

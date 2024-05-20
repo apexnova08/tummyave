@@ -1,3 +1,21 @@
+<?php
+$mysqli = require __DIR__ . "/database.php";
+require __DIR__ . "/global/funcs.php";
+
+session_start();
+$userid = "empty";
+if (isset($_SESSION["user_id"])) $userid = $_SESSION["user_id"];
+session_abort();
+
+// GET USERS
+$users = array();
+$result_users = $mysqli->query("SELECT * FROM users");
+while ($rowuser = $result_users->fetch_assoc())
+{
+    $users[$rowuser["id"]] = $rowuser;
+}
+?>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -210,84 +228,40 @@ include 'global/customerheader.php';
   </div>
 </section>
 
-
-<!--Tummy News-->
-<section id="services" class="padding-bottom">
+<section id="news" class="padding bg_white">
   <div class="container">
-    <div class="row">
-      <div class="col-md-8">
-         <h2 class="heading">Tummy &nbsp; News</h2>
-         <hr class="heading_space">
-         <div class="slider_wrap">
-        <div id="service-slider" class="owl-carousel">
-          <div class="item">
-            <div class="item_inner">
-            <div class="image">
-              <img src="images/Schedule.jpg" style="width: 350px; height: 350px;" alt="Services Image">
-              <div class="overlay">
-                        <a class="fancybox overlay-inner" href="images/Schedule.jpg" data-fancybox-group="services"><i class=" icon-eye6"></i></a>
-                </div>
-            </div>
-              <h3>Operating Schedule!</h3>
-              <p>Check out Tummy Avenue's operating schedules!!</p>
-            </div>
-          </div>
-          <div class="item">
-            <div class="item_inner">
-              <div class="image">
-              <img src="images/NewMenu.jpg" style="width: 350px; height: 350px;" alt="Services Image">
-              <div class="overlay">
-                        <a class="fancybox overlay-inner" href="images/NewMenu.jpg" data-fancybox-group="services"><i class=" icon-eye6"></i></a>
-                </div>
-              </div>
-              <h3>New Menu!!</h3>
-              <p>Check out our new menu!!</p>
-            </div>
-          </div>
-          <div class="item">
-            <div class="item_inner">
-              <div class="image">
-              <img src="images/NA.jpg" alt="Services Image">
-              <div class="overlay">
-                        <a class="fancybox overlay-inner" href="images/NA.jpg" data-fancybox-group="services"><i class=" icon-eye6"></i></a>
-                </div>
-              </div>
-              <h3>News</h3>
-              <p>Description</p>
-            </div>
-          </div>
-          <div class="item">
-            <div class="item_inner">
-              <div class="image">
-              <img src="images/NA.jpg" alt="Services Image">
-              <div class="overlay">
-                        <a class="fancybox overlay-inner" href="images/NA.jpg" data-fancybox-group="services"><i class=" icon-eye6"></i></a>
-                </div>
-              </div>
-              <h3>News</h3>
-              <p>Description</p>
-            </div>
-          </div>
-        </div>
-        </div>
+      <div>
+          <h2 class="heading">Tummy &nbsp; News</h2>
+          <hr class="heading_space">
       </div>
-      <div class="col-md-4">
-        <h2 class="heading">Best &nbsp; Sellers</h2>
-        <hr class="heading_space">
-        <ul class="menu_widget">
-          <li>Potato Wedges Ultimate<span>₱159.00</span></li>
-          <li>Gab's Chicken Burger<span>₱229.00</span></li>
-          <li>Katsudon<span>₱189.00</span></li>
-          <li>Sisig Bowl<span>₱179.00</span></li>
-          <li>Asian Pasta<span>₱169.00</span></li>
-          <li>Porksilog<span>₱169.00</span></li>
-          <li>Honey Butter Chicken Wings<span>(Flavor)</span></li>
-          <li>BBQ Chicken Wings<span>(Flavor)</span></li>
-        </ul>
-      </div>
+        <div class="col-md-12">
+            <div class="cheffs_wrap_slider">
+                <div id="news-slider" class="owl-carousel">
+                <?php
+                $resultnews = $mysqli->query("SELECT * FROM news WHERE NOT hidden");
+                while ($row = $resultnews->fetch_assoc()) {
+                ?>
+                <div id="newsItem" class="item epic-texthover">
+                  <div class="news_content" style="pointer-events: none;">
+                    <img src="img-uploads/<?= $row["image"] ?>" style="width: center; height: 255px; object-fit: cover;"  alt="news banner">
+                    <div style="margin-top: 10px;">
+                        <h3><?= $row["title"] ?></h3>
+                        <p><?= getLongDateFormat($row["date"]) ?></p>
+                    </div>
+                    <form>
+                      <input type="hidden" value="<?= $row["content"] ?>">
+                    </form>
+                  </div>
+                </div>
+                <?php
+                }
+                ?>
+            </div>
+        </div>
     </div>
   </div>
 </section>
+
 
 
 <!-- image with content -->
@@ -307,175 +281,8 @@ include 'global/customerheader.php';
   </div>
 </section>
 
-
-
-<!-- Food Gallery -->
-<section id="gallery" class="padding">
-  <div class="container">
-      <div class="row">
-     <div class="col-md-12 text-center">
-        <h2 class="heading ">Featured &nbsp; Dishes</h2>
-        <hr class="heading_space">
-        <div class="work-filter">
-          <ul class="text-center">
-             <li><a href="javascript:;" data-filter="all" class="active filter">All Foods</a></li>
-             <li><a href="javascript:;" data-filter=".Breakfast" class="filter">All Day Breakfast</a></li>
-             <li><a href="javascript:;" data-filter=".AP" class="filter">Appetizers & Pasta</a></li>
-             <li><a href="javascript:;" data-filter=".BS" class="filter">Burgers & Sandwiches</a></li>
-             <li><a href="javascript:;" data-filter=".ChickenWings" class="filter">Chicken Wings</a></li>
-             <li><a href="javascript:;" data-filter=".Bowls" class="filter">Chow Panlaban & Bowls</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-     <div class="row">
-      <div class="zerogrid">
-        <div class="wrap-container">
-          <div class="wrap-content clearfix home-gallery">
-            <div class="col-1-4 mix work-item ChickenWings">
-              <div class="wrap-col">
-                <div class="item-container">
-                  <div class="image">
-                    <img src="images/Different Wings.jpg" style="width: 350px; height: 228px;" alt="cook"/>
-                    <div class="overlay">
-                        <a class="fancybox overlay-inner" href="images/Different Wings.jpg" data-fancybox-group="gallery"><i class=" icon-eye6"></i></a>
-                    </div>
-                  </div> 
-                </div>
-              </div>
-            </div>
-            <div class="col-1-4 mix work-item BS">
-              <div class="wrap-col">
-                <div class="item-container">
-                  <div class="image">
-                    <img src="images/Shrimp Burger.jpg" style="width: 350px; height: 228px;" alt="cook"/>
-                    <div class="overlay">
-                        <a class="fancybox overlay-inner" href="images/Shrimp Burger.jpg" data-fancybox-group="gallery"><i class=" icon-eye6"></i></a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-1-4 mix work-item BS">
-              <div class="wrap-col">
-                <div class="item-container">
-                  <div class="image">
-                    <img src="images/burger sizzle2.jpg" style="width: 350px; height: 228px;" alt="cook"/>
-                    <div class="overlay">
-                        <a class="fancybox overlay-inner" href="images/burger sizzle2.jpg" data-fancybox-group="gallery"><i class=" icon-eye6"></i></a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-1-4 mix work-item AP">
-              <div class="wrap-col">
-                <div class="item-container">
-                  <div class="image">
-                    <img src="images/asian pasta.jpg" style="width: 350px; height: 228px;" alt="cook"/>
-                    <div class="overlay">
-                        <a class="fancybox overlay-inner" href="images/asian pasta.jpg" data-fancybox-group="gallery"><i class=" icon-eye6"></i></a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>  
-            <div class="col-1-4 mix work-item AP">
-              <div class="wrap-col">
-                <div class="item-container">
-                  <div class="image">
-                    <img src="images/nachos and mozza.jpg" style="width: 350px; height: 228px;" alt="cook"/>
-                    <div class="overlay">
-                        <a class="fancybox overlay-inner" href="images/nachos and mozza.jpg" data-fancybox-group="gallery"><i class=" icon-eye6"></i></a>
-                    </div> 
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-1-4 mix work-item Bowls">
-              <div class="wrap-col">
-                <div class="item-container">
-                  <div class="image">
-                    <img src="images/Shrimp in a Bowl.jpg" style="width: 350px; height: 228px;" alt="cook"/>
-                    <div class="overlay">
-                        <a class="fancybox overlay-inner" href="images/Shrimp in a Bowl.jpg" data-fancybox-group="gallery"><i class=" icon-eye6"></i></a>
-                    </div>
-                  </div> 
-                </div>
-              </div>
-            </div>
-            <div class="col-1-4 mix work-item ChickenWings">
-              <div class="wrap-col">
-                <div class="item-container">
-                  <div class="image">
-                    <img src="images/Parmesan.jpg" style="width: 350px; height: 228px;" alt="cook"/>
-                    <div class="overlay">
-                        <a class="fancybox overlay-inner" href="images/Parmesan.jpg" data-fancybox-group="gallery"><i class=" icon-eye6"></i></a>
-                    </div>
-                  </div> 
-                </div>
-              </div>
-            </div>
-            <div class="col-1-4 mix work-item Bowls">
-              <div class="wrap-col">
-                <div class="item-container">
-                  <div class="image">
-                    <img src="images/Sisig Bowl.jpg" style="width: 350px; height: 228px;" alt="cook"/>
-                    <div class="overlay">
-                        <a class="fancybox overlay-inner" href="images/Sisig Bowl.jpg" data-fancybox-group="gallery"><i class=" icon-eye6"></i></a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-       </div>
-      </div>
-  </div>
-</section>
-
 <!-- Reservation  -->
 
-
-
-
-<!-- facts counter  -->
-<section id="facts">
-  <div class="container">
-    <div class="row number-counters"> 
-      <!-- first count item -->
-      <div class="col-sm-3 col-xs-12 text-center wow fadeInDown" data-wow-duration="500ms" data-wow-delay="300ms">
-        <div class="counters-item row">
-        <i class="icon-smile"></i> 
-        <h2><strong data-to="7923">0</strong></h2>
-          <p>Happy Customers</p>
-        </div>
-      </div>
-      <div class="col-sm-3 col-xs-12 text-center wow fadeInDown" data-wow-duration="500ms" data-wow-delay="600ms">
-        <div class="counters-item  row"> 
-        <i class="icon-food"></i>
-        <h2><strong data-to="4057">0</strong></h2>
-          <p>Dishes Served</p>
-        </div>
-      </div>
-      <div class="col-sm-3 col-xs-12 text-center wow fadeInDown" data-wow-duration="500ms" data-wow-delay="900ms">
-        <div class="counters-item  row"> 
-        <i class="icon-glass"></i>
-        <h2><strong data-to="510">0</strong></h2>
-          <p>Total Beverages</p>
-        </div>
-      </div>
-      <div class="col-sm-3 col-xs-12 text-center wow fadeInDown" data-wow-duration="500ms" data-wow-delay="1200ms">
-        <div class="counters-item  row"> 
-        <i class="icon-coffee"></i>
-        <h2><strong data-to="1350">0</strong></h2>
-          <p>Cup of coffees</p>
-        </div>
-      </div>
-    </div>  
-  </div>
-</section>
 
 
 
@@ -559,18 +366,17 @@ include 'global/customerheader.php';
     <div class="row">
       <div class="col-md-12">
       <div id="testinomial-slider" class="owl-carousel text-center">
+        <?php
+        $resultnews = $mysqli->query("SELECT * FROM feedbacks WHERE NOT hidden");
+        while ($row = $resultnews->fetch_assoc()) {
+        ?>
         <div class="item">
-          <h3>5 Stars!! I'll invite my friends next time!!</h3>
-          <p>Jedaiah Carmel</p>
+          <h3><?= $row["feedback"] ?></h3>
+          <p><?= $users[$row["user_id"]]["name"] ?></p>
         </div>
-        <div class="item">
-          <h3>Good food, Nice staff and customer care. A good service overall</h3>
-          <p>Dex Amit</p>
-        </div>
-        <div class="item">
-          <h3>Awesome Food!! I want to order more!!</h3>
-          <p>Harold Caimol</p>
-        </div>
+        <?php
+        }
+        ?>
        </div>
       </div>
     </div>
@@ -583,10 +389,45 @@ include 'global/customerfooter.html';
 
 <a href="#" id="back-top"><i class="fa fa-angle-up fa-2x"></i></a>
 
+<!-- The Modal -->
+<div id="epicModal" class="epic-modal">
+    <div class="epic-modal-content" style="width: 50%;">
+        <div class="epic-modal-header">
+            <span class="epic-modal-close">&times;</span>
+            <h2>Tummy &nbsp; News</h2>
+        </div>
+        <div class="epic-modal-body row">
+          <img id="modalNewsImage" class="col-md-12" src="img-uploads/placeholder.png" style="height: 255px; object-fit: cover;" alt="news image"/>
+            <div class="col-md-12 container" style="margin-top: 20px;">
+                <h2 id="modalNewsTitle">News Title</h2>
+                <p id="modalNewsDate" class="epic-sanssb" style="font-size: 18px;">Date</p>
+            </div>
+            <div class="col-md-12 container" style="margin-top: 20px;">
+                <p id="modalNewsContent" class="epic-sanssb">Content</p>
+            </div>
+        </div>
+        <div class="epic-modal-footer"><i>tummy-avenue.com</i></div>
+    </div>
+</div>
+
 <!--JS-->
 <?php 
 include 'global/customerjs.html';
 ?>
+<script>
+const newsArr = document.querySelectorAll("#newsItem");
+
+newsArr.forEach(bt=>{
+    bt.addEventListener('click', (e) => {
+      const newsitem = e.target.children[0].children;
+      document.getElementById("modalNewsImage").src =  newsitem[0].src;
+      document.getElementById("modalNewsTitle").innerHTML =  newsitem[1].children[0].innerHTML;
+      document.getElementById("modalNewsDate").innerHTML =  newsitem[1].children[1].innerHTML;
+      document.getElementById("modalNewsContent").innerHTML =  newsitem[2].children[0].value;
+      epicOpenModal();
+    })
+})
+</script>
  
 </body>
 </html>

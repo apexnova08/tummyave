@@ -13,89 +13,94 @@ $mysqli = require __DIR__ . "/../database.php";
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Admin Panel | Menu</title>
     
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
-    
-    <!--NAV-->
+    <!--CSS AND NAV-->
     <?php 
+    include '../global/uf/css.html';
     include 'nav.php';
     ?>
+
 </head>
 
 <body>
 
 <!--#####-->
-<div>
-    <div style="position: relative; display: inline-block; width: 100%">
-        <h1 style="float: left; margin: 0;">Active Accounts</h1>
-        <a href="../account/createaccount.php" style="float: right;"><button>Create Account</button></a>
+<section id="topBtns" style="padding-top: 30px;">
+    <div class="container" style=" overflow: hidden;">
+        <a href="../account/createaccount.php"><button style="float: right;" class="epic-btn">Create Account</button></a>
     </div>
-    <table>
-        <tr style="background-color: darkorange; color: black;">
-            <td>ID</td>
-            <td>Name</td>
-            <td>Type</td>
-            <td></td>
-        </tr>
+</section>
 
-        <?php
-        $result_active = $mysqli->query("SELECT * FROM users WHERE (type = 2 OR type = 3) AND disabled = false");
-        while ($row = $result_active->fetch_assoc()) {
-        ?>
-        <tr>
-            <td><?= $row["id"] ?></td>
-            <td><?= $row["username"] ?></td>
-            <td><?= $usertypes[$row["type"]] ?></td>
-            <td><form method="post" action="processes/account-process.php">
-                <input style="background-color: red;" type="submit" name="disable" value="Disable"/>
-                <input type="hidden" name="id" value="<?= $row['id'] ?>"/>
-            </form></td>
-        </tr>
-        <?php
-        }
-        ?>
-    </table>
-    <?php
-    if (mysqli_num_rows($result_active) === 0)
-    {
-        echo "<h2 style='width: 100%; text-align: center;'>(Empty)</h2>";
-    }
-    ?>
-</div></br></br>
+<section id="accountsAdmin" class="padding bg_white">
+    <div class="container">
+        <div style="text-align: right;"><a href="disabledaccs.php" class="epic-a">Disabled accounts ></a></div>
+        <div>
+            <h2 class="heading">Admin &nbsp; Accounts</h2>
+            <hr class="heading_space">
+        </div>
+        <div>
+            <?php
+            $result_admin = $mysqli->query("SELECT * FROM users WHERE type = 2 AND NOT disabled");
+            while ($row = $result_admin->fetch_assoc()) {
+            ?>
+            <div class="row epic-li">
+                <div class="col-md-8">
+                    <div style="float: left; margin: 10px;">
+                        <h3 class="epic-sanssb"><?= $row["name"] ?></h3>
+                        <label class="epic-sanssb">Account ID: <?= $row["id"] ?></label>
+                    </div>
+                </div>
+                <div class="col-md-4 right">
+                    <form style="margin: 10px;" enctype="multipart/form-data" method="post" action="processes/account-process.php">
+                        <input type="hidden" name="id" value="<?= $row["id"] ?>">
+                        <input type="submit" class="epic-btnrred" name="disable" value="Disable">
+                    </form>
+                </div>
+            </div>
+            <?php
+            } if (mysqli_num_rows($result_admin) === 0) echo "<p class='epic-sansr' style='text-align: center; color: #777'>( Empty )</p>";
+            ?>
+        </div>
+    </div>
+</section>
 
-<div>
-    <h1>Disabled Accounts</h1>
-    <table>
-        <tr style="background-color: darkorange; color: black;">
-            <td>ID</td>
-            <td>Name</td>
-            <td>Type</td>
-            <td></td>
-        </tr>
+<section id="accountsCashier" class="padding bg_white">
+    <div class="container">
+        <div>
+            <h2 class="heading">Cashier &nbsp; Accounts</h2>
+            <hr class="heading_space">
+        </div>
+        <div>
+            <?php
+            $result_cashier = $mysqli->query("SELECT * FROM users WHERE type = 3 AND NOT disabled");
+            while ($row = $result_cashier->fetch_assoc()) {
+            ?>
+            <div class="row epic-li">
+                <div class="col-md-8">
+                    <div style="float: left; margin: 10px;">
+                        <h3 class="epic-sanssb"><?= $row["name"] ?></h3>
+                        <label class="epic-sanssb">Account ID: <?= $row["id"] ?></label>
+                    </div>
+                </div>
+                <div class="col-md-4 right">
+                    <form style="margin: 10px;" enctype="multipart/form-data" method="post" action="processes/account-process.php">
+                        <input type="hidden" name="id" value="<?= $row["id"] ?>">
+                        <input type="submit" class="epic-btnrred" name="disable" value="Disable">
+                    </form>
+                </div>
+            </div>
+            <?php
+            } if (mysqli_num_rows($result_cashier) === 0) echo "<p class='epic-sansr' style='text-align: center; color: #777'>( Empty )</p>";
+            ?>
+        </div>
+    </div>
+</section>
 
-        <?php
-        $result_disabled = $mysqli->query("SELECT * FROM users WHERE (type = 2 OR type = 3) AND disabled = true");
-        while ($row = $result_disabled->fetch_assoc()) {
-        ?>
-        <tr>
-            <td><?= $row["id"] ?></td>
-            <td><?= $row["username"] ?></td>
-            <td><?= $usertypes[$row["type"]] ?></td>
-            <td><form method="post" action="processes/account-process.php">
-                <input type="submit" name="enable" value="enable"/>
-                <input type="hidden" name="id" value="<?= $row['id'] ?>"/>
-            </form></td>
-        </tr>
-        <?php
-        }
-        ?>
-    </table>
-    <?php
-    if (mysqli_num_rows($result_disabled) === 0)
-    {
-        echo "<h2 style='width: 100%; text-align: center;'>(Empty)</h2>";
-    }
-    ?>
-</div>
+<a href="#" id="back-top"><i class="fa fa-angle-up fa-2x"></i></a>
+
+<!--JS-->
+<?php 
+include '../global/uf/js.html';
+?>
 
 </body>
 </html>

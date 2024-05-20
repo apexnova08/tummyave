@@ -16,9 +16,5 @@ if ($mysqli->query($sql))
 {
     echo '<script type="text/javascript">', 'history.go(-1);', '</script>';
 }
-else
-{
-    echo "sex";
-    die ("sex");
-}
+else die ("error");
 ?>

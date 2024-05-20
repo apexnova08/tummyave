@@ -18,13 +18,9 @@ session_abort();
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Admin Panel | Menu</title>
     
-    <!--CSS-->
+    <!--CSS AND NAV-->
     <?php 
-    include 'cfolder/css.html';
-    ?>
-    
-    <!--NAV-->
-    <?php 
+    include '../global/uf/css.html';
     include 'nav.php';
     ?>
 
@@ -42,24 +38,29 @@ session_abort();
         </div>
         <div>
             <?php
-            $result = $mysqli->query("SELECT * FROM orders WHERE user_id = '$userid' AND NOT is_closed");
-            while ($row = $result->fetch_assoc()) {
+            $result_active = $mysqli->query("SELECT * FROM orders WHERE user_id = '$userid' AND NOT is_closed ORDER BY date DESC");
+            while ($row = $result_active->fetch_assoc()) {
             ?>
             <div class="row epic-li">
-                <div class="col-md-8">
-                    <h3 class="epic-bebas"><?= getLongDateFormat($row["date"]) ?></h3></br>
-                    <h4 class="epic-sanssb"><?= $row["total_items"] ?> items &nbsp;•&nbsp; <span class="epic-sanss">₱</span><?= $row["total_cost"] ?>.00</h4>
-                    <p class="epic-sanssb"><i><?= $row["status"] ?></i></p>
+                <div class="col-md-6">
+                    <div style="float: left; margin: 10px;">
+                        <h3 class="epic-bebas">Order &nbsp; Ref#<?= $row["id"] ?></h3>
+                        <label class="epic-sanssb"><?= getLongDateFormat($row["date"]) ?></label>
+                    </div>
                 </div>
-                <div class="col-md-4 right">
-                    <form enctype="multipart/form-data" method="post" action="orderpage.php">
+                <div class="col-md-6 right">
+                    <form style="float: right; margin: 10px;" enctype="multipart/form-data" method="post" action="orderpage.php">
                         <input type="hidden" name="id" value="<?= $row["id"] ?>">
                         <input type="submit" class="epic-btn" value="Details">
                     </form>
+                    <div style="float: right; margin: 10px;">
+                        <h4 class="epic-sanssb"><?= $row["total_items"] ?> items &nbsp;•&nbsp; <span class="epic-sanss">₱</span><?= $row["total_cost"] ?>.00</h4>
+                        <label class="epic-sanssb"><i><?= $row["status"] ?></i></label>
+                    </div>
                 </div>
             </div>
             <?php
-            } if (mysqli_num_rows($result) === 0) echo "<p class='epic-sansr' style='text-align: center; color: #777'>( Empty )</p>";
+            } if (mysqli_num_rows($result_active) === 0) echo "<p class='epic-sansr' style='text-align: center; color: #777'>( Empty )</p>";
             ?>
         </div>
     </div>
@@ -67,9 +68,14 @@ session_abort();
 
 <!--Page Footer-->
 <?php 
-include 'cfolder/footer.html';
+include '../global/uf/footer.html';
 ?>
 <a href="#" id="back-top"><i class="fa fa-angle-up fa-2x"></i></a>
+
+<!--JS-->
+<?php 
+include '../global/uf/js.html';
+?>
 
 </body>
 </html>

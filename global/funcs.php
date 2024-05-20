@@ -3,6 +3,22 @@
 $usertypes = array("0"=>"Super Admin", "1"=>"Owner", "2"=>"Admin", "3"=>"Cashier", "4"=>"Customer");
 $boolstring = array("0"=>"False", "1"=>"True");
 $paidString = array("0"=>"Unpaid", "1"=>"Paid");
+$enabledString = array("0"=>"Enabled", "1"=>"Disabled");
+$publicString = array("0"=>"Public", "1"=>"Private");
+$boolColor = array("0"=>"Green", "1"=>"Red");
+
+// # RESERVATIONS
+function getRHS(string $status) // Reservation History Status
+{
+    if ($status === "Requested") return "Missed";
+    else return $status;
+}
+function getRHSColor(string $status)
+{
+    if ($status === "Reserved") return "Green";
+    elseif ($status === "Denied" || $status === "Cancelled") return "Red";
+    else return "Grey";
+}
 
 
 

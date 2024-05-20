@@ -8,7 +8,8 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 }
 
 session_start();
-$userid = $_SESSION["user_id"];
+$userid = "empty";
+if (isset($_SESSION["user_id"])) $userid = $_SESSION["user_id"];
 session_abort();
 
 $sql = "INSERT INTO carts (user_id, food_id, amount) VALUES (?, ?, ?)";
@@ -21,10 +22,6 @@ if ($stmt->execute())
 {
     header("location: ../../food.php");
 }
-else
-{
-    echo "sex";
-    die ("sex");
-}
+else die ("Error.");
 
 ?>

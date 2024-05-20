@@ -3,7 +3,7 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <?php 
-include 'global/customercss.html';
+include '../global/uf/css.html';
 ?>
 </head>
 <body>
@@ -34,7 +34,7 @@ include 'global/customercss.html';
 </div>
 
 <?php 
-include 'global/customerjs.html';
+include '../global/uf/js.html';
 ?>
 
 </body>

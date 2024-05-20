@@ -19,7 +19,7 @@ if (!$stmt->prepare($sql)) {
 mysqli_stmt_bind_param($stmt, "sssss", $name, $email, $username, $passwordhash, $contact);
 if ($stmt->execute())
 {
-    header("location: register-success.html");
+    header("location: ../register-success.php");
 }
 else
 {

@@ -1,7 +1,7 @@
 <?php
-include 'top.php';
+include '../global/uf/top.html';
 ?>
-<section class="epic-bebas epic-header">
+<section class="epic-bebas epic-header" style="text-align: center;">
     <ul>
         <a href="../"><li>Home</li></a>
         <a href="reservations.php"><li>Reservations</li></a>

@@ -20,116 +20,151 @@ if (!$user) die ("Error: user not found");
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Admin Panel | Menu</title>
     
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+    <!--CSS-->
+    <?php 
+    include '../global/uf/css.html';
+    include '../global/uf/top.html';
+    ?>
+
 </head>
 
 <body>
 
-
 <!--#####-->
-<button onclick="goBack()">Back</button>
-
-<div>
-    <h1>Your <?= $usertypes[$user["type"]] ?> Account</h1>
-    <h3>Information</h3>
-    <form enctype="multipart/form-data" action="processes/update-process.php" method="post">
-        <label for="name">Name:</label>
+<section id="section_name" class="padding bg_white">
+    <div class="container">
+        <div style="text-align: right;"><a href="javascript:history.go(-1);" class="epic-a"><< Back</a></div>
+        <div class="text-center">
+            <h2 class="heading">Your &nbsp; <?= $usertypes[$user["type"]] ?> &nbsp; Account</h2>
+            <hr class="heading_space">
+        </div>
         <div>
-            <input id="txtVal" style="float: left;" name="name" type="text" value="<?= $user["name"] ?>" disabled="true">
-            <button style="margin-left: 20px;" id="btnEdit" type="button">Edit</button>
-            <button style="margin-left: 20px;" hidden="true">Update</button>
-            <button style="background-color: red;" id="btnCancelEdit" type="button" hidden="true">Cancel</button>
-        </div>
-    </form>
-    <form enctype="multipart/form-data" action="processes/update-process.php" method="post">
-        <label for="username">Username:</label>
-        <div>
-            <input id="txtVal" style="float: left;" name="username" type="text" value="<?= $user["username"] ?>" disabled="true">
-            <button style="margin-left: 20px;" id="btnEdit" type="button">Edit</button>
-            <button style="margin-left: 20px;" hidden="true">Update</button>
-            <button style="background-color: red;" id="btnCancelEdit" type="button" hidden="true">Cancel</button>
-        </div>
-    </form>
+            <form class="epic-form" enctype="multipart/form-data" action="processes/update-process.php" method="post">
+                <div>
+                    <div style="margin: 0;">
+                        <label>Name</label>
+                        <button id="btnEdit" class="epic-btnr" style="margin-left: 20px;" type="button">Edit</button>
+                    </div>
+                    <input placeholder="Name" id="txtVal" class="epic-txtbox" style="float: left;" name="name" type="text" value="<?= $user["name"] ?>" disabled>
+                    <div style="margin: 0; padding-top: 10px;" hidden>
+                        <button class="epic-btnr" style="float: right;">Update</button>
+                        <button id="btnCancelEdit" class="epic-btnrred" style="float: right; margin-right: 10px;" type="button">Cancel</button>
+                    </div>
+                </div>
+            </form>
+            <form class="epic-form" enctype="multipart/form-data" action="processes/update-process.php" method="post">
+                <div>
+                    <div style="margin: 0;">
+                        <label>Username</label>
+                        <button id="btnEdit" class="epic-btnr" style="margin-left: 20px;" type="button">Edit</button>
+                    </div>
+                    <input placeholder="Username" id="txtVal" class="epic-txtbox" style="float: left;" name="username" type="text" value="<?= $user["username"] ?>" disabled>
+                    <div style="margin: 0; padding-top: 10px;" hidden>
+                        <button class="epic-btnr" style="float: right;">Update</button>
+                        <button id="btnCancelEdit" class="epic-btnrred" style="float: right; margin-right: 10px;" type="button">Cancel</button>
+                    </div>
+                </div>
+            </form>
 
-    <!-- ## FOR CUSTOMERS ## -->
-    <?php
-    if ($user["type"] === "4")
-    {
-    ?>
-    <form enctype="multipart/form-data" action="processes/update-process.php" method="post">
-        <label for="email">Email:</label>
-        <div>
-            <input id="txtVal" style="float: left;" name="email" type="email" value="<?= $user["email"] ?>" disabled="true">
-            <button style="margin-left: 20px;" id="btnEdit" type="button">Edit</button>
-            <button style="margin-left: 20px;" hidden="true">Update</button>
-            <button style="background-color: red;" id="btnCancelEdit" type="button" hidden="true">Cancel</button>
-        </div>
-    </form>
-    <form enctype="multipart/form-data" action="processes/update-process.php" method="post">
-        <label for="contact">Contact No.:</label>
-        <div>
-            <input id="txtVal" style="float: left;" name="contact" type="text" maxlength="11" value="<?= $user["contact"] ?>" disabled="true">
-            <button style="margin-left: 20px;" id="btnEdit" type="button">Edit</button>
-            <button style="margin-left: 20px;" hidden="true">Update</button>
-            <button style="background-color: red;" id="btnCancelEdit" type="button" hidden="true">Cancel</button>
-        </div>
-    </form>
-    <?php
-    }
-    ?>
+            <!-- ## FOR CUSTOMERS ## -->
+            <?php
+            if ($user["type"] === "4")
+            {
+            ?>
+            <form class="epic-form" enctype="multipart/form-data" action="processes/update-process.php" method="post">
+                <div>
+                    <div style="margin: 0;">
+                        <label>Contact No.</label>
+                        <button id="btnEdit" class="epic-btnr" style="margin-left: 20px;" type="button">Edit</button>
+                    </div>
+                    <input placeholder="09XXXXXXXXX" id="txtVal" class="epic-txtbox" style="float: left;" name="contact" type="text" maxlength="11" value="<?= $user["contact"] ?>" disabled>
+                    <div style="margin: 0; padding-top: 10px;" hidden>
+                        <button class="epic-btnr" style="float: right;">Update</button>
+                        <button id="btnCancelEdit" class="epic-btnrred" style="float: right; margin-right: 10px;" type="button">Cancel</button>
+                    </div>
+                </div>
+            </form>
+            <form class="epic-form" enctype="multipart/form-data" action="processes/update-process.php" method="post">
+                <div>
+                    <div style="margin: 0;">
+                        <label>Email</label>
+                        <button id="btnEdit" class="epic-btnr" style="margin-left: 20px;" type="button">Edit</button>
+                    </div>
+                    <input placeholder="user@email.com" id="txtVal" class="epic-txtbox" style="float: left;" name="email" type="email" value="<?= $user["email"] ?>" disabled>
+                    <div style="margin: 0; padding-top: 10px;" hidden>
+                        <button class="epic-btnr" style="float: right;">Update</button>
+                        <button id="btnCancelEdit" class="epic-btnrred" style="float: right; margin-right: 10px;" type="button">Cancel</button>
+                    </div>
+                </div>
+            </form>
+            <?php
+            }
+            ?>
+            </br>
 
-    <h3>Password</h3>
-    <form enctype="multipart/form-data" action="processes/update-process.php" method="post">
-        <button id="btnEditPass" type="button">Edit password</button>
-        <div id="pnlPassword" hidden="true">
-            <label for="cpassword">Current Password:</label>
-            <input name="cpassword" type="password">
-            <label for="password">New Password:</label>
-            <input id="txtPass" name="password" type="password">
-            <button disabled="true">Update</button>
-            <button id="btnCancelEditPass" style="background-color: red;" type="button">Cancel</button>
+            <!-- ## PASSWORD ## -->
+            
+            <form class="epic-form" enctype="multipart/form-data" action="processes/update-process.php" method="post">
+                <h3>Password</h3>
+                <button id="btnEditPass" class="epic-btnr" style="margin-top: 10px;" type="button">Edit password</button>
+                <div id="pnlPassword" style="margin-top: 10px;" hidden>
+                    <label>Current Password</label>
+                    <input placeholder="Current Password" class="epic-txtbox" name="cpassword" type="password">
+                    <label>New Password</label>
+                    <input placeholder="New Password" id="txtPass" class="epic-txtbox" name="password" type="password">
+                    <div style="margin: 0; padding-top: 10px;">
+                        <button id="btnSubmitPass" class="epic-btnr" style="float: right;" disabled>Update</button>
+                        <button id="btnCancelEditPass" class="epic-btnrred" style="float: right; margin-right: 10px;" type="button">Cancel</button>
+                    </div>
+                </div>
+            </form>
+            </br></br>
+            <div class="epic-form" style="text-align: right; margin-top: 50px;">
+                <a href="logout.php"><button class="epic-btnred">Logout</button></a>
+            </div>
         </div>
-    </form>
-</div>
-</br></br>
+    </div>
+</section>
 
-<a href="logout.php"><button style="background-color: red;">Logout</button></a>
+<!--Page Footer-->
+<?php 
+include '../global/uf/footer.html';
+?>
+<a href="#" id="back-top"><i class="fa fa-angle-up fa-2x"></i></a>
+
+<!--JS-->
+<?php 
+include '../global/uf/js.html';
+?>
 
 <script type="text/javascript">
-function goBack()
-{
-    history.go(-1);
-}
 
 // INFO
 var tempString = "";
 const editBtns = document.querySelectorAll("#btnEdit");
 editBtns.forEach(bt=>{
     bt.addEventListener('click', (e) => {
-        const siblings = e.target.parentElement.children;
-        siblings[0].disabled = false;
-        siblings[1].hidden = true;
+        const siblings = e.target.parentElement.parentElement.children;
+        e.target.hidden = true;
+        siblings[1].disabled = false;
         siblings[2].hidden = false;
-        siblings[3].hidden = false;
 
         for (let i = 0; i < editBtns.length; i++) editBtns[i].disabled = true;
         document.getElementById("btnEditPass").disabled = true;
-        tempString = siblings[0].value;
+        tempString = siblings[1].value;
     })
 })
 const editCancelBtns = document.querySelectorAll("#btnCancelEdit");
 editCancelBtns.forEach(bt=>{
     bt.addEventListener('click', (e) => {
-        const siblings = e.target.parentElement.children;
-        siblings[0].disabled = true;
-        siblings[1].hidden = false;
+        const siblings = e.target.parentElement.parentElement.children;
+        siblings[0].children[1].hidden = false;
+        siblings[1].disabled = true;
         siblings[2].hidden = true;
-        siblings[2].disabled = false;
-        siblings[3].hidden = true;
 
         for (let i = 0; i < editBtns.length; i++) editBtns[i].disabled = false;
         document.getElementById("btnEditPass").disabled = false;
-        siblings[0].value = tempString;
+        siblings[1].value = tempString;
     })
 })
 const txtVal = document.querySelectorAll("#txtVal");
@@ -152,23 +187,23 @@ txtVal.forEach(txt=>{
 // PASSWORD
 document.getElementById("btnEditPass").addEventListener('click', (e) => {
     const siblings = e.target.parentElement.children;
-    siblings[0].hidden = true;
-    siblings[1].hidden = false;
+    siblings[1].hidden = true;
+    siblings[2].hidden = false;
 
     for (let i = 0; i < editBtns.length; i++) editBtns[i].disabled = true;
 })
 document.getElementById("btnCancelEditPass").addEventListener('click', (e) => {
-    const pSiblings = e.target.parentElement.parentElement.children;
-    pSiblings[0].hidden = false;
-    pSiblings[1].hidden = true;
-    e.target.previousElementSibling.disabled = true;
+    const pSiblings = e.target.parentElement.parentElement.parentElement.children;
+    pSiblings[1].hidden = false;
+    pSiblings[2].hidden = true;
+    document.getElementById("btnSubmitPass").disabled = true;
 
     for (let i = 0; i < editBtns.length; i++) editBtns[i].disabled = false;
-    pSiblings[1].children[1].value = "";
-    pSiblings[1].children[3].value = "";
+    pSiblings[2].children[1].value = "";
+    pSiblings[2].children[3].value = "";
 })
 document.getElementById("txtPass").addEventListener('input', (e) => {
-    var btn = e.target.nextElementSibling;
+    var btn = document.getElementById("btnSubmitPass");
     if (/\S/.test(e.target.value)) btn.disabled = false;
     else btn.disabled = true;
 })

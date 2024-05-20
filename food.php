@@ -132,7 +132,7 @@ include 'global/customerheader.php';
                         <div>
 
                             <?php
-                            $result = $mysqli->query("SELECT * FROM foods");
+                            $result = $mysqli->query("SELECT * FROM foods WHERE NOT archived");
                             while ($row = $result->fetch_assoc()) {
                             ?>
 
@@ -198,9 +198,9 @@ include 'global/customerfooter.html';
                 <p id="modalFoodDesc" style="margin: 20px 0; height: 150px; overflow: auto;">Description</p>
                 <form action="usercustomer/processes/addtocart-process.php" method="post">
                     <input id="modalFoodId" type="hidden" name="foodId" value="0"/>
-                    <button class="epic-btn-radius" onclick="amountSubtract()" type="button"><i class="fa fa-minus"></i></button>
+                    <button class="epic-btnr" style="padding: 10px 20px;" onclick="amountSubtract()" type="button"><i class="fa fa-minus"></i></button>
                     <input id="modalFoodAmount" class="epic-txtbox" style="width: 100px; text-align: center;" type="number" name="amount" value="1">
-                    <button class="epic-btn-radius" onclick="amountAdd()" type="button"><i class="fa fa-plus"></i></button>
+                    <button class="epic-btnr" style="padding: 10px 20px;" onclick="amountAdd()" type="button"><i class="fa fa-plus"></i></button>
                     <input class="epic-btn" style="margin-left: 20px;" type="submit">
                     <label class="epic-orangetxt" style="margin-left: 20px;">₱<span id="modalFoodCost" style="font-size: 25px;">0.00</span></label>
                 </form>
@@ -215,11 +215,11 @@ include 'global/customerfooter.html';
 include 'global/customerjs.html';
 ?>
 <script>
-const daysArr = document.querySelectorAll(".food-item");
+const foodArr = document.querySelectorAll(".food-item");
 var txtAmount = document.getElementById("modalFoodAmount");
 var selectedFoodCost = 0;
 
-daysArr.forEach(bt=>{
+foodArr.forEach(bt=>{
     bt.addEventListener('click', (e) => {
         document.getElementById("modalFoodImage").src = "img-uploads/" + e.target.children[3].value;
         document.getElementById("modalFoodName").innerHTML = e.target.children[0].innerHTML;

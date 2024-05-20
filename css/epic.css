@@ -17,6 +17,21 @@
     font-family: Arial, Helvetica, sans-serif;
     font-weight: normal;
 }
+.epic-txt16 {
+    font-size: 16px;
+}
+.epic-txt18 {
+    font-size: 18px;
+}
+.epic-txt20 {
+    font-size: 20px;
+}
+.epic-txt25 {
+    font-size: 25px;
+}
+.epic-upper {
+    text-transform: uppercase;
+}
 .epic-orangetxt {
     font-family: Arial;
     font-weight: normal;
@@ -27,37 +42,81 @@
     color: black;
 }
 .epic-btn {
-    padding: 10px;
+    padding: 10px 20px;
     background-color: #E25111;
     color: white;
     font-family: BebasRegular;
     font-size: 18px;
     text-transform: uppercase;
-    letter-spacing: 3px;
     cursor: pointer;
     border: none;
 }
 .epic-btn:hover {
     background-color: black;
-    color: white;
     transition: .5s;
 }
-.epic-btn-radius {
-    padding: 10px;
-    background-color: #E25111;
+.epic-btn:disabled {
+    background-color: #aaa;
+    cursor: not-allowed;
+}
+.epic-btnred {
+    padding: 10px 20px;
+    background-color: red;
     color: white;
-    font-family: open_sansregular;
-    font-size: 15px;
-    font-weight: normal;
+    font-family: BebasRegular;
+    font-size: 18px;
     text-transform: uppercase;
-    letter-spacing: 3px;
-    border-radius: 20%;
     cursor: pointer;
     border: none;
 }
-.epic-btn-radius:hover {
+.epic-btnred:hover {
     background-color: black;
+    transition: .5s;
+}
+.epic-btnred:disabled {
+    background-color: #aaa;
+    cursor: not-allowed;
+}
+.epic-btnr {
+    padding: 10px 30px;
+    background-color: #E25111;
     color: white;
+    font-family: open_sanssemibold;
+    font-size: 15px;
+    font-weight: normal;
+    text-transform: uppercase;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+    cursor: pointer;
+    border: none;
+}
+.epic-btnr:hover:enabled {
+    background-color: black;
+    transition: .5s;
+}
+.epic-btnr:disabled {
+    background-color: #aaa;
+    cursor: not-allowed;
+}
+.epic-btnrred {
+    padding: 10px 30px;
+    background-color: red;
+    color: white;
+    font-family: open_sanssemibold;
+    font-size: 15px;
+    font-weight: normal;
+    text-transform: uppercase;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+    cursor: pointer;
+    border: none;
+}
+.epic-btnrred:hover {
+    background-color: black;
     transition: .5s;
 }
 .epic-txtbox {
@@ -65,9 +124,12 @@
     color: #222;
     font-family: open_sansregular;
     font-size: 18px;
-    text-transform: uppercase;
-    letter-spacing: 3px;
+    width: 100%;
     border-bottom: 1px solid #aaa;
+}
+.epic-txtbox:disabled {
+    color: #aaa;
+    cursor: not-allowed;
 }
 .epic-li {
     padding-top: 30px;
@@ -84,6 +146,7 @@
     padding: 20px;
     font-size: 18px;
     color: #E25111;
+    cursor: pointer;
 }
 .epic-a:hover {
     color: black;
@@ -115,6 +178,70 @@
     color: #E25111;
     transition: .5s;
 }
+.epic-texthover:hover {
+    color: #E25111;
+    transition: .2s;
+}
+.epic-form {
+    margin: auto;
+    max-width: 480px;
+    padding: 0 50px;
+    font-family: open_sanssemibold;
+    font-weight: normal;
+    overflow: hidden;
+}
+.epic-form div {
+    margin-bottom: 20px;
+    width: 100%;
+    overflow: hidden;
+}
+
+
+
+
+/* ## DROPDOWN ## */
+.epic-dropbtn {
+    width: 100%;
+    border-bottom-right-radius: 50px;
+    border-bottom-left-radius: 50px;
+}
+.epic-drop {
+    position: relative;
+    display: inline-block;
+    width: 50%;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.epic-dropcontent {
+    display: none;
+    position: absolute;
+    background-color: white;
+    width: 300px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    left: 0; 
+    right: 0; 
+    margin-left: auto; 
+    margin-right: auto; 
+}
+.epic-dropcontent a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+.epic-dropcontent a:hover {
+    background-color: #E25111;
+    color: white;
+    transition: .2s;
+}
+.epic-drop:hover .epic-dropcontent {
+    display: block;
+}
+.epic-drop:hover .epic-dropbtn {
+    background-color: white;
+    color: #E25111;
+}
 
 
 
@@ -126,7 +253,7 @@
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
-    padding-top: 150px; /* Location of the box */
+    padding: 150px 0; /* Location of the box */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
