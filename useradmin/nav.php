@@ -29,8 +29,7 @@ $usertype = $user["type"];
         <a href="../useradmin/"><li>Foods</li></a>
         <a href="categories.php"><li>Food Categories</li></a>
         <a href="reservations.php"><li>Reservations</li></a>
-        <a href="feedbacks.php"><li>Feedbacks</li></a>
-        <a href="news.php"><li>News</li></a>
+        <a href="tummy.php"><li>Tummy &nbsp; Avenue</li></a>
         <a href="accounts.php"><li>Accounts</li></a>
         <a href="../account/account.php"><li><?= explode(" ", $user["name"])[0] ?></li></a>
     </ul>

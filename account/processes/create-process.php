@@ -9,7 +9,7 @@ session_abort();
 
 $mysqli = require __DIR__ . "/../../database.php";
 
-$sql = "INSERT INTO users (name, username, password, type, disabled) VALUES (?, ?, ?, ?, 0)";
+$sql = "INSERT INTO users (name, username, password, type) VALUES (?, ?, ?, ?)";
 $stmt = $mysqli->stmt_init();
 if (!$stmt->prepare($sql)) {
     die("SQL error: " . $mysqli->errno);

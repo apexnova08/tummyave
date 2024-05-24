@@ -55,7 +55,7 @@ session_abort();
                       
                       <li><a href="reservation.php">Reservation</a></li>
                       
-                          <li><a href="about.html">About Us</a></li>
+                          <li><a href="about.php">About Us</a></li>
                       
                       <li class="dropdown">
                         <a data-toggle="dropdown" href="#" class="dropdown-toggle">Account</a>

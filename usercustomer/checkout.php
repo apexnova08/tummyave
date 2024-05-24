@@ -41,18 +41,18 @@ $foodtotal = 0;
 <!--#####-->
 <section id="order" class="padding bg_white">
     <div class="container">
-        <div style="text-align: right;"><a href="orders.php" class="epic-a"><< Back</a></div>
+        <div style="text-align: right;"><a href="cart.php" class="epic-a"><< Back</a></div>
         <div>
             <h2 class="heading">Checkout</h2>
             <hr class="heading_space">
         </div>
         <div>
             <div>
-                <h2><?= getCurrentDate() ?></h2><br/><br/>
+                <h2><?= getLongDateFormat(getCurrentDate()) ?></h2><br/><br/>
 
                 <h3 class="epic-bebas">Customer</h3>
-                <label class="sanssb" style="font-weight: normal; font-size: 18px; margin: 0;"><?= $user["name"] ?></label><br/>
-                <label class="sanssb" style="font-weight: normal; font-size: 18px; margin: 0;"><?= $user["contact"] ?></label>
+                <label class="epic-sanssb epic-txt18"><?= $user["name"] ?></label><br/>
+                <label class="epic-sanssb epic-txt18"><?= $user["contact"] ?></label>
             </div>
         </div>
         
@@ -93,7 +93,7 @@ $foodtotal = 0;
 
 <!--Page Footer-->
 <?php 
-include 'footer.html';
+include '../global/uf/footer.html';
 ?>
 <a href="#" id="back-top"><i class="fa fa-angle-up fa-2x"></i></a>
 

@@ -72,7 +72,7 @@ while ($rowuser = $result_users->fetch_assoc())
         </div>
         <div>
             <?php
-            $result = $mysqli->query("SELECT * FROM feedbacks WHERE DATE(date) BETWEEN NOW() - INTERVAL 30 DAY AND NOW() ORDER BY date DESC");
+            $result = $mysqli->query("SELECT * FROM feedbacks WHERE DATE(date) BETWEEN NOW() - INTERVAL 30 DAY AND NOW() ORDER BY `date` DESC");
             while ($row = $result->fetch_assoc()) {
             ?>
             <div class="row epic-li">

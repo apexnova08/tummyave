@@ -1,14 +1,24 @@
 <?php
 session_start();
 $userid = "id";
-if (isset($_SESSION["user_id"])) $userid = $_SESSION["user_id"];
+$usertype = "0";
+if (isset($_SESSION["user_id"]))
+{
+    $userid = $_SESSION["user_id"];
+    $usertype = $_SESSION["user_type"];
+}
 else header("location: login.php");
 session_abort();
 
 require __DIR__ . "/../global/funcs.php";
 $mysqli = require __DIR__ . "/../database.php";
 
-$user = $mysqli->query("SELECT * FROM users WHERE id = '$userid'")->fetch_assoc();
+if (isset($_POST["id"]))
+{
+    $id = $_POST["id"];
+    $user = $mysqli->query("SELECT * FROM users WHERE id = '$id'")->fetch_assoc();
+}
+else $user = $mysqli->query("SELECT * FROM users WHERE id = '$userid'")->fetch_assoc();
 if (!$user) die ("Error: user not found");
 ?>
 
@@ -43,26 +53,32 @@ if (!$user) die ("Error: user not found");
                 <div>
                     <div style="margin: 0;">
                         <label>Name</label>
-                        <button id="btnEdit" class="epic-btnr" style="margin-left: 20px;" type="button">Edit</button>
+                        <?php
+                        if ($usertype != "3") { ?> <button id="btnEdit" class="epic-btnr" style="margin-left: 20px;" type="button">Edit</button> <?php }
+                        ?>
                     </div>
                     <input placeholder="Name" id="txtVal" class="epic-txtbox" style="float: left;" name="name" type="text" value="<?= $user["name"] ?>" disabled>
                     <div style="margin: 0; padding-top: 10px;" hidden>
                         <button class="epic-btnr" style="float: right;">Update</button>
                         <button id="btnCancelEdit" class="epic-btnrred" style="float: right; margin-right: 10px;" type="button">Cancel</button>
                     </div>
+                    <?php if (isset($_POST["id"])) echo "<input type='hidden' name='updateid' value=" . $_POST["id"] . ">" ?>
                 </div>
             </form>
             <form class="epic-form" enctype="multipart/form-data" action="processes/update-process.php" method="post">
                 <div>
                     <div style="margin: 0;">
                         <label>Username</label>
-                        <button id="btnEdit" class="epic-btnr" style="margin-left: 20px;" type="button">Edit</button>
+                        <?php
+                        if ($usertype != "3") { ?> <button id="btnEdit" class="epic-btnr" style="margin-left: 20px;" type="button">Edit</button> <?php }
+                        ?>
                     </div>
                     <input placeholder="Username" id="txtVal" class="epic-txtbox" style="float: left;" name="username" type="text" value="<?= $user["username"] ?>" disabled>
                     <div style="margin: 0; padding-top: 10px;" hidden>
                         <button class="epic-btnr" style="float: right;">Update</button>
                         <button id="btnCancelEdit" class="epic-btnrred" style="float: right; margin-right: 10px;" type="button">Cancel</button>
                     </div>
+                    <?php if (isset($_POST["id"])) echo "<input type='hidden' name='updateid' value=" . $_POST["id"] . ">" ?>
                 </div>
             </form>
 
@@ -103,13 +119,21 @@ if (!$user) die ("Error: user not found");
             </br>
 
             <!-- ## PASSWORD ## -->
-            
+            <?php
+            if ($usertype != "3") {
+            ?>
             <form class="epic-form" enctype="multipart/form-data" action="processes/update-process.php" method="post">
                 <h3>Password</h3>
                 <button id="btnEditPass" class="epic-btnr" style="margin-top: 10px;" type="button">Edit password</button>
                 <div id="pnlPassword" style="margin-top: 10px;" hidden>
+                    <?php
+                    if (!isset($_POST["id"])) {
+                    ?>
                     <label>Current Password</label>
                     <input placeholder="Current Password" class="epic-txtbox" name="cpassword" type="password">
+                    <?php
+                    } else echo "<input type='hidden' name='updateid' value=" . $_POST["id"] . ">";
+                    ?>
                     <label>New Password</label>
                     <input placeholder="New Password" id="txtPass" class="epic-txtbox" name="password" type="password">
                     <div style="margin: 0; padding-top: 10px;">
@@ -119,6 +143,7 @@ if (!$user) die ("Error: user not found");
                 </div>
             </form>
             </br></br>
+            <?php } ?>
             <div class="epic-form" style="text-align: right; margin-top: 50px;">
                 <a href="logout.php"><button class="epic-btnred">Logout</button></a>
             </div>

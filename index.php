@@ -40,9 +40,6 @@ include 'global/customercss.html';
 
 <?php 
 include 'global/loader.html';
-?>
-
-<?php 
 include 'global/customerheader.php';
 ?>
 
@@ -238,12 +235,12 @@ include 'global/customerheader.php';
             <div class="cheffs_wrap_slider">
                 <div id="news-slider" class="owl-carousel">
                 <?php
-                $resultnews = $mysqli->query("SELECT * FROM news WHERE NOT hidden");
+                $resultnews = $mysqli->query("SELECT * FROM news WHERE NOT hidden ORDER BY `date` DESC");
                 while ($row = $resultnews->fetch_assoc()) {
                 ?>
                 <div id="newsItem" class="item epic-texthover">
-                  <div class="news_content" style="pointer-events: none;">
-                    <img src="img-uploads/<?= $row["image"] ?>" style="width: center; height: 255px; object-fit: cover;"  alt="news banner">
+                  <div class="news_content" style="pointer-events: none; padding-top: 10px;">
+                    <img src="img-uploads/<?= $row["image"] ?>" style="width: center; height: 255px; object-fit: cover; box-shadow: 2px 2px 10px;"  alt="news banner">
                     <div style="margin-top: 10px;">
                         <h3><?= $row["title"] ?></h3>
                         <p><?= getLongDateFormat($row["date"]) ?></p>
@@ -281,79 +278,6 @@ include 'global/customerheader.php';
   </div>
 </section>
 
-<!-- Reservation  -->
-
-
-
-
-<!-- Gallery -->
-<section id="cheffs" class="padding">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12 text-center">
-      <h2 class="heading">Gallery </h2>
-      <hr class="heading_space">
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <div class="cheffs_wrap_slider">
-          <div id="our-cheffs" class="owl-carousel">
-            <div class="item">
-              <div class="cheffs_wrap">
-               <img src="images/NA.jpg" alt="Pictures">
-               <h3>N/A</h3>
-               <small>N/A</small>
-               <p>N/A</p>
-              </div>
-            </div>
-            <div class="item">
-              <div class="cheffs_wrap">
-               <img src="images/NA.jpg" alt="Pictures">
-               <h3>N/A</h3>
-               <small>N/A</small>
-               <p>N/A</p>
-              </div>
-            </div>
-            <div class="item">
-              <div class="cheffs_wrap">
-               <img src="images/NA.jpg" alt="Pictures">
-               <h3>N/A</h3>
-               <small>N/A</small>
-               <p>N/A</p>
-              </div>
-            </div>
-            <div class="item">
-              <div class="cheffs_wrap">
-               <img src="images/NA.jpg" alt="Pictures">
-               <h3>N/A</h3>
-               <small>N/A</small>
-               <p>N/A</p>
-              </div>
-            </div>
-            <div class="item">
-              <div class="cheffs_wrap">
-               <img src="images/NA.jpg" alt="Pictures">
-               <h3>N/A</h3>
-               <small>N/A</small>
-               <p>N/A</p>
-              </div>
-            </div>
-            <div class="item">
-              <div class="cheffs_wrap">
-               <img src="images/NA.jpg" alt="Pictures">
-               <h3>N/A</h3>
-               <small>N/A</small>
-               <p>N/A</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- testinomial -->
 <section id="testinomial" class="padding">
   <div class="container">
@@ -381,6 +305,41 @@ include 'global/customerheader.php';
       </div>
     </div>
   </div>
+</section>
+
+<!-- Gallery -->
+<section id="gallery" class="padding bg_white">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="heading">Our &nbsp; Recent &nbsp; Events</h2>
+            <hr class="heading_space">
+        </div>
+        <div>
+            <div class="grid_layout">
+                <div class="zerogrid" style="height: 500px; overflow: scroll;">
+                    <div class="wrap-container">
+                        <?php
+                        $result = $mysqli->query("SELECT * FROM gallery ORDER BY `date` DESC");
+                        while ($row = $result->fetch_assoc()) {
+                        ?>
+                        <div class="col-1-3 mix work-item">
+                            <div class="wrap-col first" style="overflow: hidden; padding: 0; margin: 10px 10px 30px 10px; box-shadow: 2px 2px 10px;">
+                                <div class="item-container">
+                                    <img src="img-uploads/<?= $row['filename'] ?>" style="width: center; height: 255px; object-fit: cover;" alt="<?= $row['filename']; ?>"/>
+                                    <div class="overlay food-item" style="cursor: pointer;">
+                                        <a class="fancybox overlay-inner" href="img-uploads/<?= $row['filename'] ?>" data-fancybox-group="gallery"><i class=" icon-eye6"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php
+                        } if (mysqli_num_rows($result) === 0) echo "<p class='epic-sansr' style='text-align: center; color: #777'>( Empty )</p>";
+                        ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
 <?php 

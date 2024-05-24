@@ -115,7 +115,7 @@ if ($reqscount['total'] != "0")
                             <div class="col-1-3 mix work-item <?= $row["category"] ?>">
                                 <div class="wrap-col first" style="overflow: hidden; padding: 0 0 10px 0; margin: 0 10px 30px 10px; box-shadow: 2px 2px 10px;">
                                     <div class="item-container" style="border-bottom: 2px solid #E25111;">
-                                        <img src="<?= 'img-uploads/' . $row['image'] ?>" style="width: center; height: 255px; object-fit: cover;" alt="<?= $row['name']; ?>"/>
+                                        <img src="img-uploads/<?=$row['image'] ?>" style="width: center; height: 255px; object-fit: cover;" alt="<?= $row['name']; ?>"/>
                                         <div class="overlay food-item" style="cursor: pointer;">
                                             <p class="overlay-inner" style="pointer-events: none;"><?= $row['name']; ?></p>
                                             <input type="hidden" value="<?= $row['id']; ?>"/>

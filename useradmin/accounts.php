@@ -26,7 +26,7 @@ $mysqli = require __DIR__ . "/../database.php";
 <!--#####-->
 <section id="topBtns" style="padding-top: 30px;">
     <div class="container" style=" overflow: hidden;">
-        <a href="../account/createaccount.php"><button style="float: right;" class="epic-btn">Create Account</button></a>
+        <a href="../account/createaccount.php"><button style="float: right;" class="epic-btn">Create &nbsp; Account</button></a>
     </div>
 </section>
 
@@ -49,8 +49,12 @@ $mysqli = require __DIR__ . "/../database.php";
                         <label class="epic-sanssb">Account ID: <?= $row["id"] ?></label>
                     </div>
                 </div>
-                <div class="col-md-4 right">
-                    <form style="margin: 10px;" enctype="multipart/form-data" method="post" action="processes/account-process.php">
+                <div class="col-md-4">
+                    <form style="margin: 10px; float: right;" enctype="multipart/form-data" method="post" action="../account/account.php">
+                        <input type="hidden" name="id" value="<?= $row["id"] ?>">
+                        <input type="submit" class="epic-btnr" name="edit" value="Edit">
+                    </form>
+                    <form style="margin: 10px 0; float: right;" enctype="multipart/form-data" method="post" action="processes/account-process.php">
                         <input type="hidden" name="id" value="<?= $row["id"] ?>">
                         <input type="submit" class="epic-btnrred" name="disable" value="Disable">
                     </form>

@@ -38,7 +38,7 @@ $mysqli = require __DIR__ . "/../database.php";
         </div>
         <div>
             <?php
-            $result = $mysqli->query("SELECT * FROM categories");
+            $result = $mysqli->query("SELECT * FROM categories ORDER BY `hidden`");
             while ($row = $result->fetch_assoc()) {
             ?>
             <div class="row epic-li">
@@ -70,7 +70,7 @@ $mysqli = require __DIR__ . "/../database.php";
         <div class="epic-modal-body" style="overflow: hidden;">
             <p class="epic-sanssb epic-txt16">Category Name</p>
             <form id="modalForm" enctype="multipart/form-data" method="post">
-                <input id="modalVal" placeholder="Category Name" class="epic-txtbox" name="name"></textarea>
+                <input id="modalVal" placeholder="Category Name" class="epic-txtbox" name="name" required>
                 <input class="epic-btn" style="float: right; margin-top: 20px;" type="submit">
                 <input id="modalId" type="hidden" name="id"/>
             </form>

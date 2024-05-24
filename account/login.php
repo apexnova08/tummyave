@@ -7,25 +7,25 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
 {
     $mysqli = require __DIR__ . "/../database.php";
 
-    $sql = sprintf("SELECT * FROM users WHERE username = '%s'", $mysqli->real_escape_string($_POST["username"]));
+    $sql = sprintf("SELECT * FROM users WHERE NOT `disabled` AND username = '%s'", $mysqli->real_escape_string($_POST["username"]));
     $result = $mysqli->query($sql);
     $user = $result->fetch_assoc();
     if ($user)
     {
         if (password_verify($_POST["password"], $user["password"]))
         {
-        session_start();
-        session_regenerate_id();
-        $_SESSION["user_id"] = $user["id"];
-        $_SESSION["user_type"] = $user["type"];
+            session_start();
+            session_regenerate_id();
+            $_SESSION["user_id"] = $user["id"];
+            $_SESSION["user_type"] = $user["type"];
 
-        if ($user["type"] === "0") { header("Location: ../user0/"); }
-        elseif ($user["type"] === "1") { header("Location: ../userowner/"); }
-        elseif ($user["type"] === "2") { header("Location: ../useradmin/"); }
-        elseif ($user["type"] === "3") { header("Location: ../usercashier/"); }
-        elseif ($user["type"] === "4") { header("Location: ../"); }
+            if ($user["type"] === "0") { header("Location: ../user0/"); }
+            elseif ($user["type"] === "1") { header("Location: ../userowner/"); }
+            elseif ($user["type"] === "2") { header("Location: ../useradmin/"); }
+            elseif ($user["type"] === "3") { header("Location: ../usercashier/"); }
+            elseif ($user["type"] === "4") { header("Location: ../"); }
 
-        exit;
+            exit;
         }
     }
 
@@ -61,6 +61,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
         </div>
         <div>
             <form class="epic-form" enctype="multipart/form-data" method="post">
+                <?php if ($is_invalid): ?>
+                    <em style="color: red;">Invalid login</em></br></br>
+                <?php endif; ?>
                 <div>
                     <label>Username</label></br>
                     <input placeholder="Username" class="epic-txtbox" type="text" name="username" value="<?= htmlspecialchars($_POST["username"] ?? "") ?>" required>

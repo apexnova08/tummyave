@@ -21,37 +21,17 @@ $id = $_POST["id"];
 $result = $mysqli->query("SELECT * FROM orders WHERE id = '$id'");
 $order = $result->fetch_assoc();
 
-// GET USER INFO
+// GET USER AND CASHIER INFO
 $result = $mysqli->query(sprintf("SELECT * FROM users WHERE id = '%s'", $mysqli->real_escape_string($order["user_id"])));
-$user = $result->fetch_assoc();
+$customer = $result->fetch_assoc();
+$result = $mysqli->query(sprintf("SELECT * FROM users WHERE id = '%s'", $mysqli->real_escape_string($order["employee_id"])));
+$cashier = $result->fetch_assoc();
 
 // CHECK STATUS
 $sql = "";
 $btnstring = "Mark as paid";
-if ($order["is_paid"] === '0')
-{
-    $sql = "UPDATE orders SET is_paid = '1', status = 'Preparing' WHERE id = '$id'";
-}
-elseif ($order["status"] === "Preparing")
-{
-    $sql = "UPDATE orders SET status = 'Ready for pickup' WHERE id = '$id'";
-    $btnstring = "Mark as ready";
-}
-elseif ($order["status"] === "Ready for pickup")
-{
-    $sql = "UPDATE orders SET status = 'Picked up', is_closed = true WHERE id = '$id'";
-    $btnstring = "Mark as picked up";
-}
-
-// UPDATE
-if (isset($_POST["update"]))
-{
-    if ($mysqli->query($sql))
-    {
-        header("location: ../usercashier/");
-    }
-    else die ("Error updating order.");
-}
+if ($order["status"] === "Preparing") $btnstring = "Mark as ready";
+elseif ($order["status"] === "Ready for pickup") $btnstring = "Mark as picked up";
 ?>
 
 <!doctype html>
@@ -72,6 +52,19 @@ if (isset($_POST["update"]))
 <body>
 
 <!--#####-->
+<?php
+if (!$order["is_closed"])
+{
+?>
+<section id="topBtns" style="padding-top: 30px;">
+    <div class="container" style=" overflow: hidden;">
+        <button onclick="epicOpenModal()" style="float: right;" class="epic-btnred">Close &nbsp; Order</button>
+    </div>
+</section>
+<?php
+}
+?>
+
 <section id="order" class="padding bg_white">
     <div class="container">
     <div style="text-align: right;"><a href="../usercashier/" class="epic-a"><< Back</a></div>
@@ -82,28 +75,64 @@ if (isset($_POST["update"]))
         <div>
             <div class="col-md-6">
                 <h2>Order &nbsp; Ref# &nbsp; <?= $id ?></h2>
-                <h3><?= $order["date"] ?></h3><br/><br/>
+                <h3><?= $order["date"] ?></h3>
+                <?php
+                if ($order["employee_id"]) { ?> <label class="epic-txt18" style="margin: 0;"><em class="epic-sanss">Order accepted by:</em> <span class="epic-sanssb"><?= $cashier["name"] ?></span></label> <?php }
+                ?>
+                <br/><br/>
 
                 <h3 class="epic-bebas">Customer</h3>
-                <label class="sanssb" style="font-weight: normal; font-size: 18px; margin: 0;"><?= $user["name"] ?></label><br/>
-                <label class="sanssb" style="font-weight: normal; font-size: 18px; margin: 0;"><?= $user["contact"] ?></label>
+                <label class="epic-sanssb epic-txt18" style="margin: 0;"><?= $customer["name"] ?></label><br/>
+                <label class="epic-sanssb epic-txt18" style="margin: 0;"><?= $customer["contact"] ?></label>
+                <?php
+                if ($order["remarks"])
+                {
+                ?>
+                <p class="epic-sanss epic-txt16" style="margin: 0;">"<i><?= $order["close_reason"] ?></i>"</p><br/><br/>
+                <?php
+                }
+                ?>
             </div>
             <div class="col-md-6" style="text-align: right;">
                 <h3 class="epic-bebas">Payment</h3>
                 <h2 class="epic-sanss">₱<span class="epic-sanssb"><?= $order["total_cost"] ?>.00</span></h2>
-                <label class="sanssb" style="font-weight: normal; font-size: 18px; margin: 0;"><i><?= $paidString[$order["is_paid"]] ?></i></label><br/><br/>
+                <label class="epic-sanssb epic-txt18" style="margin: 0;"><i><?= $paidString[$order["is_paid"]] ?></i></label><br/><br/>
 
                 <h3 class="epic-bebas">Status</h3>
-                <label class="sanssb" style="font-weight: normal; font-size: 18px; margin: 0;"><i><?= $order["status"] ?></i></label><br/><br/>
+                <label class="epic-sanssb epic-txt18" style="margin: 0;"><i><?= $order["status"] ?></i></label><br/><br/>
 
+                <?php
+                if ($order["gcash_receipt"])
+                {
+                ?>
+                <h3 class="epic-bebas">GCash &nbsp; Receipt</h3>
+                <div style="overflow: hidden; padding: 5px;">
+                    <div class="work-item" style="width: 100px; height: 100px; box-shadow: 2px 2px 5px; float: right;">
+                        <div class="item-container">
+                            <img src="../img-uploads/<?= $order["gcash_receipt"] ?>" style="width: center; height: 100px; object-fit: cover;" alt="Receipt"/>
+                            <div class="overlay">
+                                <a class="fancybox overlay-inner" href="../img-uploads/<?= $order["gcash_receipt"] ?>" data-fancybox-group="gallery"><i class=" icon-eye6"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div></br>
+                <?php
+                }
+                ?>
                 <?php
                 if (!$order["is_closed"])
                 {
                 ?>
-                <form enctype="multipart/form-data" method="post">
+                <form enctype="multipart/form-data" action="processes/updateorder-process.php" method="post">
                     <input type="hidden" name="id" value="<?= $id ?>">
                     <input class="epic-btnr" type="submit" name="update" value="<?= $btnstring ?>">
                 </form>
+                <?php
+                } elseif ($order["close_reason"])
+                {
+                ?>
+                <h3 class="epic-bebas">Reason &nbsp; for &nbsp; Closing</h3>
+                <p class="epic-sanss epic-txt16" style="margin: 0;">"<i><?= $order["close_reason"] ?></i>"</p><br/><br/>
                 <?php
                 }
                 ?>
@@ -138,6 +167,25 @@ if (isset($_POST["update"]))
 </section>
 
 <a href="#" id="back-top"><i class="fa fa-angle-up fa-2x"></i></a>
+
+<!-- The Modal -->
+<div id="epicModal" class="epic-modal">
+    <div class="epic-modal-content" style="width: 50%;">
+        <div class="epic-modal-header">
+            <span class="epic-modal-close">&times;</span>
+            <h2>Close &nbsp; Order</h2>
+        </div>
+        <div class="epic-modal-body">
+            <em class="epic-sanssb epic-txt16">State your reason here..</em></br>
+            <form enctype="multipart/form-data" action="processes/updateorder-process.php" method="post" style="overflow: hidden;">
+                <textarea placeholder="Type here..." style="width: 100%; height: 100px; padding: 10px; overflow: auto; resize: none;" name="reason" required></textarea>
+                <input class="epic-btnred" style="float: right;" name="close" type="submit" value="Close &nbsp; Order">
+                <input type="hidden" name="id" value="<?= $id ?>">
+            </form>
+        </div>
+        <div class="epic-modal-footer"><i>tummy-avenue.com</i></div>
+    </div>
+</div>
 
 <!--JS-->
 <?php 

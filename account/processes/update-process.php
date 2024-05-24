@@ -6,9 +6,13 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     exit('POST request method required');
 }
 
-session_start();
-$userid = $_SESSION["user_id"];
-session_abort();
+if (isset($_POST["updateid"])) $userid = $_POST["updateid"];
+else
+{
+    session_start();
+    $userid = $_SESSION["user_id"];
+    session_abort();   
+}
 
 $user = $mysqli->query("SELECT * FROM users WHERE id = '$userid'")->fetch_assoc();
 if (!$user) die ("Error: user not found");
@@ -41,7 +45,12 @@ elseif (isset($_POST["contact"]))
 }
 elseif (isset($_POST["password"]))
 {
-    if (password_verify($_POST["cpassword"], $user["password"]))
+    if (isset($_POST["updateid"]))
+    {
+        $val = password_hash($_POST["password"], PASSWORD_DEFAULT);
+        $sql = "UPDATE users SET password = ? WHERE id = '$userid'";
+    }
+    elseif (password_verify($_POST["cpassword"], $user["password"]))
     {
         $val = password_hash($_POST["password"], PASSWORD_DEFAULT);
         $sql = "UPDATE users SET password = ? WHERE id = '$userid'";
@@ -57,7 +66,8 @@ if (!$stmt->prepare($sql)) {
 mysqli_stmt_bind_param($stmt, "s", $val);
 if ($stmt->execute())
 {
-    echo '<script type="text/javascript">', 'history.go(-1);', '</script>';
+    if (isset($_POST["updateid"])) echo '<script type="text/javascript">', 'history.go(-2);', '</script>';
+    else echo '<script type="text/javascript">', 'history.go(-1);', '</script>';
 }
 else die ("Error");
 ?>

@@ -38,7 +38,7 @@ $mysqli = require __DIR__ . "/../database.php";
         </div>
         <div>
             <?php
-            $result = $mysqli->query("SELECT * FROM news");
+            $result = $mysqli->query("SELECT * FROM news ORDER BY `date` DESC");
             while ($row = $result->fetch_assoc()) {
             ?>
             <div class="row epic-li">
@@ -48,8 +48,6 @@ $mysqli = require __DIR__ . "/../database.php";
                         <h3><?= $row["title"] ?></h3>
                         <label class="epic-sanssb"><?= getLongDateFormat($row["date"]) ?></label>
                     </div>
-                    
-                    
                 </div>
                 <div class="col-md-5 right">
                     <form enctype="multipart/form-data" method="post" action="updatenews.php">

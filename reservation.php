@@ -214,6 +214,40 @@ include 'global/customerheader.php';
     </div>
 </section>
 
+<section id="gallery" class="padding bg_white">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="heading">Our &nbsp; Recent &nbsp; Events</h2>
+            <hr class="heading_space">
+        </div>
+        <div>
+            <div class="grid_layout">
+                <div class="zerogrid" style="height: 500px; overflow: scroll;">
+                    <div class="wrap-container">
+                        <?php
+                        $result = $mysqli->query("SELECT * FROM gallery WHERE DATE(date) BETWEEN NOW() - INTERVAL 30 DAY AND NOW() ORDER BY `date` DESC");
+                        while ($row = $result->fetch_assoc()) {
+                        ?>
+                        <div class="col-1-3 mix work-item">
+                            <div class="wrap-col first" style="overflow: hidden; padding: 0; margin: 0 10px 30px 10px; box-shadow: 2px 2px 10px;">
+                                <div class="item-container">
+                                    <img src="img-uploads/<?= $row['filename'] ?>" style="width: center; height: 255px; object-fit: cover;" alt="<?= $row['filename']; ?>"/>
+                                    <div class="overlay food-item" style="cursor: pointer;">
+                                        <a class="fancybox overlay-inner" href="img-uploads/<?= $row['filename'] ?>" data-fancybox-group="gallery"><i class=" icon-eye6"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php
+                        } if (mysqli_num_rows($result) === 0) echo "<p class='epic-sansr' style='text-align: center; color: #777'>( Empty )</p>";
+                        ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 
 
 <!--Page Footer-->

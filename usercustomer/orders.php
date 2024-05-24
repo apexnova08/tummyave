@@ -29,6 +29,12 @@ session_abort();
 <body>
 
 <!-- ## CONTENT HERE ## -->
+<section id="topBtns" style="padding-top: 30px;">
+    <div class="container" style=" overflow: hidden;">
+        <button style="float: right;" class="epic-btn" onClick="window.location.reload();">Refresh &nbsp; Orders</button>
+    </div>
+</section>
+
 <section id="section_name" class="padding bg_white">
     <div class="container">
         <div style="text-align: right;"><a href="closedorders.php" class="epic-a">View closed orders ></a></div>
