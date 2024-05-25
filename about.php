@@ -46,7 +46,7 @@ include 'global/customerheader.php';
 <section id="about" class="padding bg_white">
     <div class="container">
         <div>
-            <h2 class="heading">Title &nbsp; White &nbsp; Section</h2>
+            <h2 class="heading">About &nbsp; Tummy &nbsp; Avenue</h2>
             <hr class="heading_space">
         </div>
         <?php
