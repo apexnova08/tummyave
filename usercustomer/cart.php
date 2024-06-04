@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Panel | Menu</title>
+    <title>Tummy Avenue | Your Cart</title>
     
     <!--CSS AND NAV-->
     <?php 

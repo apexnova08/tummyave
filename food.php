@@ -17,7 +17,7 @@ while ($rowuser = $result_users->fetch_assoc())
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tummy Avenue</title>
+<title>Tummy Avenue | Our Food</title>
 
 <!--CSS-->
 <?php 
@@ -49,7 +49,7 @@ $reqscount = $reqscountraw->fetch_assoc();
 if ($reqscount['total'] != "0")
 {
 ?>
-<section id="news" class="padding bg_white">
+<section id="featured" class="padding bg_white">
     <div class="container">
         <div>
             <h2 class="heading">Featured &nbsp; Food</h2>
@@ -63,9 +63,9 @@ if ($reqscount['total'] != "0")
                     $resultfeat = $mysqli->query("SELECT * FROM foods WHERE NOT archived AND featured");
                     while ($row = $resultfeat->fetch_assoc()) {
                     ?>
-                    <a href="img-uploads/<?= $row["image"] ?>"><div id="newsItem" class="item epic-texthover" style="padding: 0; margin: 10px; box-shadow: 2px 2px 10px;">
+                    <a href="#food"><div id="newsItem" class="item epic-texthover" style="padding: 0; margin: 10px; box-shadow: 2px 2px 10px;">
                         <div class="news_content" style="pointer-events: none;">
-                            <img src="img-uploads/<?= $row["image"] ?>" style="width: center; height: 255px; object-fit: cover;"  alt="news banner">
+                            <img src="img-uploads/<?= $row["image"] ?>" style="width: center; height: 255px; object-fit: cover;" alt="image">
                             <h3 style="padding: 10px;"><?= $row["name"] ?></h3>
                         </div>
                     </div></a>
@@ -124,7 +124,7 @@ if ($reqscount['total'] != "0")
                                             <input type="hidden" value="<?= $row['description']; ?>"/>
                                         </div>
                                     </div>
-                                    <div class="epic-orangetxt" style="float: right;">
+                                    <div class="epic-orangetxt" style="float: right; padding-right: 10px;">
                                         ₱<span style="font-size: 25px;"><?= $row['cost']; ?>.00</span>
                                     </div>
                                 </div>

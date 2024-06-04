@@ -19,7 +19,7 @@ while ($rowuser = $result_users->fetch_assoc())
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Panel | Menu</title>
+    <title>Admin Panel | Tummy Avenue</title>
     
     <!--CSS AND NAV-->
     <?php 
@@ -93,12 +93,12 @@ while ($rowuser = $result_users->fetch_assoc())
 </section>
 
 
-<!-- ## GALLERY ##-->
+<!-- ## HOME GALLERY ##-->
 <section id="gallery" class="padding bg_white">
     <div class="container">
         <div style="text-align: right;"><a href="gallery.php" class="epic-a">All images ></a></div>
         <div>
-            <h2 class="heading">Gallery</h2>
+            <h2 class="heading">Tummy &nbsp; Gallery &nbsp; (Homepage)</h2>
             <hr class="heading_space">
         </div>
         <div>
@@ -128,6 +128,44 @@ while ($rowuser = $result_users->fetch_assoc())
         </div>
     </div>
 </section>
+
+
+<!-- ## EVENT GALLERY ##-->
+<section id="gallery" class="padding bg_white">
+    <div class="container">
+        <div style="text-align: right;"><a href="event_gallery.php" class="epic-a">All images ></a></div>
+        <div>
+            <h2 class="heading">Event &nbsp; Gallery &nbsp; (Venue)</h2>
+            <hr class="heading_space">
+        </div>
+        <div>
+            <div class="grid_layout">
+                <div class="zerogrid">
+                    <div class="wrap-container">
+                        <?php
+                        $result = $mysqli->query("SELECT * FROM event_gallery ORDER BY `date` DESC LIMIT 3");
+                        while ($row = $result->fetch_assoc()) {
+                        ?>
+                        <div class="col-1-3 mix work-item">
+                            <div class="wrap-col first" style="overflow: hidden; padding: 0; margin: 0 10px 30px 10px; box-shadow: 2px 2px 10px;">
+                                <div class="item-container">
+                                    <img src="../img-uploads/<?= $row['filename'] ?>" style="width: center; height: 255px; object-fit: cover;" alt="<?= $row['filename']; ?>"/>
+                                    <div class="overlay food-item" style="cursor: pointer;">
+                                        <a class="fancybox overlay-inner" href="../img-uploads/<?= $row['filename'] ?>" data-fancybox-group="gallery"><i class=" icon-eye6"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php
+                        } if (mysqli_num_rows($result) === 0) echo "<p class='epic-sansr' style='text-align: center; color: #777'>( Empty )</p>";
+                        ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 
 <!-- ## OTHERS ##-->
 <section id="gallery" class="padding bg_white">

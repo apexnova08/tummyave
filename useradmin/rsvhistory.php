@@ -19,7 +19,7 @@ while ($rowuser = $result_users->fetch_assoc())
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Panel | Menu</title>
+    <title>Admin Panel | Reservation History</title>
     
     <!--CSS AND NAV-->
     <?php 
@@ -36,7 +36,7 @@ while ($rowuser = $result_users->fetch_assoc())
     <div class="container">
     <div style="text-align: right;"><a href="reservations.php" class="epic-a"><< Back</a></div>
         <div>
-            <h2 class="heading">Reservation &nbsp; History</h2>
+            <h2 class="heading">Venue &nbsp; Reservation &nbsp; History</h2>
             <hr class="heading_space">
         </div>
         <div>
@@ -47,7 +47,10 @@ while ($rowuser = $result_users->fetch_assoc())
             <div class="row epic-li">
                 <div class="col-md-6" style="overflow: hidden; margin-bottom: 10px;">
                     <h3 class="epic-bebas"><?= getLongDateFormat($row["rsv_date"]) ?></h3>
-                    <label class="epic-sanssb"><?= $users[$row["user_id"]]["name"] ?> &nbsp;•&nbsp; <span><?= $users[$row["user_id"]]["contact"] ?></span></label>
+                    <label class="epic-sanssb"><?= $users[$row["user_id"]]["name"] ?> &nbsp;•&nbsp; <span><?= $row["event"] ?></span></label>
+                    <input type="hidden" value="<?= $users[$row["user_id"]]["name"] ?>">
+                    <input type="hidden" value="<?= $users[$row["user_id"]]["contact"] ?> &nbsp;•&nbsp; <?= $users[$row["user_id"]]["email"] ?>">
+                    <input type="hidden" value="<?= $row["event"] ?> &nbsp;•&nbsp; <?= $row["pax"] ?> est. attendees">
                     <input type="hidden" value="<?= $row["remarks"] ?>">
                 </div>
                 <div class="col-md-6 right">
@@ -71,8 +74,10 @@ while ($rowuser = $result_users->fetch_assoc())
         </div>
         <div class="epic-modal-body" style="overflow: hidden;">
             <h2 id="modalDateText">Date</h2>
-            <p id="modalCustomer" class="epic-sanssb epic-txt16">Customer Name &nbsp;•&nbsp; Contact</p>
-            <p id="modalRemarks" class="epic-sans epic-txt16">"<em>Remarks</em>"</p>
+            <p id="modalCustomer" class="epic-sansr epic-txt16" style="margin: 0;">Customer Name</p>
+            <p id="modalContact" class="epic-sansr epic-txt16">Contact No. &nbsp;•&nbsp; Email</p>
+            <h3 id="modalDetails">Event &nbsp;•&nbsp; est. attendees</h3>
+            <p id="modalRemarks" class="epic-sansr epic-txt16">"<em>Remarks</em>"</p>
             <div style="overflow: hidden; margin-top: 20px;">
                 <em id="modalRsvStatus" class="epic-sanssb epic-txt16" style="float: right; margin-right: 50px; color: grey;">Reservation Status</em>
             </div>
@@ -91,32 +96,10 @@ include '../global/uf/js.html';
 <script>
 let txtDate = document.getElementById("modalDateText");
 let txtCustomer = document.getElementById("modalCustomer");
+let txtContact = document.getElementById("modalContact");
+let txtDetails = document.getElementById("modalDetails");
 let txtRemarks = document.getElementById("modalRemarks");
 let txtStatus = document.getElementById("modalRsvStatus");
-
-const reqBtn = document.querySelectorAll("#btnReq");
-reqBtn.forEach(bt=>{
-    bt.addEventListener('click', (e) => {
-        valsSec = e.target.parentElement.parentElement.children[0];
-        txtDate.innerHTML = valsSec.children[0].innerHTML;
-        txtCustomer.innerHTML = valsSec.children[1].innerHTML;
-
-        if (valsSec.children[2].value)
-            txtRemarks.innerHTML = '<em>"' + valsSec.children[2].value + '"</em>';
-        else
-            txtRemarks.innerHTML = "";
-
-        
-
-        formAccept.hidden = false;
-        btnRed.name = "reject";
-        btnRed.innerHTML = "Deny";
-        idAccept.value = valsSec.children[3].value;
-        idRed.value = valsSec.children[3].value;
-        
-        epicOpenModal();
-    })
-})
 
 const rsvBtn = document.querySelectorAll("#btnRsv");
 rsvBtn.forEach(bt=>{
@@ -125,10 +108,12 @@ rsvBtn.forEach(bt=>{
         status = e.target.parentElement.children[0].children[0].innerHTML;
 
         txtDate.innerHTML = valsSec.children[0].innerHTML;
-        txtCustomer.innerHTML = valsSec.children[1].innerHTML;
+        txtCustomer.innerHTML = valsSec.children[2].value;
+        txtContact.innerHTML = valsSec.children[3].value;
+        txtDetails.innerHTML = valsSec.children[4].value;
 
-        if (valsSec.children[2].value)
-            txtRemarks.innerHTML = '<em>"' + valsSec.children[2].value + '"</em>';
+        if (valsSec.children[5].value)
+            txtRemarks.innerHTML = '<em>"' + valsSec.children[5].value + '"</em>';
         else
             txtRemarks.innerHTML = "";
 

@@ -10,20 +10,22 @@ $id = $_POST["id"];
 
 $val = "empty string";
 $sql = "";
+$ctg = "categories";
+if ($_POST["ctgupdate"] === "rsv") $ctg = "rsv_categories";
 if (isset($_POST["name"]))
 {
     $val = $_POST["name"];
-    $sql = "UPDATE categories SET name = ? WHERE id = '$id'";
+    $sql = "UPDATE $ctg SET name = ? WHERE id = '$id'";
 }
 elseif (isset($_POST["enable"]))
 {
     $val = "0";
-    $sql = "UPDATE categories SET hidden = ? WHERE id = '$id'";
+    $sql = "UPDATE $ctg SET hidden = ? WHERE id = '$id'";
 }
 elseif (isset($_POST["disable"]))
 {
     $val = "1";
-    $sql = "UPDATE categories SET hidden = ? WHERE id = '$id'";
+    $sql = "UPDATE $ctg SET hidden = ? WHERE id = '$id'";
 }
 if ($sql != "")
 {

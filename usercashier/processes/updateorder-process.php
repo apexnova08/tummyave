@@ -15,6 +15,12 @@ $id = $_POST["id"];
 $result = $mysqli->query("SELECT * FROM orders WHERE id = '$id'");
 $order = $result->fetch_assoc();
 
+// GET CUSTOMER
+$customerid = $order["user_id"];
+$sql = "SELECT * FROM users WHERE id = '$customerid'";
+$result = $mysqli->query($sql);
+$customer = $result->fetch_assoc();
+
 // UPDATE
 if (isset($_POST["update"]))
 {
@@ -25,6 +31,7 @@ if (isset($_POST["update"]))
     }
     elseif ($order["status"] === "Preparing")
     {
+        NotifyOrderReady($customer["email"], $customer["name"], $order["id"], $order["total_items"]);
         $sql = "UPDATE orders SET status = 'Ready for pickup' WHERE id = '$id'";
     }
     elseif ($order["status"] === "Ready for pickup")

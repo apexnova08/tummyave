@@ -1,13 +1,9 @@
 <?php
+include 'processes/settings-redirect.php';
+
 session_start();
-$userid = "id";
-$usertype = "0";
-if (isset($_SESSION["user_id"]))
-{
-    $userid = $_SESSION["user_id"];
-    $usertype = $_SESSION["user_type"];
-}
-else header("location: login.php");
+$userid = $_SESSION["user_id"];
+$usertype = $_SESSION["user_type"];
 session_abort();
 
 require __DIR__ . "/../global/funcs.php";
@@ -28,7 +24,7 @@ if (!$user) die ("Error: user not found");
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Panel | Menu</title>
+    <title>Tummy Avenue | Account</title>
     
     <!--CSS-->
     <?php 

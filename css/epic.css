@@ -32,6 +32,9 @@ html {
 .epic-txt25 {
     font-size: 25px;
 }
+.epic-txt30 {
+    font-size: 30px;
+}
 .epic-upper {
     text-transform: uppercase;
 }
@@ -154,6 +157,11 @@ html {
 .epic-a:hover {
     color: black;
     transition: .2s;
+}
+.epic-a.disabled {
+    pointer-events: none;
+    color: #F4AF92;
+    cursor: default;
 }
 .epic-header {
     padding: 0 20px;
@@ -401,6 +409,35 @@ html {
     width: 100%;
     font-weight: normal;
 }
+
+
+
+
+
+/* ## OWNER TABS ## */
+.epic-otab
+{
+    height: 120px;
+    border-radius: 50px;
+    border: solid 2px #aaa;
+    padding-top: 20px;
+    text-align: center;
+    color: black;
+    cursor: pointer;
+}
+.epic-otab *
+{
+    pointer-events: none;
+}
+.epic-otab:hover
+{
+    color: inherit;
+    transition: .3s;
+}
+
+
+
+
 
 /* Add media queries for smaller screens */
 @media screen and (max-width:720px) {

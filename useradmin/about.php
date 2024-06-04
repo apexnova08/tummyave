@@ -14,7 +14,7 @@ $count = $countraw->fetch_assoc()["total"];
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Panel | Menu</title>
+    <title>Admin Panel | About Section</title>
     
     <!--CSS AND NAV-->
     <?php 

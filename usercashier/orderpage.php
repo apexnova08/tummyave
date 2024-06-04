@@ -40,7 +40,7 @@ elseif ($order["status"] === "Ready for pickup") $btnstring = "Mark as picked up
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tummy Avenue | Login</title>
+    <title>Cashier Panel | Order Details</title>
     
     <!--CSS AND NAV-->
     <?php 
@@ -83,7 +83,7 @@ if (!$order["is_closed"])
 
                 <h3 class="epic-bebas">Customer</h3>
                 <label class="epic-sanssb epic-txt18" style="margin: 0;"><?= $customer["name"] ?></label><br/>
-                <label class="epic-sanssb epic-txt18" style="margin: 0;"><?= $customer["contact"] ?></label>
+                <label class="epic-sanssb epic-txt18" style="margin: 0;"><?= $customer["contact"] ?> &nbsp;•&nbsp; <?= $customer["email"] ?></label>
                 <?php
                 if ($order["remarks"])
                 {

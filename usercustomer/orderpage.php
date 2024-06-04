@@ -41,7 +41,7 @@ $cashier = $result->fetch_assoc();
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Panel | Menu</title>
+    <title>Tummy Avenue | Order Details</title>
     
     <!--CSS AND NAV-->
     <?php 
@@ -65,14 +65,11 @@ $cashier = $result->fetch_assoc();
             <div class="col-md-6">
                 <h2>Order &nbsp; Ref# &nbsp; <?= $id ?></h2>
                 <h3><?= $order["date"] ?></h3>
-                <?php
-                if ($order["employee_id"]) { ?> <label class="epic-txt18" style="margin: 0;"><em class="epic-sanss">Order accepted by:</em> <span class="epic-sanssb"><?= $cashier["name"] ?></span></label> <?php }
-                ?>
                 <br/><br/>
 
                 <h3 class="epic-bebas">Customer</h3>
                 <label class="epic-sanssb epic-txt18"><?= $customer["name"] ?></label><br/>
-                <label class="epic-sanssb epic-txt18"><?= $customer["contact"] ?></label>
+                <label class="epic-sanssb epic-txt18"><?= $customer["contact"] ?> &nbsp;•&nbsp; <?= $customer["email"] ?></label>
                 <?php
                 if ($order["remarks"])
                 {

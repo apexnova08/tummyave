@@ -1,4 +1,6 @@
 <?php
+include 'process-redirect.php';
+
 require __DIR__ . "/../../global/funcs.php";
 $mysqli = require __DIR__ . "/../../database.php";
 

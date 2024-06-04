@@ -11,6 +11,7 @@ if (isset($_SESSION["user_id"]))
     elseif ($user["type"] === "2") { header("Location: ../useradmin/"); }
     elseif ($user["type"] === "3") { header("Location: ../usercashier/"); }
     elseif ($user["type"] === "4") { header("Location: ../"); }
+    exit;
 }
 session_abort();
 ?>

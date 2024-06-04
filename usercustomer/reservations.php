@@ -16,7 +16,7 @@ session_abort();
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Panel | Menu</title>
+    <title>Tummy Avenue | Your Reservations</title>
     
     <!--CSS AND NAV-->
     <?php 
@@ -33,7 +33,7 @@ session_abort();
     <div class="container">
         <div style="text-align: right;"><a href="../reservation.php" class="epic-a">Go to reservation page ></a></div>
         <div>
-            <h2 class="heading">Your &nbsp; Reservation &nbsp; History</h2>
+            <h2 class="heading">Your &nbsp; Venue &nbsp; Reservation &nbsp; History</h2>
             <hr class="heading_space">
         </div>
         <div>
@@ -44,7 +44,7 @@ session_abort();
             <div class="row epic-li">
                 <div class="col-md-8">
                     <h3 class="epic-bebas"><?= getLongDateFormat($row["rsv_date"]) ?></h3>
-                    <p class="epic-sanssb"><?= getWeekDayName($row["rsv_date"])["dddd"] ?></p>
+                    <p class="epic-sanssb"><?= getWeekDayName($row["rsv_date"])["dddd"] ?> &nbsp;•&nbsp; <?= $row["event"] ?></p>
                 </div>
                 <div class="col-md-4" style="text-align: right;">
                     <em class="epic-sanssb" style="margin-right: 20px; color: <?= getRHSColor($row["status"]) ?>;"><?= getRHS($row["status"]) ?></em>

@@ -6,6 +6,14 @@ session_start();
 $userid = "empty";
 if (isset($_SESSION["user_id"])) $userid = $_SESSION["user_id"];
 session_abort();
+
+// GET VARS
+$vars = array();
+$resultvars = $mysqli->query("SELECT * FROM vars");
+while ($row = $resultvars->fetch_assoc())
+{
+    $vars[$row["name"]] = $row["value"];
+}
 ?>
 
 <!doctype html>
@@ -14,7 +22,7 @@ session_abort();
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tummy Avenue</title>
+<title>Tummy Avenue | Venue Reservation</title>
 
 <!--CSS-->
 <?php 
@@ -32,7 +40,7 @@ include 'global/customerheader.php';
     <div class="page_title">
         <div class="container">
             <div class="col-md-12">
-                <h2 class="title">Book &nbsp; a &nbsp; reservation</h2>
+                <h2 class="title">Book &nbsp; a &nbsp; Venue &nbsp; reservation</h2>
                 <p>Check out our menu and some of our special, featured best sellers!</p>
             </div>
         </div>
@@ -43,7 +51,7 @@ include 'global/customerheader.php';
 <section id="reservations" class="padding bg_white">
     <div class="container">
         <div>
-            <h2 class="heading">Your &nbsp; Reservations</h2>
+            <h2 class="heading">Your &nbsp; Venue &nbsp; Reservations</h2>
             <hr class="heading_space">
         </div>
         <div>
@@ -54,7 +62,7 @@ include 'global/customerheader.php';
             <div class="row epic-li">
                 <div class="col-md-8">
                     <h3 class="epic-bebas"><?= getLongDateFormat($rowrsv["rsv_date"]) ?></h3>
-                    <p class="epic-sanssb"><?= getWeekDayName($rowrsv["rsv_date"])["dddd"] ?></p>
+                    <p class="epic-sanssb"><?= getWeekDayName($rowrsv["rsv_date"])["dddd"] ?> &nbsp;•&nbsp; <?= $rowrsv["event"] ?></p>
                 </div>
                 <div class="col-md-4" style="text-align: right;">
                     <label class="epic-bebas" style="margin-right: 20px; font-weight: normal; color: #E25111;">Reserved</label>
@@ -62,13 +70,13 @@ include 'global/customerheader.php';
             </div>
             <?php
             }
-            $result_req = $mysqli->query("SELECT * FROM reservations WHERE user_id = '$userid' AND status = 'Requested' AND DATE(rsv_date) >= '" . getCurrentDate() . "'");
+            $result_req = $mysqli->query("SELECT * FROM reservations WHERE user_id = '$userid' AND status = 'Requested' AND DATE(rsv_date) > '" . getCurrentDate() . "'");
             while ($rowreq = $result_req->fetch_assoc()) {
             ?>
             <div class="row epic-li">
                 <div class="col-md-8">
                     <h3 class="epic-bebas"><?= getLongDateFormat($rowreq["rsv_date"]) ?></h3>
-                    <p class="epic-sanssb"><?= getWeekDayName($rowreq["rsv_date"])["dddd"] ?></p>
+                    <p class="epic-sanssb"><?= getWeekDayName($rowreq["rsv_date"])["dddd"] ?> &nbsp;•&nbsp; <?= $rowreq["event"] ?></p>
                 </div>
                 <div class="col-md-4" style="text-align: right;">
                     <form method="post" action="usercustomer/processes/reserve-process.php" style="margin: auto;">
@@ -89,7 +97,7 @@ include 'global/customerheader.php';
 <section id="reserve" class="padding bg_grey">
     <div class="container">
         <div>
-            <h2 class="heading">Request &nbsp; For &nbsp; a &nbsp; Reservation</h2>
+            <h2 class="heading">Request &nbsp; For &nbsp; a &nbsp; Venue &nbsp; Reservation</h2>
             <hr class="heading_space">
         </div>
         <div class="epic-calendar">
@@ -194,16 +202,12 @@ include 'global/customerheader.php';
                 {
                     $mysqli = require __DIR__ . "/database.php";
                     $date = $sYear . "/" . $sMonth . "/" . $sDay;
-                    $rsv = $mysqli->query("SELECT * FROM reservations WHERE rsv_date = '$date' AND (status = 'Reserved' OR status = 'Requested') LIMIT 1")->fetch_assoc();
+                    $rsv = $mysqli->query("SELECT * FROM reservations WHERE rsv_date = '$date' AND (status = 'Reserved' OR (status = 'Requested' AND user_id = '$userid')) LIMIT 1")->fetch_assoc();
 
                     if ($rsv)
                     {
                         if ($rsv["status"] === "Reserved") { ?> <li><div class="<?php if ($rsv["user_id"] === $userid) echo "epic-user-reserved"; else echo "epic-dayDisabled"; ?>"><div style="padding-top: 5px;"><label><?= $sDay ?></label><label class="epic-bebas">Reserved</label></div></div></li> <?php }
-                        else 
-                        { 
-                            if ($rsv["user_id"] === $userid) { ?> <li><div class="epic-dayDisabled"><div style="padding-top: 5px;"><label><?= $sDay ?></label><label><i>Requested</i></label></div></div></li> <?php }
-                            else { ?> <li><div class="epic-dayEnabled"><div id="epicday"><?= $sDay ?></div></div></li> <?php }
-                        }
+                        else { ?> <li><div class="epic-dayDisabled"><div style="padding-top: 5px;"><label><?= $sDay ?></label><label><i>Requested</i></label></div></div></li> <?php }
                     }
                     else { ?> <li><div class="epic-dayEnabled"><div id="epicday"><?= $sDay ?></div></div></li> <?php }
                 }
@@ -220,28 +224,23 @@ include 'global/customerheader.php';
             <h2 class="heading">Our &nbsp; Recent &nbsp; Events</h2>
             <hr class="heading_space">
         </div>
-        <div>
-            <div class="grid_layout">
-                <div class="zerogrid" style="height: 500px; overflow: scroll;">
-                    <div class="wrap-container">
-                        <?php
-                        $result = $mysqli->query("SELECT * FROM gallery WHERE DATE(date) BETWEEN NOW() - INTERVAL 30 DAY AND NOW() ORDER BY `date` DESC");
-                        while ($row = $result->fetch_assoc()) {
-                        ?>
-                        <div class="col-1-3 mix work-item">
-                            <div class="wrap-col first" style="overflow: hidden; padding: 0; margin: 0 10px 30px 10px; box-shadow: 2px 2px 10px;">
-                                <div class="item-container">
-                                    <img src="img-uploads/<?= $row['filename'] ?>" style="width: center; height: 255px; object-fit: cover;" alt="<?= $row['filename']; ?>"/>
-                                    <div class="overlay food-item" style="cursor: pointer;">
-                                        <a class="fancybox overlay-inner" href="img-uploads/<?= $row['filename'] ?>" data-fancybox-group="gallery"><i class=" icon-eye6"></i></a>
-                                    </div>
-                                </div>
-                            </div>
+        <div class="col-md-12">
+            <div class="cheffs_wrap_slider">
+                <div id="news-slider" class="owl-carousel">
+
+                    <?php
+                    $resultfeat = $mysqli->query("SELECT * FROM event_gallery ORDER BY `date` DESC");
+                    while ($row = $resultfeat->fetch_assoc()) {
+                    ?>
+                    <a class="fancybox" href="img-uploads/<?= $row["filename"] ?>"><div id="newsItem" class="item epic-texthover" style="padding: 0; margin: 10px; box-shadow: 2px 2px 10px;">
+                        <div class="news_content" style="pointer-events: none;">
+                            <img src="img-uploads/<?= $row["filename"] ?>" style="width: center; height: 255px; object-fit: cover;" alt="image">
                         </div>
-                        <?php
-                        } if (mysqli_num_rows($result) === 0) echo "<p class='epic-sansr' style='text-align: center; color: #777'>( Empty )</p>";
-                        ?>
-                    </div>
+                    </div></a>
+                    <?php
+                    }
+                    ?>
+                    
                 </div>
             </div>
         </div>
@@ -261,13 +260,41 @@ include 'global/customerfooter.html';
     <div class="epic-modal-content" style="width: 50%;">
         <div class="epic-modal-header">
             <span class="epic-modal-close">&times;</span>
-            <h2>Request &nbsp; a &nbsp; Reservation</h2>
+            <h2>Request &nbsp; a &nbsp; Venue &nbsp; Reservation</h2>
         </div>
         <div class="epic-modal-body">
-            <h3>Submit a reservation request on:</h3></br>
+            <h3>Submit a venue reservation request on:</h3></br>
             <h2 id="modalDateString"></h2></br></br>
             <form action="usercustomer/processes/reserve-process.php" method="post" style="overflow: hidden;">
-                <label class="epic-sansr">Remarks</label>
+                <div style="position: relative; overflow: hidden;">
+                    <div style="width: 50%; float: left;">
+                        <label class="epic-sansr">Venue Event</label>
+                        <select class="epic-txtbox" name="event" required>
+                            <?php
+                            $resultctg = $mysqli->query("SELECT * FROM rsv_categories WHERE NOT `hidden`");
+                            while ($row = $resultctg->fetch_assoc()) {
+                            ?>
+                            <option value="<?= $row["name"] ?>"><?= $row["name"] ?></option>
+                            <?php
+                            }
+                            ?>
+                            <option value="Others">Others</option>
+                        </select>
+                    </div>
+                    <div style="width: 50%; float: left; padding-left: 20px;">
+                        <label class="epic-sansr">Estimated amount of Pax</label>
+                        <select class="epic-txtbox" name="pax" required>
+                            <?php
+                            foreach (generatePaxList((int)$vars["max_pax"]) as $x) {
+                            ?>
+                            <option value="<?= $x ?>"><?= $x ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                    </div>
+                </div></br>
+                <label class="epic-sansr">Remarks (Optional)</label>
                 <textarea placeholder="Type here..." id="modalRemarks" style="width: 100%; height: 100px; padding: 10px; overflow: auto; resize: none;" name="remarks"></textarea>
                 <input type="hidden" name="day" id="submitDay">
                 <input type="hidden" name="month" value="<?= $sMonth ?>">

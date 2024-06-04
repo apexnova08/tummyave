@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Panel | Menu</title>
+    <title>Tummy Avenue | Register Success</title>
     
     <!--CSS AND NAV-->
     <?php 
@@ -24,7 +24,7 @@
             <hr class="heading_space">
         </div>
         <div>
-            <p class="epic-sansr epic-txt16" style="margin-top: 30px;">Register successful. You can now <a class="epic-a" style="padding: 0; font-size: 16px;" href="login.php">login.</a></p>
+            <p class="epic-sansr epic-txt16" style="margin-top: 30px;">Register successful. You can now <a class="epic-a" style="padding: 0; font-size: 16px;" href="login.php">login</a>.</p>
         </div>
     </div>
 </section>

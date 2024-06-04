@@ -16,6 +16,11 @@ if (isset($_POST["gcashnum"]))
     $val = $_POST["gcashnum"];
     $sql = "UPDATE vars SET `value` = '$val' WHERE `name` = 'gcashnum'";
 }
+if (isset($_POST["pax"]))
+{
+    $val = $_POST["pax"];
+    $sql = "UPDATE vars SET `value` = '$val' WHERE `name` = 'max_pax'";
+}
 if (isset($_POST["map"]))
 {
     $val = explode('"', $_POST["map"])[1];

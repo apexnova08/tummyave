@@ -11,7 +11,7 @@ $mysqli = require __DIR__ . "/../database.php";
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Panel | Menu</title>
+    <title>Admin Panel | Home Gallery</title>
     
     <!--CSS AND NAV-->
     <?php 
@@ -56,6 +56,7 @@ $mysqli = require __DIR__ . "/../database.php";
                             <form enctype="multipart/form-data" action="processes/gallery-process.php" method="post">
                                 <input class="epic-btnrred" type="submit" name="delete" value="Delete">
                                 <input type="hidden" name="id" value="<?= $row["id"] ?>">
+                                <input type="hidden" name="table" value="gallery">
                             </form>
                         </div>
                         <?php
@@ -80,6 +81,7 @@ $mysqli = require __DIR__ . "/../database.php";
             <form enctype="multipart/form-data" action="processes/gallery-process.php" method="post">
                 <input type="file" class="epic-txtbox" name="image" required>
                 <input name="upload" class="epic-btn" style="float: right; margin-top: 20px;" type="submit">
+                <input type="hidden" name="table" value="gallery">
             </form>
         </div>
         <div class="epic-modal-footer"><i>tummy-avenue.com</i></div>

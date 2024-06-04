@@ -24,7 +24,7 @@ function getRHSColor(string $status)
 
 
 
-// ## FUNCS
+// ## FUNCS DATE
 function getCurrentDateTime()
 {
     date_default_timezone_set("Asia/Manila");
@@ -106,7 +106,14 @@ function getLongDateFormat(string $rawdatestring)
     if (str_contains($rawdatestring, " ")) $datestring = $datestring . " &nbsp; " . getTime($rawdatestring)["hi"];
     return $datestring;
 }
+function subtractDaysFromDate(string $datestring, int $days)
+{
+    $date = date_create($datestring);
+    date_sub($date,date_interval_create_from_date_string( $days . " days"));
+    return date_format($date,"Y-m-d");
+}
 
+// ## FUNCS
 function generateID(string $datestring)
 {
     $arr = explode(" ", $datestring);
@@ -141,5 +148,125 @@ function uploadImage(string $filename)
     }
 
     return $filename;
+}
+function generatePaxList(int $max = 500)
+{
+    $list = array("Less than 10");
+    $estpax = 10;
+
+    while ($estpax < $max)
+    {
+        array_push($list, (string)$estpax);
+        
+        if ($estpax < 100) $estpax = $estpax * 2;
+        elseif ($estpax >= 1000) $estpax = $estpax + 1000;
+        elseif ($estpax >= 100) $estpax = $estpax + 100;
+
+        if ($estpax === 40) $estpax = 50;
+    }
+
+    array_push($list, (string)$max);
+    array_push($list, "More than " . $max);
+
+    return $list;
+}
+function generateRand(int $length = 6, bool $text = false) {
+    $characters = '0123456789';
+    if ($text) $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[random_int(0, $charactersLength - 1)];
+    }
+    return $randomString;
+}
+
+// ## FUNCS EMAIL
+use PHPMailer\PHPMailer\PHPMailer;
+function hideEmail(string $email)
+{
+    $domain = explode("@", $email)[1];
+    return substr($email, 0, 3) . "*****@" . $domain;
+}
+function sendOTP(string $email, string $name)
+{
+    $config = parse_ini_file(__DIR__ . "/../config.ini", true);
+    require "../vendor/autoload.php";
+    $mail = new PHPMailer(true);
+
+    $mail->isSMTP();
+    $mail->SMTPAuth = true;
+    $mail->Host = "smtp.gmail.com";
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->Port = 587;
+
+    $mail->Username = $config["email"]["email"];
+    $mail->Password = $config["email"]["pass"];
+
+    $mail->setFrom($config["email"]["email"], $config["email"]["name"]);
+    $mail->addAddress($email, $name);
+
+    $otp = generateRand();
+    $message = "Hello, $name!\n\nYour OTP is:\n$otp\n\n\nPlease be minded to not share this code to anyone.";
+
+    $mail->Subject = "Your One-Time-Pin";
+    $mail->Body = $message;
+
+    $mail->send();
+    return $otp;
+}
+function changePass(string $email, string $name)
+{
+    $config = parse_ini_file(__DIR__ . "/../config.ini", true);
+    require "../vendor/autoload.php";
+    $mail = new PHPMailer(true);
+
+    $mail->isSMTP();
+    $mail->SMTPAuth = true;
+    $mail->Host = "smtp.gmail.com";
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->Port = 587;
+
+    $mail->Username = $config["email"]["email"];
+    $mail->Password = $config["email"]["pass"];
+
+    $mail->setFrom($config["email"]["email"], $config["email"]["name"]);
+    $mail->addAddress($email, $name);
+
+    $newpass = generateRand(8, true);
+    $message = "Hello, $name!\n\nYour temporary password is:\n$newpass\n\n\nPlease update your password to a more secure one as soon as possible.";
+
+    $mail->Subject = "Your New Temporary Password";
+    $mail->Body = $message;
+
+    $mail->send();
+    return $newpass;
+}
+function NotifyOrderReady(string $email, string $name, string $orderid, string $totalitems)
+{
+    $config = parse_ini_file(__DIR__ . "/../config.ini", true);
+    require "../../vendor/autoload.php";
+    $mail = new PHPMailer(true);
+
+    $mail->isSMTP();
+    $mail->SMTPAuth = true;
+    $mail->Host = "smtp.gmail.com";
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->Port = 587;
+
+    $mail->Username = $config["email"]["email"];
+    $mail->Password = $config["email"]["pass"];
+
+    $mail->setFrom($config["email"]["email"], $config["email"]["name"]);
+    $mail->addAddress($email, $name);
+
+    $newpass = generateRand(8, true);
+    $message = "Hello, $name!\n\nYour order Order#$orderid with $totalitems items is now ready to pickup!";
+
+    $mail->Subject = "Your Order is Ready to Pickup!";
+    $mail->Body = $message;
+
+    $mail->send();
+    return $newpass;
 }
 ?>

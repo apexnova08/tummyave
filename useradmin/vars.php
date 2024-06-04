@@ -19,7 +19,7 @@ while ($row = $resultvars->fetch_assoc())
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Panel | Menu</title>
+    <title>Admin Panel | System Variables</title>
     
     <!--CSS AND NAV-->
     <?php 
@@ -66,6 +66,22 @@ while ($row = $resultvars->fetch_assoc())
                         <button id="btnEdit" class="epic-btnr" style="margin-left: 20px;" type="button">Edit</button>
                     </div>
                     <input placeholder="09XXXXXXXXX" id="txtVal" class="epic-txtbox" name="gcashnum" type="text" maxlength="11" value="<?= $vars["gcashnum"] ?>" disabled required>
+                    <div style="margin: 0; padding-top: 10px;" hidden>
+                        <button class="epic-btnr" style="float: right;">Update</button>
+                        <button id="btnCancelEdit" class="epic-btnrred" style="float: right; margin-right: 10px;" type="button">Cancel</button>
+                    </div>
+                </div>
+            </form>
+
+            </br></br>
+            <h3 class="epic-sanssb epic-txt25 epic-upper">Venue</h3></br>
+            <form style="overflow: hidden; margin-bottom: 30px;" enctype="multipart/form-data" method="post" action="processes/process.php">
+                <div>
+                    <div style="margin: 0;">
+                        <label>Max Venue Capacity</label>
+                        <button id="btnEdit" class="epic-btnr" style="margin-left: 20px;" type="button">Edit</button>
+                    </div>
+                    <input placeholder="Max No. of People" id="txtVal" class="epic-txtbox" name="pax" type="number" value="<?= $vars["max_pax"] ?>" disabled required>
                     <div style="margin: 0; padding-top: 10px;" hidden>
                         <button class="epic-btnr" style="float: right;">Update</button>
                         <button id="btnCancelEdit" class="epic-btnrred" style="float: right; margin-right: 10px;" type="button">Cancel</button>

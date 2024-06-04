@@ -6,14 +6,26 @@ if (isset($_SESSION["user_id"]))
     $result = $mysqli->query("SELECT * FROM users WHERE id = {$_SESSION["user_id"]}");
     $user = $result->fetch_assoc();
     
-    if ($user["type"] != "0" && $user["type"] != "4")
+    if ($user["password"] != $_SESSION["password"])
+    {
+        header("Location: ../../account/logout.php");
+        exit;
+    }
+    if (!$user["activated"])
+    {
+        header("Location: ../../account/verify.php");
+        exit;
+    }
+    elseif ($user["type"] != "0" && $user["type"] != "4")
     {
         header("Location: ../../");
+        exit;
     }
 }
 else
 {
     header("Location: ../../account/login.php");
+    exit;
 }
 session_abort();
 ?>

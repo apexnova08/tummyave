@@ -27,8 +27,8 @@ $usertype = $user["type"];
 <section class="epic-bebas epic-header" style="text-align: center;">
     <ul>
         <a href="../useradmin/"><li>Foods</li></a>
-        <a href="categories.php"><li>Food Categories</li></a>
-        <a href="reservations.php"><li>Reservations</li></a>
+        <a href="categories.php"><li>Categories</li></a>
+        <a href="reservations.php"><li>Venue &nbsp; Reservations</li></a>
         <a href="tummy.php"><li>Tummy &nbsp; Avenue</li></a>
         <a href="accounts.php"><li>Accounts</li></a>
         <a href="../account/account.php"><li><?= explode(" ", $user["name"])[0] ?></li></a>

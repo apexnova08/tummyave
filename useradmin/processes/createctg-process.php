@@ -9,7 +9,8 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 
 $name = $_POST["name"];
 
-$sql = "INSERT INTO categories (name) VALUES (?)";
+if ($_POST["ctg"] === "food") $sql = "INSERT INTO categories (name) VALUES (?)";
+else $sql = "INSERT INTO rsv_categories (name) VALUES (?)";
 $stmt = $mysqli->stmt_init();
 if (!$stmt->prepare($sql)) {
     die("SQL error: " . $mysqli->errno);

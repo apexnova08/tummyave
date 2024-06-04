@@ -18,12 +18,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
             session_regenerate_id();
             $_SESSION["user_id"] = $user["id"];
             $_SESSION["user_type"] = $user["type"];
+            $_SESSION["password"] = $user["password"];
 
             if ($user["type"] === "0") { header("Location: ../user0/"); }
             elseif ($user["type"] === "1") { header("Location: ../userowner/"); }
             elseif ($user["type"] === "2") { header("Location: ../useradmin/"); }
             elseif ($user["type"] === "3") { header("Location: ../usercashier/"); }
-            elseif ($user["type"] === "4") { header("Location: ../"); }
+            elseif ($user["type"] === "4")
+            {
+                if ($user["activated"]) header("Location: ../");
+                else header("Location: verify.php");
+            }
 
             exit;
         }
@@ -39,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Panel | Menu</title>
+    <title>Tummy Avenue | Login</title>
     
     <!--CSS AND NAV-->
     <?php 
@@ -70,7 +75,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
                 </div>
                 <div>
                     <label>Password</label></br>
-                    <input placeholder="Password" class="epic-txtbox" type="password" name="password">
+                    <input placeholder="Password" class="epic-txtbox" type="password" name="password" required>
+                    <div style="text-align: right;"><a href="forgetpass.php" class="epic-a" style="padding: 0; font-size: 16px;">Forgot password?</a></div>
                 </div>
                 <br/>
                 <div style="text-align: right;">

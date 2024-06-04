@@ -51,11 +51,11 @@ session_abort();
                         <a href="index.php">Home</a>
                         
                       </li>
-                      <li><a href="food.php">Our Food</a></li>
+                      <li><a href="food.php">Our &nbsp; Food</a></li>
                       
-                      <li><a href="reservation.php">Reservation</a></li>
+                      <li><a href="reservation.php">Venue &nbsp; Reservation</a></li>
                       
-                          <li><a href="about.php">About Us</a></li>
+                          <li><a href="about.php">About &nbsp; Us</a></li>
                       
                       <li class="dropdown">
                         <a data-toggle="dropdown" href="#" class="dropdown-toggle">Account</a>
@@ -71,7 +71,7 @@ session_abort();
                             <?php elseif ($user["type"] == 3): ?>
                               <li><a href="usercashier/">Cashier Panel</a></li>
                             <?php elseif ($user["type"] == 4): ?>
-                              <li><a href="usercustomer/reservations.php">Reservations</a></li>
+                              <li><a href="usercustomer/reservations.php">Venue Reservations</a></li>
                               <li><a href="usercustomer/orders.php">Orders</a></li>
                               <li><a href="usercustomer/cart.php">Cart</a></li>
                             <?php endif ?>
