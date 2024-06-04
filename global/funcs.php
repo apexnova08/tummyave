@@ -1,6 +1,6 @@
 <?php
 // ## VARS
-$usertypes = array("0"=>"Super Admin", "1"=>"Owner", "2"=>"Admin", "3"=>"Cashier", "4"=>"Customer");
+$usertypes = array("0"=>"Superadmin", "1"=>"Owner", "2"=>"Admin", "3"=>"Cashier", "4"=>"Customer");
 $boolstring = array("0"=>"False", "1"=>"True");
 $paidString = array("0"=>"Unpaid", "1"=>"Paid");
 $enabledString = array("0"=>"Enabled", "1"=>"Disabled");

@@ -11,7 +11,7 @@ session_destroy();
 
 $mysqli = require __DIR__ . "/../../database.php";
 
-$sql = "INSERT INTO users (name, email, username, password, type, disabled, contact) VALUES (?, ?, ?, ?, 4, 0, ?)";
+$sql = "INSERT INTO users (name, email, username, password, type, contact) VALUES (?, ?, ?, ?, 4, ?)";
 $stmt = $mysqli->stmt_init();
 if (!$stmt->prepare($sql)) {
     die("SQL error: " . $mysqli->errno);
