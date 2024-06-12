@@ -48,7 +48,7 @@ include 'global/customerheader.php';
 				<!-- START REVOLUTION SLIDER 5.0.7 fullwidth mode -->
 					<div id="rev_slider_34_1" class="rev_slider fullwidthabanner" style="display:none;" data-version="5.0.7">
 						<ul>	<!-- SLIDE  -->
-							<li data-index="rs-129" data-transition="fade" data-slotamount="default" data-rotate="0"  data-fstransition="fade" data-fsmasterspeed="1500" data-fsslotamount="7"  data-title="Outdoor &nbsp; Dining" data-description="Enjoy the Ambiance!">
+							<li data-index="rs-129" data-transition="fade" data-slotamount="default" data-rotate="0"  data-fstransition="fade" data-fsmasterspeed="1500" data-fsslotamount="7"  data-title="" data-description="">
 								<!-- MAIN IMAGE -->
 								<img src="images/Tummy1.jpg" alt=""  data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" class="rev-slidebg" data-no-retina>
 								<!-- LAYER NR. 2 -->
@@ -89,13 +89,13 @@ include 'global/customerheader.php';
                            data-mask_out="x:0;y:0;s:inherit;e:inherit;" 
                           data-start="1200"
                            style="z-index: 12;">
-                       <a href="./account/register.php" class="btn-common btn-white page-scroll">Order Now</a>
+                       <a href="food.php#food" class="btn-common btn-white page-scroll">Order Now</a>
                        </div>
                         
                        
 							</li>
 							
-							<li class="text-center" data-index="rs-130" data-transition="slideleft" data-slotamount="default" data-rotate="0"  data-title="Craving for Food?" data-description="Order Now!">
+							<li class="text-center" data-index="rs-130" data-transition="slideleft" data-slotamount="default" data-rotate="0"  data-title="" data-description="">
 								<img src="images/SouthPerks.png"  alt="" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" class="rev-slidebg" data-no-retina>
                         <h1 class="tp-caption tp-resizeme" 
                           data-x="center" data-hoffset="15"
@@ -134,11 +134,11 @@ include 'global/customerheader.php';
                            data-mask_out="x:0;y:0;s:inherit;e:inherit;" 
                           data-start="1200"
                            style="z-index: 12;">
-                          <a href="#specialities" class="btn-common btn-white page-scroll">Learn &nbsp; More</a> &nbsp; <a href="#order-form" class="btn-common btn-orange page-scroll">Order &nbsp; Now</a>
+                          <a href="food.php#food" class="btn-common btn-orange page-scroll">Order &nbsp; Now</a>
                        </div>  
                             </li>
 						
-							<li class="text-right" data-index="rs-131" data-transition="slideleft"   data-rotate="0" data-title="Invite your Friends &amp; Family" data-description="Have Fun!">
+							<li class="text-right" data-index="rs-131" data-transition="slideleft"   data-rotate="0" data-title="" data-description="">
 								<img src="images/Tummy2.png" alt="" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" class="rev-slidebg" data-no-retina>
                         <h1 class="tp-caption tp-resizeme" 
                           data-x="right" data-hoffset="" 
@@ -177,7 +177,7 @@ include 'global/customerheader.php';
                            data-mask_out="x:0;y:0;s:inherit;e:inherit;" 
                           data-start="1200"
                            style="z-index: 12;">
-                       <a href="./account/register.php" class="btn-common btn-white page-scroll">Order Now</a>
+                       <a href="food.php#food" class="btn-common btn-white page-scroll">Order Now</a>
                        </div>  
                             </li>
 							<!-- SLIDE  -->
@@ -185,45 +185,6 @@ include 'global/customerheader.php';
 					</div>
 				</div>
  <!-- END REVOLUTION SLIDER -->
-						
-
-
-
-
-<!--Features Section-->
-<section class="feature_wrap padding-half" id="specialities">
-  <div class="container">
-    <div class="row">
-     <div class="col-md-12 text-center">
-        <h2 class="heading ">Our &nbsp; Specialities</h2>
-        <hr class="heading_space">
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-3 col-sm-6 feature text-center">
-        <i class="icon-glass"></i>
-        <h3><a href="./account/register.php">All Day Breakfast</a></h3>
-        <p> Enjoy Delicious Food!</p>
-      </div>
-      <div class="col-md-3 col-sm-6 feature text-center">
-        <i class="icon-coffee"></i>
-        <h3><a href="./account/register.php">Appetizers &amp; Pastas</a></h3>
-        <p> Enjoy Delicious Food!</p>
-      </div>
-      <div class="col-md-3 col-sm-6 feature text-center">
-        <i class="icon-glass"></i>
-        <h3><a href="./account/register.php">Burgers &amp; Sandwiches</a></h3>
-        <p> Enjoy Delicious Food!</p>
-      </div>
-      <div class="col-md-3 col-sm-6 feature text-center">
-        <i class="icon-coffee"></i>
-        <h3><a href="./account/register.php">Chicken Wings </a></h3>
-        <p> Enjoy Delicious Food!</p>
-      </div>
-    </div>
-    
-  </div>
-</section>
 
 <section id="news" class="padding bg_white">
   <div class="container">
@@ -270,7 +231,7 @@ include 'global/customerheader.php';
          <div class="text-center">
          <h2 class="heading_space">Freshly Cooked Food</h2>
          <p class="heading_space detail">Enjoy Delicious Food!</p>
-         <a href="./account/register.php" class="btn-common-white page-scroll">Order Now</a>
+         <a href="food.php#food" class="btn-common-white page-scroll">Order Now</a>
          </div>          
       </div>
       <div class="col-md-2"></div>
@@ -291,10 +252,19 @@ include 'global/customerheader.php';
       <div class="col-md-12">
       <div id="testinomial-slider" class="owl-carousel text-center">
         <?php
-        $resultnews = $mysqli->query("SELECT * FROM feedbacks WHERE NOT hidden");
-        while ($row = $resultnews->fetch_assoc()) {
+        $resultfb = $mysqli->query("SELECT * FROM feedbacks WHERE NOT hidden");
+        while ($row = $resultfb->fetch_assoc()) {
         ?>
         <div class="item">
+          <div class="epic-starcontainer" style="pointer-events: none;">
+              <?php
+              for ($i = 0; $i < 5; $i++)
+              {
+                  if ($i < (int)$row["rating"]) echo '<span class="epic-star fa fa-star epic-starc" style="margin: 0 2px;"></span>';
+                  else echo '<span class="epic-star fa fa-star" style="margin: 0 2px;"></span>';
+              }
+              ?>
+          </div>
           <h3><?= $row["feedback"] ?></h3>
           <p><?= $users[$row["user_id"]]["name"] ?></p>
         </div>
@@ -374,10 +344,10 @@ const newsArr = document.querySelectorAll("#newsItem");
 newsArr.forEach(bt=>{
     bt.addEventListener('click', (e) => {
       const newsitem = e.target.children[0].children;
-      document.getElementById("modalNewsImage").src =  newsitem[0].src;
-      document.getElementById("modalNewsTitle").innerHTML =  newsitem[1].children[0].innerHTML;
-      document.getElementById("modalNewsDate").innerHTML =  newsitem[1].children[1].innerHTML;
-      document.getElementById("modalNewsContent").innerHTML =  newsitem[2].children[0].value;
+      document.getElementById("modalNewsImage").src = newsitem[0].src;
+      document.getElementById("modalNewsTitle").innerHTML = newsitem[1].children[0].innerHTML;
+      document.getElementById("modalNewsDate").innerHTML = newsitem[1].children[1].innerHTML;
+      document.getElementById("modalNewsContent").innerHTML = newsitem[2].children[0].value;
       epicOpenModal();
     })
 })

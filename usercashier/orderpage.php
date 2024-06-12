@@ -52,18 +52,25 @@ elseif ($order["status"] === "Ready for pickup") $btnstring = "Mark as picked up
 <body>
 
 <!--#####-->
-<?php
-if (!$order["is_closed"])
-{
-?>
 <section id="topBtns" style="padding-top: 30px;">
     <div class="container" style=" overflow: hidden;">
+        <?php
+        if (!$order["is_closed"])
+        {
+        ?>
         <button onclick="epicOpenModal()" style="float: right;" class="epic-btnred">Close &nbsp; Order</button>
+        <?php
+        } else {
+        ?>
+        <form action="processes/invoice.php" method="post" target="_blank">
+            <input type="hidden" name="id" value="<?= $order["id"] ?>">
+            <button style="float: right;" class="epic-btnr">Generate Invoice</button>
+        </form>
+        <?php
+        }
+        ?>
     </div>
 </section>
-<?php
-}
-?>
 
 <section id="order" class="padding bg_white">
     <div class="container">
@@ -95,7 +102,7 @@ if (!$order["is_closed"])
             </div>
             <div class="col-md-6" style="text-align: right;">
                 <h3 class="epic-bebas">Payment</h3>
-                <h2 class="epic-sanss">₱<span class="epic-sanssb"><?= $order["total_cost"] ?>.00</span></h2>
+                <h2 class="epic-sanss">₱<span class="epic-sanssb"><?= getPriceFormat($order["total_cost"]) ?></span></h2>
                 <label class="epic-sanssb epic-txt18" style="margin: 0;"><i><?= $paidString[$order["is_paid"]] ?></i></label><br/><br/>
 
                 <h3 class="epic-bebas">Status</h3>
@@ -150,12 +157,12 @@ if (!$order["is_closed"])
                     <img src="<?= '../img-uploads/' . $foodarray[$row["food_id"]]["image"] ?>" style="width: 100px; height: 70px; object-fit: cover; float: left" alt="image"/>
                     <div style="margin: 10px 0 0 20px; float: left;">
                         <h3 class="epic-bebas"><?= $foodarray[$row["food_id"]]["name"] ?></h3>
-                        <h4 class="epic-sanssb"><span class="epic-sanss">₱</span><?= $row["food_cost"] ?>.00 ea.</h4>
+                        <h4 class="epic-sanssb"><span class="epic-sanss">₱</span><?= getPriceFormat($row["food_cost"]) ?> ea.</h4>
                     </div>
                 </div>
                 <div class="col-md-4 right" style="margin-top: 10px;">
                     <em>subtotal</em>
-                    <h4 class="epic-sanssb"><span class="epic-sanss">₱</span><?= $row["subtotal"] ?>.00</h4>
+                    <h4 class="epic-sanssb"><span class="epic-sanss">₱</span><?= getPriceFormat($row["subtotal"]) ?></h4>
                     <p class="epic-sanssb"><i>amount: <?= $row["amount"] ?></i></p>
                 </div>
             </div>

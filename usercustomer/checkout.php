@@ -41,7 +41,7 @@ $foodtotal = 0;
 <!--#####-->
 <section id="order" class="padding bg_white">
     <div class="container">
-        <div style="text-align: right;"><a href="cart.php" class="epic-a"><< Back</a></div>
+        <div style="text-align: right;"><a href="../food.php#cart" class="epic-a"><< Back</a></div>
         <div>
             <h2 class="heading">Checkout</h2>
             <hr class="heading_space">
@@ -52,7 +52,7 @@ $foodtotal = 0;
 
                 <h3 class="epic-bebas">Customer</h3>
                 <label class="epic-sanssb epic-txt18"><?= $user["name"] ?></label><br/>
-                <label class="epic-sanssb epic-txt18"><?= $user["contact"] ?></label>
+                <label class="epic-sanssb epic-txt18"><?= $user["contact"] ?> &nbsp;•&nbsp; <?= $user["email"] ?></label>
             </div>
         </div>
         
@@ -68,12 +68,12 @@ $foodtotal = 0;
                     <img src="<?= '../img-uploads/' . $foodarray[$row["food_id"]]["image"] ?>" style="width: 100px; height: 70px; object-fit: cover; float: left" alt="image"/>
                     <div style="margin: 10px 0 0 20px; float: left;">
                         <h3 class="epic-bebas"><?= $foodarray[$row["food_id"]]["name"] ?></h3>
-                        <h4 class="epic-sanssb"><span class="epic-sanss">₱</span><?= $foodarray[$row["food_id"]]["cost"] ?>.00 ea.</h4>
+                        <h4 class="epic-sanssb"><span class="epic-sanss">₱</span><?= getPriceFormat($foodarray[$row["food_id"]]["cost"]) ?> ea.</h4>
                     </div>
                 </div>
                 <div class="col-md-4 right" style="margin-top: 10px;">
                     <em>subtotal</em>
-                    <h4 class="epic-sanssb"><span class="epic-sanss">₱</span><?= $foodarray[$row["food_id"]]["cost"] * $row["amount"] ?>.00</h4>
+                    <h4 class="epic-sanssb"><span class="epic-sanss">₱</span><?= getPriceFormat($foodarray[$row["food_id"]]["cost"] * $row["amount"]) ?></h4>
                     <p class="epic-sanssb"><i>amount: <?= $row["amount"] ?></i></p>
                 </div>
             </div>
@@ -85,7 +85,7 @@ $foodtotal = 0;
     <div class="container" style="margin-top: 50px; overflow: hidden;">
         <form enctype="multipart/form-data" action="processes/checkout-process.php" method="post">
             <button class="epic-btn">Place Order</button>
-            <label class="epic-sanss epic-txt25" style="margin-left: 30px;">₱<span class="epic-sanssb"><?= $foodtotal ?>.00</span></label>
+            <label class="epic-sanss epic-txt25" style="margin-left: 30px;">₱<span class="epic-sanssb"><?= getPriceFormat($foodtotal) ?></span></label>
         </form>
     </div>
 </section>

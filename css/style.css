@@ -867,9 +867,9 @@ ul.tags li a, ul.social_icon li a,
   cursor:pointer;
   border-radius: 10px;
   padding: 25px 0px 0px 50px !important;
-  background: rgba(0, 0, 0, 0.35);
   top:90% !important;
   color:#fff;
+  pointer-events: none;
 }
 .hesperiden .tp-tab{
 	position:absolute;

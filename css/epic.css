@@ -439,6 +439,27 @@ html {
 
 
 
+/* ## STAR RATING ## */
+.epic-starcontainer {
+    margin: 10px auto;
+    cursor: pointer;
+    width: fit-content;
+}
+.epic-star {
+    color: grey;
+    font-size: 30px;
+}
+.epic-starc {
+    color: #FFA500 !important;
+}
+.epic-startp {
+    color: #BF923F !important;
+}
+
+
+
+
+
 /* Add media queries for smaller screens */
 @media screen and (max-width:720px) {
     .epic-weekdays li, .epic-days li {width: 13.1%;}

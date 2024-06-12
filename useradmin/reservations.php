@@ -55,6 +55,7 @@ if ($reqscount['total'] != "0")
                     <label class="epic-sanssb"><?= $users[$row["user_id"]]["name"] ?> &nbsp;•&nbsp; <span><?= $row["event"] ?></span></label>
                     <input type="hidden" value="<?= $users[$row["user_id"]]["name"] ?>">
                     <input type="hidden" value="<?= $users[$row["user_id"]]["contact"] ?> &nbsp;•&nbsp; <?= $users[$row["user_id"]]["email"] ?>">
+                    <input type="hidden" value="<?= get12HourFormat($row["time_start"]) . " - " . get12HourFormat($row["time_end"]) ?>">
                     <input type="hidden" value="<?= $row["event"] ?> &nbsp;•&nbsp; <?= $row["pax"] ?> est. attendees">
                     <input type="hidden" value="<?= $row["remarks"] ?>">
                     <input type="hidden" value="<?= $row["id"] ?>">
@@ -91,6 +92,7 @@ if ($reqscount['total'] != "0")
                     <label class="epic-sanssb"><?= $users[$row["user_id"]]["name"] ?> &nbsp;•&nbsp; <span><?= $row["event"] ?></span></label>
                     <input type="hidden" value="<?= $users[$row["user_id"]]["name"] ?>">
                     <input type="hidden" value="<?= $users[$row["user_id"]]["contact"] ?> &nbsp;•&nbsp; <?= $users[$row["user_id"]]["email"] ?>">
+                    <input type="hidden" value="<?= get12HourFormat($row["time_start"]) . " - " . get12HourFormat($row["time_end"]) ?>">
                     <input type="hidden" value="<?= $row["event"] ?> &nbsp;•&nbsp; <?= $row["pax"] ?> est. attendees">
                     <input type="hidden" value="<?= $row["remarks"] ?>">
                     <input type="hidden" value="<?= $row["id"] ?>">
@@ -114,7 +116,10 @@ if ($reqscount['total'] != "0")
             <h2>Reservation &nbsp; Details</h2>
         </div>
         <div class="epic-modal-body" style="overflow: hidden;">
-            <h2 id="modalDateText">Date</h2>
+            <div style="overflow: hidden;">
+                <h2 id="modalDateText" style="float: left;">Date</h2>
+                <h3 id="modalTimeText" style="float: left; margin-left: 20px;">Time</h3>
+            </div>
             <p id="modalCustomer" class="epic-sansr epic-txt16" style="margin: 0;">Customer Name</p>
             <p id="modalContact" class="epic-sansr epic-txt16">Contact No. &nbsp;•&nbsp; Email</p>
             <h3 id="modalDetails">Event &nbsp;•&nbsp; est. attendees</h3>
@@ -143,6 +148,7 @@ include '../global/uf/js.html';
 
 <script>
 let txtDate = document.getElementById("modalDateText");
+let txtTime = document.getElementById("modalTimeText");
 let txtCustomer = document.getElementById("modalCustomer");
 let txtContact = document.getElementById("modalContact");
 let txtDetails = document.getElementById("modalDetails");
@@ -160,18 +166,19 @@ reqBtn.forEach(bt=>{
         txtDate.innerHTML = valsSec.children[0].innerHTML;
         txtCustomer.innerHTML = valsSec.children[2].value;
         txtContact.innerHTML = valsSec.children[3].value;
-        txtDetails.innerHTML = valsSec.children[4].value;
+        txtTime.innerHTML = valsSec.children[4].value;
+        txtDetails.innerHTML = valsSec.children[5].value;
 
         if (valsSec.children[5].value)
-            txtRemarks.innerHTML = '<em>"' + valsSec.children[5].value + '"</em>';
+            txtRemarks.innerHTML = '<em>"' + valsSec.children[6].value + '"</em>';
         else
             txtRemarks.innerHTML = "";
 
         formAccept.hidden = false;
         btnRed.name = "reject";
         btnRed.innerHTML = "Deny";
-        idAccept.value = valsSec.children[6].value;
-        idRed.value = valsSec.children[6].value;
+        idAccept.value = valsSec.children[7].value;
+        idRed.value = valsSec.children[7].value;
         
         epicOpenModal();
     })
@@ -184,17 +191,18 @@ rsvBtn.forEach(bt=>{
         txtDate.innerHTML = valsSec.children[0].innerHTML;
         txtCustomer.innerHTML = valsSec.children[2].value;
         txtContact.innerHTML = valsSec.children[3].value;
-        txtDetails.innerHTML = valsSec.children[4].value;
+        txtTime.innerHTML = valsSec.children[4].value;
+        txtDetails.innerHTML = valsSec.children[5].value;
 
         if (valsSec.children[5].value)
-            txtRemarks.innerHTML = '<em>"' + valsSec.children[5].value + '"</em>';
+            txtRemarks.innerHTML = '<em>"' + valsSec.children[6].value + '"</em>';
         else
             txtRemarks.innerHTML = "";
 
         formAccept.hidden = true;
         btnRed.name = "close";
         btnRed.innerHTML = "Cancel Reservation";
-        idRed.value = valsSec.children[6].value;
+        idRed.value = valsSec.children[7].value;
         
         epicOpenModal();
     })

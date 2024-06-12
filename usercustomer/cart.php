@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     <img src="<?= '../img-uploads/' . $foodarray[$row["food_id"]]["image"] ?>" style="width: 100px; height: 70px; object-fit: cover; float: left" alt="image"/>
                     <div style="margin: 10px 0 0 20px; float: left;">
                         <h3 class="epic-bebas"><?= $foodarray[$row["food_id"]]["name"] ?></h3>
-                        <h4 class="epic-sanssb"><span class="epic-sanss">₱</span><?= $foodarray[$row["food_id"]]["cost"] ?>.00 ea.</h4>
+                        <h4 class="epic-sanssb"><span class="epic-sanss">₱</span><?= getPriceFormat($foodarray[$row["food_id"]]["cost"]) ?> ea.</h4>
                     </div>
                 </div>
                 <div class="col-md-4 right" style="margin-top: 10px;">
@@ -71,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     </form>
                     <div style="float: right;">
                         <em>subtotal</em>
-                        <h4 class="epic-sanssb"><span class="epic-sanss">₱</span><?= $foodarray[$row["food_id"]]["cost"] * $row["amount"] ?>.00</h4>
+                        <h4 class="epic-sanssb"><span class="epic-sanss">₱</span><?= getPriceFormat($foodarray[$row["food_id"]]["cost"] * $row["amount"]) ?></h4>
                         <p class="epic-sanssb"><i>amount: <?= $row["amount"] ?></i></p>
                     </div>
                     
@@ -83,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             ?>
             <div style="margin-top: 30px;">
                 <h3 class="epic-bebas">Total</h3>
-                <h2 class="epic-sanss">₱<span class="epic-sanssb"><?= $foodtotalcost ?>.00</span></h2>
+                <h2 class="epic-sanss">₱<span class="epic-sanssb"><?= getPriceFormat($foodtotalcost) ?></span></h2>
                 <a href="checkout.php"><button class="epic-btn" style="margin-top: 20px;">Checkout</button></a>
             </div>
             

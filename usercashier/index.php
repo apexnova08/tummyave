@@ -55,7 +55,7 @@ $mysqli = require __DIR__ . "/../database.php";
                         <input type="submit" class="epic-btn" value="Update">
                     </form>
                     <div style="float: right; margin: 10px;">
-                        <h4 class="epic-sanssb"><?= $row["total_items"] ?> items &nbsp;•&nbsp; <span class="epic-sanss">₱</span><?= $row["total_cost"] ?>.00</h4>
+                        <h4 class="epic-sanssb"><?= $row["total_items"] ?> items &nbsp;•&nbsp; <span class="epic-sanss">₱</span><?= getPriceFormat($row["total_cost"]) ?></h4>
                         <label class="epic-sanssb"><i><?= $row["status"] ?></i></label>
                     </div>
                 </div>

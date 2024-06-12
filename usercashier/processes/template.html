@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+html {
+    font-family: Arial, Helvetica, sans-serif;
+}
+table {
+    width: 100%;
+}
+thead {
+    background-color: #E25111;
+    color: white;
+}
+tr:nth-child(even) {
+    background-color: #F6CAB7;
+}
+.epic-txt18 {
+    font-size: 18px;
+}
+.epic-txt40 {
+    font-size: 40px;
+}
+.epic-0margin {
+    margin: 0;
+}
+.epic-orange {
+    color: #E25111;
+}
+.epic-white {
+    color: white;
+}
+</style>
+</head>
+<body>
+
+<div style="height: 80px; background-color: #E25111; padding-left: 10px;">
+    <h1 class="epic-white" style="float: left;">INVOICE</h1>
+    <img src="../../images/HomeLogo.jpg" style="height: 79px; float: right;">
+</div>
+
+<div style="margin-top: 50px;">
+    <div style="float: left;">
+        <p class="epic-0margin epic-orange"><b>ORDER DETAILS</b></p>
+        <p class="epic-0margin">Order Ref. #{{ id }}</p>
+        <p class="epic-0margin">{{ date }}</p>
+        <p class="epic-0margin">{{ status }}</p>
+        </br>
+        <p class="epic-0margin epic-orange"><b>CUSTOMER</b></p>
+        <p class="epic-0margin">{{ name }}</p>
+        <p class="epic-0margin">{{ contact }}</p>
+        <p class="epic-0margin">{{ email }}</p>
+    </div>
+    <div style="float: right; text-align: right;">
+        <h1 class="epic-txt40 epic-0margin">P{{ total }}</h1>
+        <label class="epic-txt18">{{ items }} items</label>
+    </div>
+</div>
+
+<div style="margin-top: 250px;">
+    <table>
+        <thead>
+            <tr>
+                <th>ITEM</th>
+                <th>PRICE</th>
+                <th>QTY.</th>
+                <th>SUBTOTAL</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{ table }}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th style="text-align: left;">Total:</th>
+                <th></th>
+                <th>{{ titems }}</th>
+                <th>P{{ ttotal }}</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+</br></br></br></br></br>
+
+<footer>
+    <img src="../../images/LogoIcon.jpg" style="height: 150px; float: right;">
+</footer>
+    
+</body>
+</html>

@@ -17,16 +17,18 @@ if (isset($_POST["request"]))
 {
     $rsv_date = $_POST["year"] . "/" . $_POST["month"] . "/" . $_POST["day"];
     $remarks = $_POST["remarks"];
+    $timestart = $_POST["timeS"];
+    $timeend = $_POST["timeE"];
     $event = $_POST["event"];
     $pax = $_POST["pax"];
     $cdate = getCurrentDateTime();
 
-    $sql = "INSERT INTO reservations (user_id, req_date, rsv_date, status, event, pax, remarks) VALUES (?, ?, ?, 'Requested', ?, ?, ?)";
+    $sql = "INSERT INTO reservations (user_id, req_date, rsv_date, status, time_start, time_end, event, pax, remarks) VALUES (?, ?, ?, 'Requested', ?, ?, ?, ?, ?)";
     $stmt = $mysqli->stmt_init();
     if (!$stmt->prepare($sql)) {
         die("SQL error: " . $mysqli->errno);
     }
-    mysqli_stmt_bind_param($stmt, "ssssss", $userid, $cdate, $rsv_date, $event, $pax, $remarks);
+    mysqli_stmt_bind_param($stmt, "ssssssss", $userid, $cdate, $rsv_date, $timestart, $timeend, $event, $pax, $remarks);
     if ($stmt->execute()) header("location: ../../reservation.php"); 
     else die ("Error.");
 }

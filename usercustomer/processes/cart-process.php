@@ -7,21 +7,17 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     exit('POST request method required');
 }
 
-session_start();
-$userid = "empty";
-if (isset($_SESSION["user_id"])) $userid = $_SESSION["user_id"];
-session_abort();
+$cartid = $_POST["id"];
 
-$sql = "INSERT INTO carts (user_id, food_id, amount) VALUES (?, ?, ?)";
+$sql = "DELETE FROM carts WHERE id = ?";
 $stmt = $mysqli->stmt_init();
 if (!$stmt->prepare($sql)) {
     die("SQL error: " . $mysqli->errno);
 }
-mysqli_stmt_bind_param($stmt, "sss", $userid, $_POST["foodId"], $_POST["amount"]);
+mysqli_stmt_bind_param($stmt, "s", $cartid);
 if ($stmt->execute())
 {
-    header("location: ../../food.php#food");
+    header("location: ../../food.php#cart");
 }
 else die ("Error.");
-
 ?>

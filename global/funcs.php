@@ -20,6 +20,13 @@ function getRHSColor(string $status)
     else return "Grey";
 }
 
+// # ORDERS
+function getOPI(string $status) // Order Payment Instructions
+{
+    if ($status === "Waiting for payment") return "Waiting for payment (Go to 'details' to pay)";
+    else return $status;
+}
+
 
 
 
@@ -106,6 +113,17 @@ function getLongDateFormat(string $rawdatestring)
     if (str_contains($rawdatestring, " ")) $datestring = $datestring . " &nbsp; " . getTime($rawdatestring)["hi"];
     return $datestring;
 }
+function get12HourFormat(string $timestring)
+{
+    $ampm = "AM";
+    $arr = explode(":", $timestring);
+    $hourint = (int)$arr[0];
+    if ($hourint >= 12) $ampm = "PM";
+    if ($hourint > 12) $hourint = $hourint - 12;
+    if ($hourint == 0) $hourint = 12;
+    $hourstring = (string)$hourint;
+    return $hourstring . ":" . $arr[1] . " " . $ampm;
+}
 function subtractDaysFromDate(string $datestring, int $days)
 {
     $date = date_create($datestring);
@@ -113,7 +131,16 @@ function subtractDaysFromDate(string $datestring, int $days)
     return date_format($date,"Y-m-d");
 }
 
+
+
+
+
 // ## FUNCS
+function getPriceFormat(int $price)
+{
+    return number_format($price, 2);
+}
+
 function generateID(string $datestring)
 {
     $arr = explode(" ", $datestring);
@@ -180,6 +207,10 @@ function generateRand(int $length = 6, bool $text = false) {
     }
     return $randomString;
 }
+
+
+
+
 
 // ## FUNCS EMAIL
 use PHPMailer\PHPMailer\PHPMailer;

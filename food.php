@@ -2,6 +2,20 @@
 $mysqli = require __DIR__ . "/database.php";
 require __DIR__ . "/global/funcs.php";
 
+session_start();
+$userid = "empty";
+if (isset($_SESSION["user_id"])) $userid = $_SESSION["user_id"];
+session_abort();
+
+$foodarray = array();
+$foodresult = $mysqli->query("SELECT * FROM foods");
+while ($foodrow = $foodresult->fetch_assoc())
+{
+    $foodarray[$foodrow["id"]] = $foodrow;
+}
+
+$foodtotalcost = 0;
+
 // GET USERS
 $users = array();
 $result_users = $mysqli->query("SELECT * FROM users");
@@ -82,7 +96,64 @@ if ($reqscount['total'] != "0")
 }
 ?>
 
-<section id="food" class="padding bg_grey">
+<?php
+$cartcountraw = $mysqli->query("SELECT COUNT(*) AS total FROM carts WHERE user_id = '$userid'");
+$cartcount = $cartcountraw->fetch_assoc();
+if ($cartcount['total'] != "0")
+{
+?>
+<section id="cart" class="padding bg_white">
+    <div class="container">
+        <div>
+            <h2 class="heading">Your &nbsp; Cart</h2>
+            <hr class="heading_space">
+        </div>
+        <div>
+            <?php
+            $result_cart = $mysqli->query("SELECT * FROM carts WHERE user_id = '$userid'");
+            while ($row = $result_cart->fetch_assoc()) {
+                $foodtotalcost = $foodtotalcost + ($foodarray[$row["food_id"]]["cost"] * $row["amount"]);
+            ?>
+            <div class="row epic-li">
+                <div class="col-md-8" style="overflow: hidden; margin-bottom: 10px;">
+                    <img src="<?= 'img-uploads/' . $foodarray[$row["food_id"]]["image"] ?>" style="width: 100px; height: 70px; object-fit: cover; float: left" alt="image"/>
+                    <div style="margin: 10px 0 0 20px; float: left;">
+                        <h3 class="epic-bebas"><?= $foodarray[$row["food_id"]]["name"] ?></h3>
+                        <h4 class="epic-sanssb"><span class="epic-sanss">₱</span><?= getPriceFormat($foodarray[$row["food_id"]]["cost"]) ?> ea.</h4>
+                    </div>
+                </div>
+                <div class="col-md-4 right" style="margin-top: 10px;">
+                    <form enctype="multipart/form-data" action="usercustomer/processes/cart-process.php" method="post" style="float: right; margin: 10px 0 0 20px;">
+                        <button class="epic-btn">Remove</button>
+                        <input type="hidden" name="id" value="<?= $row['id']; ?>"/>
+                    </form>
+                    <div style="float: right;">
+                        <em>subtotal</em>
+                        <h4 class="epic-sanssb"><span class="epic-sanss">₱</span><?= getPriceFormat($foodarray[$row["food_id"]]["cost"] * $row["amount"]) ?></h4>
+                        <p class="epic-sanssb"><i>amount: <?= $row["amount"] ?></i></p>
+                    </div>
+                    
+                </div>
+            </div>
+            <?php
+            } if (mysqli_num_rows($result_cart) === 0) echo "<p class='epic-sansr' style='text-align: center; color: #777'>( Empty )</p>";
+            else {
+            ?>
+            <div style="margin-top: 30px;">
+                <h3 class="epic-bebas">Total</h3>
+                <h2 class="epic-sanss">₱<span class="epic-sanssb"><?= getPriceFormat($foodtotalcost) ?></span></h2>
+                <a href="usercustomer/checkout.php"><button class="epic-btn" style="margin-top: 20px;">Checkout</button></a>
+            </div>
+            
+            <?php } ?>
+        </div>
+    </div>
+</section>
+<?php
+}
+?>
+
+<section id="food" class="padding bg_white">
     <div class="container">
         <div class="text-center">
             <h2 class="heading">Our &nbsp; Menu</h2>
@@ -115,17 +186,17 @@ if ($reqscount['total'] != "0")
                             <div class="col-1-3 mix work-item <?= $row["category"] ?>">
                                 <div class="wrap-col first" style="overflow: hidden; padding: 0 0 10px 0; margin: 0 10px 30px 10px; box-shadow: 2px 2px 10px;">
                                     <div class="item-container" style="border-bottom: 2px solid #E25111;">
-                                        <img src="img-uploads/<?=$row['image'] ?>" style="width: center; height: 255px; object-fit: cover;" alt="<?= $row['name']; ?>"/>
+                                        <img src="img-uploads/<?=$row['image'] ?>" style="width: center; height: 255px; object-fit: cover;" alt="<?= $row['name'] ?>"/>
                                         <div class="overlay food-item" style="cursor: pointer;">
-                                            <p class="overlay-inner" style="pointer-events: none;"><?= $row['name']; ?></p>
-                                            <input type="hidden" value="<?= $row['id']; ?>"/>
-                                            <input type="hidden" value="<?= $row['cost']; ?>"/>
-                                            <input type="hidden" value="<?= $row['image']; ?>"/>
-                                            <input type="hidden" value="<?= $row['description']; ?>"/>
+                                            <p class="overlay-inner" style="pointer-events: none;"><?= $row['name'] ?></p>
+                                            <input type="hidden" value="<?= $row['id'] ?>"/>
+                                            <input type="hidden" value="<?= $row['cost'] ?>"/>
+                                            <input type="hidden" value="<?= $row['image'] ?>"/>
+                                            <input type="hidden" value="<?= $row['description'] ?>"/>
                                         </div>
                                     </div>
                                     <div class="epic-orangetxt" style="float: right; padding-right: 10px;">
-                                        ₱<span style="font-size: 25px;"><?= $row['cost']; ?>.00</span>
+                                        ₱<span style="font-size: 25px;"><?= getPriceFormat($row['cost']) ?></span>
                                     </div>
                                 </div>
                             </div>
@@ -143,7 +214,7 @@ if ($reqscount['total'] != "0")
 </section>
 
 
-<section id="section_name" class="padding bg_white">
+<section id="reviews" class="padding bg_white">
     <div class="container">
         <div class="col-md-12 text-center">
             <h2 class="heading">Our &nbsp; Happy &nbsp; Customers</h2>
@@ -157,6 +228,15 @@ if ($reqscount['total'] != "0")
             while ($row = $resultnews->fetch_assoc()) {
             ?>
             <div class="item">
+                <div class="epic-starcontainer" style="pointer-events: none;">
+                    <?php
+                    for ($i = 0; $i < 5; $i++)
+                    {
+                        if ($i < (int)$row["rating"]) echo '<span class="epic-star fa fa-star epic-starc" style="margin: 0 2px;"></span>';
+                        else echo '<span class="epic-star fa fa-star" style="margin: 0 2px;"></span>';
+                    }
+                    ?>
+                </div>
                 <h3><?= $row["feedback"] ?></h3>
                 <p><?= $users[$row["user_id"]]["name"] ?></p>
             </div>
@@ -218,7 +298,7 @@ foodArr.forEach(bt=>{
         document.getElementById("modalFoodId").value =  e.target.children[1].value;
 
         selectedFoodCost = parseInt(e.target.children[2].value);
-        document.getElementById("modalFoodCost").innerHTML = e.target.children[2].value + ".00";
+        document.getElementById("modalFoodCost").innerHTML = getPriceFormat(e.target.children[2].value);
         txtAmount.value = "1";
 
         epicOpenModal();
@@ -246,7 +326,7 @@ function setNewAmount(amount)
     else if (amount < 1) newAmount = 1;
 
     txtAmount.value = newAmount.toString();
-    document.getElementById("modalFoodCost").innerHTML = (selectedFoodCost * newAmount).toString() + ".00";
+    document.getElementById("modalFoodCost").innerHTML = getPriceFormat(selectedFoodCost * newAmount);
 }
 </script>
  

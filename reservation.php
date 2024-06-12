@@ -41,7 +41,6 @@ include 'global/customerheader.php';
         <div class="container">
             <div class="col-md-12">
                 <h2 class="title">Book &nbsp; a &nbsp; Venue &nbsp; reservation</h2>
-                <p>Check out our menu and some of our special, featured best sellers!</p>
             </div>
         </div>
     </div>  
@@ -94,7 +93,7 @@ include 'global/customerheader.php';
 </section>
 
 
-<section id="reserve" class="padding bg_grey">
+<section id="reserve" class="padding bg_white">
     <div class="container">
         <div>
             <h2 class="heading">Request &nbsp; For &nbsp; a &nbsp; Venue &nbsp; Reservation</h2>
@@ -266,6 +265,18 @@ include 'global/customerfooter.html';
             <h3>Submit a venue reservation request on:</h3></br>
             <h2 id="modalDateString"></h2></br></br>
             <form action="usercustomer/processes/reserve-process.php" method="post" style="overflow: hidden;">
+                <!-- Time -->
+                <div style="position: relative; overflow: hidden;">
+                    <div style="width: 50%; float: left;">
+                        <label class="epic-sansr">From</label>
+                        <input id="modalTimeS" class="epic-txtbox" name="timeS" type="time" value="07:00" required>
+                    </div>
+                    <div style="width: 50%; float: left; padding-left: 20px;">
+                        <label class="epic-sansr">To</label>
+                        <input id="modalTimeE" class="epic-txtbox" name="timeE" type="time" value="18:00" required>
+                    </div>
+                </div></br>
+                <!-- Dropdowns -->
                 <div style="position: relative; overflow: hidden;">
                     <div style="width: 50%; float: left;">
                         <label class="epic-sansr">Venue Event</label>
@@ -294,12 +305,15 @@ include 'global/customerfooter.html';
                         </select>
                     </div>
                 </div></br>
-                <label class="epic-sansr">Remarks (Optional)</label>
-                <textarea placeholder="Type here..." id="modalRemarks" style="width: 100%; height: 100px; padding: 10px; overflow: auto; resize: none;" name="remarks"></textarea>
+                <!-- Remarks -->
+                <label hidden class="epic-sansr">Remarks (Optional)</label>
+                <textarea hidden placeholder="Type here..." id="modalRemarks" style="width: 100%; height: 100px; padding: 10px; overflow: auto; resize: none;" name="remarks"></textarea>
                 <input type="hidden" name="day" id="submitDay">
                 <input type="hidden" name="month" value="<?= $sMonth ?>">
                 <input type="hidden" name="year" value="<?= $sYear ?>">
-                <input class="epic-btn" style="float: right;" name="request" type="submit">
+                <div style="text-align: right; margin-top: 10px;">
+                    <input class="epic-btn" name="request" type="submit">
+                </div>
             </form>
         </div>
         <div class="epic-modal-footer"><i>tummy-avenue.com</i></div>
@@ -314,6 +328,9 @@ include 'global/customerjs.html';
 let year = document.getElementById("selectedYear").innerHTML;
 let month = document.getElementById("selectedMonth").innerHTML;
 let txtDate = document.getElementById("modalDateString");
+
+let timeStart = document.getElementById("modalTimeS");
+let timeEnd = document.getElementById("modalTimeE");
 
 const daysArr = document.querySelectorAll("#epicday");
 daysArr.forEach(bt=>{
@@ -337,6 +354,15 @@ daysArr.forEach(bt=>{
         epicOpenModal();
     })
 })
+
+timeStart.addEventListener('change', (e) => {
+    timeEnd.min = timeStart.value;
+    if (timeEnd.value < timeStart.value) timeEnd.value = timeStart.value;
+});
+timeEnd.addEventListener('change', (e) => {
+    timeStart.max = timeEnd.value
+    if (timeStart.value > timeEnd.value) timeStart.value = timeEnd.value;
+});
 </script>
  
 </body>

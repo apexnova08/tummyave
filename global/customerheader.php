@@ -73,7 +73,6 @@ session_abort();
                             <?php elseif ($user["type"] == 4): ?>
                               <li><a href="usercustomer/reservations.php">Venue Reservations</a></li>
                               <li><a href="usercustomer/orders.php">Orders</a></li>
-                              <li><a href="usercustomer/cart.php">Cart</a></li>
                             <?php endif ?>
                             <li><a href="account/logout.php">Logout</a></li>
                           <?php else: ?>

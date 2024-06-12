@@ -46,8 +46,8 @@ $mysqli = require __DIR__ . "/../database.php";
                     <img src="<?= '../img-uploads/' . $row["image"] ?>" style="width: 150px; height: 100px; object-fit: cover; float: left" alt="image"/>
                     <div style="margin: 10px 0 0 20px; float: left;">
                         <h3 class="epic-bebas"><?= $row["name"] ?></h3>
-                        <h4 class="epic-sanssb"><span class="epic-sanss">₱</span><?= $row["cost"] ?>.00</h4></br>
-                        <label class="epic-sanssb">Item ID: <?= $row["id"] ?> &nbsp; &nbsp; <i style="color: <?= $boolColor[$row["archived"]] ?>;"><?= $enabledString[$row["archived"]] ?></i><?php if ($row["featured"]) echo ' &nbsp; <i class="epic-sansb" style="color: goldenrod;">Featured</i>'; ?></label>
+                        <h4 class="epic-sanssb"><span class="epic-sanss">₱</span><?= getPriceFormat($row["cost"]) ?></h4></br>
+                        <label class="epic-sanssb">Item ID: <?= $row["id"] ?> &nbsp; &nbsp; <i style="color: <?= $boolColor[$row["archived"]] ?>;"><?= $enabledString[$row["archived"]] ?></i><?php if ($row["featured"]) echo ' &nbsp; <i class="epic-sansb" style="color: orange;">Featured</i>'; ?></label>
                     </div>
                 </div>
                 <div class="col-md-4 right" style="margin-top: 10px;">

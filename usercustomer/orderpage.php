@@ -81,7 +81,7 @@ $cashier = $result->fetch_assoc();
             </div>
             <div class="col-md-6" style="text-align: right;">
                 <h3 class="epic-bebas">Payment</h3>
-                <h2 class="epic-sanss">₱<span class="epic-sanssb"><?= $order["total_cost"] ?>.00</span></h2>
+                <h2 class="epic-sanss">₱<span class="epic-sanssb"><?= getPriceFormat($order["total_cost"]) ?></span></h2>
                 <label class="epic-sanssb epic-txt18"><i><?= $paidString[$order["is_paid"]] ?></i></label>
                 <br/><br/>
 
@@ -152,12 +152,12 @@ $cashier = $result->fetch_assoc();
                     <img src="<?= '../img-uploads/' . $foodarray[$row["food_id"]]["image"] ?>" style="width: 100px; height: 70px; object-fit: cover; float: left" alt="image"/>
                     <div style="margin: 10px 0 0 20px; float: left;">
                         <h3 class="epic-bebas"><?= $foodarray[$row["food_id"]]["name"] ?></h3>
-                        <h4 class="epic-sanssb"><span class="epic-sanss">₱</span><?= $row["food_cost"] ?>.00 ea.</h4>
+                        <h4 class="epic-sanssb"><span class="epic-sanss">₱</span><?= getPriceFormat($row["food_cost"]) ?> ea.</h4>
                     </div>
                 </div>
                 <div class="col-md-4 right" style="margin-top: 10px;">
                     <em>subtotal</em>
-                    <h4 class="epic-sanssb"><span class="epic-sanss">₱</span><?= $row["subtotal"] ?>.00</h4>
+                    <h4 class="epic-sanssb"><span class="epic-sanss">₱</span><?= getPriceFormat($row["subtotal"]) ?></h4>
                     <p class="epic-sanssb"><i>amount: <?= $row["amount"] ?></i></p>
                 </div>
             </div>
@@ -186,11 +186,22 @@ include '../global/uf/footer.html';
             <span class="epic-modal-close">&times;</span>
             <h2>Leave &nbsp; a &nbsp; Feedback</h2>
         </div>
+        <div style="text-align: center; margin: 30px 0 10px 0;">
+            <h3><i id="epicStarText">Excellent!</i></h3>
+            <div id="epicStarContainer" class="epic-starcontainer">
+                <span id="epicStar1" class="epic-star fa fa-star epic-starc"></span>
+                <span id="epicStar2" class="epic-star fa fa-star epic-starc"></span>
+                <span id="epicStar3" class="epic-star fa fa-star epic-starc"></span>
+                <span id="epicStar4" class="epic-star fa fa-star epic-starc"></span>
+                <span id="epicStar5" class="epic-star fa fa-star epic-starc"></span>
+            </div>
+        </div>
         <div class="epic-modal-body">
-            <h3>Your feedback</h3>
+            <label class="epic-sanssb epic-txt16">Your feedback</label></br>
             <form enctype="multipart/form-data" action="processes/feedback-process.php" method="post" style="overflow: hidden;">
                 <textarea placeholder="Type here..." style="width: 100%; height: 100px; padding: 10px; overflow: auto; resize: none;" name="feedback" required></textarea>
                 <input class="epic-btn" style="float: right;" type="submit">
+                <input type="hidden" id="epicStarValue" name="rating" value="5">
             </form>
         </div>
         <div class="epic-modal-footer"><i>tummy-avenue.com</i></div>
