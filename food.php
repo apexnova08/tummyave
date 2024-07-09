@@ -58,9 +58,9 @@ include 'global/customerheader.php';
 
 <!-- ## CONTENT HERE ## -->
 <?php
-$reqscountraw = $mysqli->query("SELECT COUNT(*) AS total FROM foods WHERE NOT archived AND featured");
-$reqscount = $reqscountraw->fetch_assoc();
-if ($reqscount['total'] != "0")
+$ftscountraw = $mysqli->query("SELECT COUNT(*) AS total FROM foods WHERE NOT archived AND featured");
+$ftscount = $ftscountraw->fetch_assoc();
+if ($ftscount['total'] != "0")
 {
 ?>
 <section id="featured" class="padding bg_white">
@@ -96,12 +96,6 @@ if ($reqscount['total'] != "0")
 }
 ?>
 
-<?php
-$cartcountraw = $mysqli->query("SELECT COUNT(*) AS total FROM carts WHERE user_id = '$userid'");
-$cartcount = $cartcountraw->fetch_assoc();
-if ($cartcount['total'] != "0")
-{
-?>
 <section id="cart" class="padding bg_white">
     <div class="container">
         <div>
@@ -149,9 +143,6 @@ if ($cartcount['total'] != "0")
         </div>
     </div>
 </section>
-<?php
-}
-?>
 
 <section id="food" class="padding bg_white">
     <div class="container">
@@ -184,7 +175,7 @@ if ($cartcount['total'] != "0")
                             ?>
 
                             <div class="col-1-3 mix work-item <?= $row["category"] ?>">
-                                <div class="wrap-col first" style="overflow: hidden; padding: 0 0 10px 0; margin: 0 10px 30px 10px; box-shadow: 2px 2px 10px;">
+                                <div class="first" style="overflow: hidden; margin: 0 10px 30px 10px; box-shadow: 2px 2px 10px;">
                                     <div class="item-container" style="border-bottom: 2px solid #E25111;">
                                         <img src="img-uploads/<?=$row['image'] ?>" style="width: center; height: 255px; object-fit: cover;" alt="<?= $row['name'] ?>"/>
                                         <div class="overlay food-item" style="cursor: pointer;">
@@ -195,9 +186,15 @@ if ($cartcount['total'] != "0")
                                             <input type="hidden" value="<?= $row['description'] ?>"/>
                                         </div>
                                     </div>
-                                    <div class="epic-orangetxt" style="float: right; padding-right: 10px;">
-                                        ₱<span style="font-size: 25px;"><?= getPriceFormat($row['cost']) ?></span>
+                                    <div style="height: 30px; overflow: hidden; padding: 0 5px;">
+                                        <div style="float: left; width: 70%; padding-top: 5px;">
+                                            <h4><?= chars25Max($row['name']) ?></h4>
+                                        </div>
+                                        <div class="epic-orangetxt" style="float: right; width: 30%; text-align: right;">
+                                            ₱<span class="epic-txt20"><?= getPriceFormat($row['cost']) ?></span>
+                                        </div>
                                     </div>
+                                    
                                 </div>
                             </div>
 
@@ -263,9 +260,9 @@ include 'global/customerfooter.html';
             <h2>Add &nbsp; to &nbsp; Cart</h2>
         </div>
         <div class="epic-modal-body row">
-            <img id="modalFoodImage" class="col-md-4" src="img-uploads/placeholder.png" style="width: 255px; height: 255px; object-fit: cover;" alt="food image"/>
+            <img id="modalFoodImage" class="col-md-4 epicm-width100p" src="img-uploads/placeholder.png" style="width: 255px; height: 255px; object-fit: cover;" alt="food image"/>
             <div class="col-md-8 container">
-                <h2 id="modalFoodName">Food Name</h2>
+                <h2 id="modalFoodName" class="epicm-margintop10">Food Name</h2>
                 <p id="modalFoodDesc" style="margin: 20px 0; height: 150px; overflow: auto;">Description</p>
                 <form action="usercustomer/processes/addtocart-process.php" method="post">
                     <input id="modalFoodId" type="hidden" name="foodId" value="0"/>

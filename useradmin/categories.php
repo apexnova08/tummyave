@@ -135,6 +135,7 @@ $mysqli = require __DIR__ . "/../database.php";
 <!--JS-->
 <?php 
 include '../global/uf/js.html';
+include '../global/uf/adminfooter.php';
 ?>
 
 <script>

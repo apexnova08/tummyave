@@ -3,6 +3,12 @@ function getPriceFormat(price) {
     return (parseFloat(price).toFixed(2)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
+function hasSpecialChars(str) {
+    const regex = /[^A-Za-z0-9]/;
+    if (regex.test(str)) return true;
+    else return false;
+}
+
 
 
 

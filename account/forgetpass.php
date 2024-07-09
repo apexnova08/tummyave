@@ -9,9 +9,9 @@ $is_incorrect = false;
 
 if ($_SERVER["REQUEST_METHOD"] === "POST")
 {
-    if (isset($_POST["username"]))
+    if (isset($_POST["email"]))
     {
-        $sql = sprintf("SELECT * FROM users WHERE NOT `disabled` AND `type` = '4' AND username = '%s'", $mysqli->real_escape_string($_POST["username"]));
+        $sql = sprintf("SELECT * FROM users WHERE NOT `disabled` AND `type` = '4' AND email = '%s'", $mysqli->real_escape_string($_POST["email"]));
         $result = $mysqli->query($sql);
         $user = $result->fetch_assoc();
 
@@ -101,8 +101,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
                 <p class="epic-sanssb">We must first verify that it's you.</p>
                 <br/>
                 <div>
-                    <label>Username</label></br>
-                    <input placeholder="Username" class="epic-txtbox" type="text" name="username" value="<?= htmlspecialchars($_POST["username"] ?? "") ?>" required>
+                    <label>Email</label></br>
+                    <input placeholder="user@email.com" class="epic-txtbox" type="email" name="email" value="<?= htmlspecialchars($_POST["email"] ?? "") ?>" required>
                     <?php if ($notfound): ?>
                         <em style="color: red;">User not found.</em>
                     <?php endif; ?>

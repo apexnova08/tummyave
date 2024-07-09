@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
 {
     $mysqli = require __DIR__ . "/../database.php";
 
-    $sql = sprintf("SELECT * FROM users WHERE NOT `disabled` AND username = '%s'", $mysqli->real_escape_string($_POST["username"]));
+    $sql = sprintf("SELECT * FROM users WHERE NOT `disabled` AND (username = '%s' OR email = '%s')", $mysqli->real_escape_string($_POST["email"]), $mysqli->real_escape_string($_POST["email"]));
     $result = $mysqli->query($sql);
     $user = $result->fetch_assoc();
     if ($user)
@@ -70,8 +70,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
                     <em style="color: red;">Invalid login</em></br></br>
                 <?php endif; ?>
                 <div>
-                    <label>Username</label></br>
-                    <input placeholder="Username" class="epic-txtbox" type="text" name="username" value="<?= htmlspecialchars($_POST["username"] ?? "") ?>" required>
+                    <label>Email</label></br>
+                    <input placeholder="Email" class="epic-txtbox" type="text" name="email" value="<?= htmlspecialchars($_POST["email"] ?? "") ?>" required>
                 </div>
                 <div>
                     <label>Password</label></br>

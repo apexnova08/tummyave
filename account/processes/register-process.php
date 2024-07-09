@@ -4,26 +4,21 @@ session_start();
 $name = $_SESSION["name"];
 $email = $_SESSION["email"];
 $contact = $_SESSION["contact"];
-$username = $_SESSION["username"];
 $password = $_SESSION["password"];
 $passwordhash = password_hash($password, PASSWORD_DEFAULT);
 session_destroy();
 
 $mysqli = require __DIR__ . "/../../database.php";
 
-$sql = "INSERT INTO users (name, email, username, password, type, contact) VALUES (?, ?, ?, ?, 4, ?)";
+$sql = "INSERT INTO users (name, email, password, type, contact) VALUES (?, ?, ?, 4, ?)";
 $stmt = $mysqli->stmt_init();
 if (!$stmt->prepare($sql)) {
     die("SQL error: " . $mysqli->errno);
 }
-mysqli_stmt_bind_param($stmt, "sssss", $name, $email, $username, $passwordhash, $contact);
+mysqli_stmt_bind_param($stmt, "ssss", $name, $email, $passwordhash, $contact);
 if ($stmt->execute())
 {
     header("location: ../register-success.php");
 }
-else
-{
-    echo "sex";
-    die ("sex");
-}
+else die ("error");
 ?>

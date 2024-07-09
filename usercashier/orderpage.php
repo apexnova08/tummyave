@@ -197,6 +197,7 @@ elseif ($order["status"] === "Ready for pickup") $btnstring = "Mark as picked up
 <!--JS-->
 <?php 
 include '../global/uf/js.html';
+include '../global/uf/adminfooter.php';
 ?>
 
 </body>

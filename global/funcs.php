@@ -140,6 +140,11 @@ function getPriceFormat(int $price)
 {
     return number_format($price, 2);
 }
+function chars25Max(string $str)
+{
+    if (strlen($str) > 25) return substr($str, 0, 25) . "...";
+    else return $str;
+}
 
 function generateID(string $datestring)
 {

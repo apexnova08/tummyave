@@ -830,10 +830,10 @@ ul.tags li a, ul.social_icon li a,
   transform:none;
   position:absolute;
   right:0;
+  display: none;
 }
 .tparrows::before {
   color: #111;
-  display: block;
   font-family:'FontAwesome';
   font-size: 25px;
   line-height: 40px;
@@ -2095,7 +2095,7 @@ p{ font-size:14px; }
 .navbar-brand > img{ width:75%; }
 .navbar-default .navbar-nav > li > a { font-size: 12px; }
 .rev_slider_wrapper h1.tp-caption, .rev_slider_wrapper p.tp-caption{}	
-#rev_slider_34_1 .tparrows{ display: block; }
+#rev_slider_34_1 .tparrows{ display: none; }
 .tp-tabs{ display:none;}
 .paralax h2 { font-size:30px;} 
 .paralax .detail { font-size:15px;} 
@@ -2192,7 +2192,7 @@ p{ font-size:12px; }
 #rev_slider .tp-rightarrow.tparrows, #rev_slider .tp-leftarrow.tparrows{
 	bottom: 20px !important;
 	top: auto !important;
-}	
+}
 #rev_slider .tp-rightarrow.tparrows{ right: 0 !important; }
 #rev_slider .tp-leftarrow.tparrows {
   left: auto !important;

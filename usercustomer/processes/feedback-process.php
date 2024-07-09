@@ -23,6 +23,6 @@ if (!$stmt->prepare($sql)) {
     die("SQL error: " . $mysqli->errno);
 }
 mysqli_stmt_bind_param($stmt, "ssss", $feedback, $userid, $date, $rating);
-if ($stmt->execute()) header("location: ../orders.php"); 
+if ($stmt->execute()) header("location: ../orders.php");
 else die ("Error.");
 ?>

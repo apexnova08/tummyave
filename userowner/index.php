@@ -96,6 +96,7 @@ foreach ($datesarr as $date)
 <!--JS-->
 <?php 
 include '../global/uf/js.html';
+include '../global/uf/adminfooter.php';
 ?>
 
 <script>

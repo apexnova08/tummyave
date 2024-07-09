@@ -1,14 +1,14 @@
 <?php 
 include 'processes/redirect.php';
 
-$username_taken = false;
+$email_taken = false;
 
 if ($_SERVER["REQUEST_METHOD"] === "POST")
 {
     $mysqli = require __DIR__ . "/../database.php";
 
-    $username = $_POST["username"];
-    $duperaw = $mysqli->query("SELECT COUNT(*) AS total FROM users WHERE (username = '$username')");
+    $email = $_POST["email"];
+    $duperaw = $mysqli->query("SELECT COUNT(*) AS total FROM users WHERE (email = '$email')");
     $dupes = $duperaw->fetch_assoc();
     if ($dupes['total'] === "0")
     {
@@ -18,13 +18,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
         $_SESSION["name"] = $_POST["name"];
         $_SESSION["email"] = $_POST["email"];
         $_SESSION["contact"] = $_POST["contact"];
-        $_SESSION["username"] = $_POST["username"];
         $_SESSION["password"] = $_POST["password"];
 
         header("Location: processes/register-process.php");
         exit;
     }
-    $username_taken = true;
+    $email_taken = true;
 }
 ?>
 
@@ -63,17 +62,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
                 <div>
                     <label>Email</label></br>
                     <input placeholder="user@email.com" class="epic-txtbox" type="email" name="email" value="<?= htmlspecialchars($_POST["email"] ?? "") ?>" required>
+                    <?php if ($email_taken): ?>
+                        <em style="color: red;">email already taken</em>
+                    <?php endif; ?>
                 </div>
                 <div>
                     <label>Contact No.</label></br>
                     <input id="contact" placeholder="09XXXXXXXXX" class="epic-txtbox" type="text" maxlength="11" name="contact" value="<?= htmlspecialchars($_POST["contact"] ?? "") ?>" required>
-                </div>
-                <div>
-                    <label>Username</label></br>
-                    <input placeholder="Username" class="epic-txtbox" type="text" name="username" value="<?= htmlspecialchars($_POST["username"] ?? "") ?>" required>
-                    <?php if ($username_taken): ?>
-                        <em style="color: red;">Username already taken</em>
-                    <?php endif; ?>
                 </div>
 
                 <!-- PASSWORD -->

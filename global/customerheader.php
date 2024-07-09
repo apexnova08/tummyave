@@ -8,6 +8,8 @@ if (isset($_SESSION["user_id"]))
   $user = $result->fetch_assoc();
 }
 session_abort();
+
+$config = parse_ini_file(__DIR__ . "/../config.ini", true);
 ?>
 <!DOCTYPE html>
 <html>
@@ -17,6 +19,7 @@ session_abort();
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="<?= $config["fajs"]["link"] ?>" crossorigin="anonymous"></script>
     </head>
     <body>
       <!--Topbar-->
@@ -55,7 +58,7 @@ session_abort();
                       
                       <li><a href="reservation.php">Venue &nbsp; Reservation</a></li>
                       
-                          <li><a href="about.php">About &nbsp; Us</a></li>
+                      <li><a href="about.php">About &nbsp; Us</a></li>
                       
                       <li class="dropdown">
                         <a data-toggle="dropdown" href="#" class="dropdown-toggle">Account</a>
@@ -81,6 +84,8 @@ session_abort();
                           <?php endif; ?>
                         </ul>
                       </li>
+
+                      <li><a href="food.php#cart"><i class="fa-solid fa-cart-shopping"></i></a></li>
                     </ul>
                   </div>
               </nav>

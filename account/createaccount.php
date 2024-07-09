@@ -84,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
                 </div>
                 <div>
                     <label>Username</label></br>
-                    <input placeholder="Username" class="epic-txtbox" type="text" name="username" value="<?= htmlspecialchars($_POST["username"] ?? "") ?>" required>
+                    <input id="username" placeholder="Username" class="epic-txtbox" type="text" name="username" value="<?= htmlspecialchars($_POST["username"] ?? "") ?>" required>
                     <?php if ($username_taken): ?>
                         <em style="color: red;">Username already taken</em>
                     <?php endif; ?>
@@ -95,7 +95,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
                     <input class="epic-txtbox" value="tummypass" disabled>
                 </div>
                 <br/>
-                <button class="epic-btn" style="float: right;">Register</button>
+                <div style="text-align: right; margin-bottom: 5px;">
+                    <button id="btnSubmit" class="epic-btn">Register</button>
+                </div>
+                <div style="text-align: right;">
+                    <em id="lblWarning" style="color: orange;" hidden>Username must not contain any special characters.</em>
+                </div>
             </form>
         </div>
     </div>
@@ -111,6 +116,25 @@ include '../global/uf/footer.html';
 <?php 
 include '../global/uf/js.html';
 ?>
+
+<script>
+let btnSubmit = document.getElementById("btnSubmit");
+let lblWarning = document.getElementById("lblWarning");
+
+document.getElementById("username").addEventListener('input', (e) => {
+    const regex = /[^A-Za-z0-9]/;
+    if (hasSpecialChars(e.target.value))
+    {
+        btnSubmit.disabled = true;
+        lblWarning.hidden = false;
+    }
+    else
+    {
+        btnSubmit.disabled = false;
+        lblWarning.hidden = true;
+    }
+})
+</script>
 
 </body>
 </html>

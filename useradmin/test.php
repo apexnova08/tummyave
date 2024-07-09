@@ -11,7 +11,7 @@ $mysqli = require __DIR__ . "/../database.php";
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Panel | Event Gallery</title>
+    <title>Admin Panel | Home Gallery</title>
     
     <!--CSS AND NAV-->
     <?php 
@@ -33,7 +33,7 @@ $mysqli = require __DIR__ . "/../database.php";
 <section id="gallery" class="padding bg_white">
     <div class="container">
         <div>
-            <h2 class="heading">Event &nbsp; Gallery</h2>
+            <h2 class="heading">Tummy &nbsp; Gallery</h2>
             <hr class="heading_space">
         </div>
         <div>
@@ -41,11 +41,11 @@ $mysqli = require __DIR__ . "/../database.php";
                 <div class="zerogrid">
                     <div class="wrap-container">
                         <?php
-                        $result = $mysqli->query("SELECT * FROM event_gallery ORDER BY `date` DESC");
+                        $result = $mysqli->query("SELECT * FROM gallery ORDER BY `date` DESC");
                         while ($row = $result->fetch_assoc()) {
                         ?>
                         <div class="col-1-3 mix work-item" style="margin-bottom: 40px; text-align: center;">
-                            <div class="wrap-col first" style="overflow: hidden; padding: 0; margin: 0 10px 10px 10px; box-shadow: 2px 2px 10px;">
+                            <div class="first" style="overflow: hidden; padding: 0; margin: 0 10px 10px 10px; box-shadow: 2px 2px 10px;">
                                 <div class="item-container">
                                     <img src="../img-uploads/<?= $row['filename'] ?>" style="width: center; height: 255px; object-fit: cover;" alt="<?= $row['filename']; ?>"/>
                                     <div class="overlay food-item" style="cursor: pointer;">
@@ -56,7 +56,7 @@ $mysqli = require __DIR__ . "/../database.php";
                             <form enctype="multipart/form-data" action="processes/gallery-process.php" method="post">
                                 <input class="epic-btnrred" type="submit" name="delete" value="Delete">
                                 <input type="hidden" name="id" value="<?= $row["id"] ?>">
-                                <input type="hidden" name="table" value="event_gallery">
+                                <input type="hidden" name="table" value="gallery">
                             </form>
                         </div>
                         <?php
@@ -81,7 +81,7 @@ $mysqli = require __DIR__ . "/../database.php";
             <form enctype="multipart/form-data" action="processes/gallery-process.php" method="post">
                 <input type="file" class="epic-txtbox" name="image" required>
                 <input name="upload" class="epic-btn" style="float: right; margin-top: 20px;" type="submit">
-                <input type="hidden" name="table" value="event_gallery">
+                <input type="hidden" name="table" value="gallery">
             </form>
         </div>
         <div class="epic-modal-footer"><i>tummy-avenue.com</i></div>
@@ -93,7 +93,6 @@ $mysqli = require __DIR__ . "/../database.php";
 <!--JS-->
 <?php 
 include '../global/uf/js.html';
-include '../global/uf/adminfooter.php';
 ?>
 
 </body>

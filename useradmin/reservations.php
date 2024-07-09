@@ -32,6 +32,135 @@ while ($rowuser = $result_users->fetch_assoc())
 <body>
 
 <!--#####-->
+<section id="reserve" class="padding bg_white">
+    <div class="container">
+        <div>
+            <h2 class="heading">Schedule</h2>
+            <hr class="heading_space">
+        </div>
+        <div class="epic-calendar">
+            <?php
+            $dateTime = getCurrentDateTime();
+            $cYear = getYear($dateTime);
+            $cMonth = getMonth($dateTime);
+            $cDay = getDay($dateTime);
+
+            $sYear = $cYear;
+            $sMonth = $cMonth;
+            $sDay = $cDay;
+
+            // SET MONTH AND YEAR
+            if (isset($_GET["monthNext"]))
+            {
+                if ($_GET["monthNext"] == 12)
+                {
+                    $sMonth = "1";
+                    $sYear = (string)($_GET["year"] + 1);
+                }
+                else 
+                {
+                    $sMonth = (string)($_GET["monthNext"] + 1);
+                    $sYear = (string)$_GET["year"];
+                }
+            }
+            if (isset($_GET["monthPrev"]))
+            {
+                if ($_GET["monthPrev"] == 1)
+                {
+                    $sMonth = "12";
+                    $sYear = (string)($_GET["year"] - 1);
+                }
+                else 
+                {
+                    $sMonth = (string)($_GET["monthPrev"] - 1);
+                    $sYear = (string)$_GET["year"];
+                }
+            }
+            ?>
+            <div class="epic-month">      
+                <ul>
+                    <li class="prev">
+                        <form method="get">
+                            <input type="submit" value="&#10094" style="width: 50px">
+                            <input type="hidden" name="monthPrev" value="<?= (int)$sMonth ?>">
+                            <input type="hidden" name="year" value="<?= (int)$sYear ?>">
+                        </form>
+                    </li>
+                    <li class="next">
+                        <form method="get">
+                            <input type="submit" value="&#10095" style="width: 50px">
+                            <input type="hidden" name="monthNext" value="<?= (int)$sMonth ?>">
+                            <input type="hidden" name="year" value="<?= (int)$sYear ?>">
+                        </form>
+                    </li>
+                    <li>
+                    <h2 id="selectedMonth"><?= getMonthName($sMonth)["MMMM"] ?></h2>
+                    <span id="selectedYear" class="epic-sanssb" style="font-size:18px"><?= $sYear ?></span>
+                    </li>
+                </ul>
+            </div>
+
+            <ul class="epic-weekdays">
+                <li>Sun</li>
+                <li>Mon</li>
+                <li>Tue</li>
+                <li>Wed</li>
+                <li>Thu</li>
+                <li>Fri</li>
+                <li>Sat</li>
+            </ul>
+
+            <ul class="epic-days">
+                <?php
+                $daysInMonth = getDaysOfMonth($sYear, $sMonth);
+                $startDay = getDayOfWeek($sYear, $sMonth, "01");
+                for ($i = 1 - $startDay; ; $i++)
+                {
+                    if ($i >= 1)
+                    {
+                        if ($sYear > $cYear) DisplayDay($sYear, $sMonth, $i, $userid);
+                        elseif ($sYear < $cYear) { ?> <li><div class="epic-dayDisabled"><div><?= $i ?></div></div></li> <?php }
+                        else
+                        {
+                            if ($sMonth > $cMonth) DisplayDay($sYear, $sMonth, $i, $userid);
+                            elseif ($sMonth < $cMonth) { ?> <li><div class="epic-dayDisabled"><div><?= $i ?></div></div></li> <?php }
+                            else
+                            {
+                                if ($i === (int)$cDay) { ?> <li><div class="epic-dayDisabled" style="color: #FFBBA1;"><div><b><?= $i ?></b></div></div></li> <?php }
+                                elseif ($i >= (int)$cDay) DisplayDay($sYear, $sMonth, $i, $userid);
+                                elseif ($i <= (int)$cDay) { ?> <li><div class="epic-dayDisabled"><div><?= $i ?></div></div></li> <?php }
+                            }
+                        }
+                    } else { ?> <li></li> <?php }
+                    if ($i >= $daysInMonth) break;
+                }
+
+                // DISABLE RESERVED DAYS
+                function DisplayDay(string $sYear, string $sMonth, int $sDay)
+                {
+                    $mysqli = require __DIR__ . "/../database.php";
+                    $date = $sYear . "/" . $sMonth . "/" . $sDay;
+                    $result_cal = $mysqli->query("SELECT * FROM reservations WHERE rsv_date = '$date' AND (status = 'Reserved' OR status = 'Requested')");
+                    $rsvday = $result_cal->fetch_assoc();
+
+                    if (mysqli_num_rows($result_cal) === 1)
+                    {
+                        if ($rsvday["status"] === "Reserved") { ?> <li><a href="#reservations"><div class="epic-user-reserved"><div style="padding-top: 5px;"><label><?= $sDay ?></label><label class="epic-bebas">Reserved</label></div></div></a></li> <?php }
+                        else { ?> <li><a href="#requests"><div class="epic-dayEnabled"><div style="padding-top: 5px;"><label><?= $sDay ?></label><label><i>1 Request</i></label></div></div></a></li> <?php }
+                    }
+                    elseif (mysqli_num_rows($result_cal) > 1)
+                    { ?>
+                    <li><a href="#requests"><div class="epic-dayEnabled"><div style="padding-top: 5px;"><label><?= $sDay ?></label><label><i><?= mysqli_num_rows($result_cal) ?> Requests</i></label></div></div></a></li>
+                    <?php }
+                    else { ?> <li><div class="epic-dayDisabled"><div><?= $sDay ?></div></div></li> <?php }
+                }
+                ?>
+            </ul>
+        </div>
+    </div>
+</section>
+
+
 <?php
 $reqscountraw = $mysqli->query("SELECT COUNT(*) AS total FROM reservations WHERE status = 'Requested' AND DATE(rsv_date) > '" . getCurrentDate() . "'");
 $reqscount = $reqscountraw->fetch_assoc();
@@ -144,6 +273,7 @@ if ($reqscount['total'] != "0")
 <!--JS-->
 <?php 
 include '../global/uf/js.html';
+include '../global/uf/adminfooter.php';
 ?>
 
 <script>

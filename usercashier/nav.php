@@ -20,7 +20,7 @@ if ($usertype != "3") {
         <button class="epic-btn epic-dropbtn">Cashier &nbsp; Panel</button>
         <div class="epic-dropcontent">
             <?php
-            if ($usertype === "0") echo "<a href='../user0/'>Super Admin</a>";
+            //if ($usertype === "0") echo "<a href='../user0/'>Super Admin</a>";
             if ($usertype === "0" || $usertype === "1") echo "<a href='../userowner/'>Owner Panel</a>";
             ?>
             <a href="../useradmin/">Admin Panel</a>

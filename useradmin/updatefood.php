@@ -109,6 +109,7 @@ $item = $result->fetch_assoc();
 <!--JS-->
 <?php 
 include '../global/uf/js.html';
+include '../global/uf/adminfooter.php';
 ?>
 
 </body>

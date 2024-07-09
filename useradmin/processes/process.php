@@ -6,6 +6,19 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     exit('POST request method required');
 }
 
+if (isset($_POST["ocval"])) // OPEN CLOSE STORE
+{
+    $val = $_POST["ocval"];
+    $sql = "UPDATE vars SET `value` = '$val' WHERE `name` = 'store_closed'";
+
+    if ($mysqli->query($sql))
+    {
+        header("location: ../tummy.php");
+    }
+    else die("error");
+    exit;
+}
+
 if (isset($_POST["qr"]))
 {
     $val = uploadImage(generateID(getCurrentDateTime()));

@@ -86,6 +86,7 @@ $count = $countraw->fetch_assoc()["total"];
 <!--JS-->
 <?php 
 include '../global/uf/js.html';
+include '../global/uf/adminfooter.php';
 ?>
 
 <script type="text/javascript">

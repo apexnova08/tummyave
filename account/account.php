@@ -61,6 +61,12 @@ if (!$user) die ("Error: user not found");
                     <?php if (isset($_POST["id"])) echo "<input type='hidden' name='updateid' value=" . $_POST["id"] . ">" ?>
                 </div>
             </form>
+
+            <!-- ## FOR EMPLOYEES ## -->
+            <?php
+            if ($user["type"] != "4")
+            {
+            ?>
             <form class="epic-form" enctype="multipart/form-data" action="processes/update-process.php" method="post">
                 <div>
                     <div style="margin: 0;">
@@ -77,6 +83,9 @@ if (!$user) die ("Error: user not found");
                     <?php if (isset($_POST["id"])) echo "<input type='hidden' name='updateid' value=" . $_POST["id"] . ">" ?>
                 </div>
             </form>
+            <?php
+            }
+            ?>
 
             <!-- ## FOR CUSTOMERS ## -->
             <?php
@@ -198,9 +207,18 @@ txtVal.forEach(txt=>{
             if (!(c >= '0' && c <= '9')) e.target.value = contact.substring(0, contact.length - 1);
         }
 
-        var btn = e.target.parentElement.children[2];
-        if (/\S/.test(e.target.value)) btn.disabled = false;
-        else btn.disabled = true;
+        var btn = e.target.parentElement.children[2].children[0];
+
+        if (e.target.name === "username")
+        {
+            if (!hasSpecialChars(e.target.value) && /\S/.test(e.target.value)) btn.disabled = false;
+            else btn.disabled = true;
+        }
+        else
+        {
+            if (/\S/.test(e.target.value)) btn.disabled = false;
+            else btn.disabled = true;  
+        }
     })
 })
 

@@ -113,6 +113,7 @@ while ($row = $resultvars->fetch_assoc())
 <!--JS-->
 <?php 
 include '../global/uf/js.html';
+include '../global/uf/adminfooter.php';
 ?>
 
 <script type="text/javascript">

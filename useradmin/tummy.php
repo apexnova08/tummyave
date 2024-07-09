@@ -11,6 +11,14 @@ while ($rowuser = $result_users->fetch_assoc())
 {
     $users[$rowuser["id"]] = $rowuser;
 }
+
+// GET VARS
+$vars = array();
+$resultvars = $mysqli->query("SELECT * FROM vars");
+while ($row = $resultvars->fetch_assoc())
+{
+    $vars[$row["name"]] = $row["value"];
+}
 ?>
 
 <!doctype html>
@@ -32,6 +40,27 @@ while ($rowuser = $result_users->fetch_assoc())
 <body>
 
 <!--#####-->
+<section id="topBtns" style="padding-top: 30px;">
+    <div class="container" style=" overflow: hidden;">
+        <form style="float: right;" enctype="multipart/form-data" action="processes/process.php" method="post">
+            <?php
+            if ($vars["store_closed"])
+            {
+            ?>
+            <input type="hidden" name="ocval" value="0">
+            <button class="epic-btn">Open &nbsp; Store</button>
+            <?php
+            } else {
+            ?>
+            <input type="hidden" name="ocval" value="1">
+            <button class="epic-btnred">Close &nbsp; Store</button>
+            <?php
+            }
+            ?>
+        </form>
+    </div>
+</section>
+
 <!-- ## NEWS ## -->
 <section id="section_name" class="padding bg_white">
     <div class="container">
@@ -188,6 +217,7 @@ while ($rowuser = $result_users->fetch_assoc())
 <!--JS-->
 <?php 
 include '../global/uf/js.html';
+include '../global/uf/adminfooter.php';
 ?>
 
 </body>

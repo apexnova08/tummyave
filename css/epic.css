@@ -404,10 +404,12 @@ html {
     height: 50px;
     position: absolute;
     padding-top: 10px;
+    pointer-events: none;
 }
 .epic-days li div div label {
     width: 100%;
     font-weight: normal;
+    pointer-events: none;
 }
 
 
@@ -460,6 +462,18 @@ html {
 
 
 
+/* ## MOBILE VIEW CLASSES ## */
+.epicm-margintop10 {
+    margin-top: 0;
+}
+.epicm-width100p {
+    width: auto;
+}
+
+
+
+
+
 /* Add media queries for smaller screens */
 @media screen and (max-width:720px) {
     .epic-weekdays li, .epic-days li {width: 13.1%;}
@@ -467,6 +481,9 @@ html {
 @media screen and (max-width: 420px) {
     .epic-weekdays li, .days li {width: 12.5%;}
     .epic-days li .active {padding: 2px;}
+    .epic-modal-content {width: 100% !important;}
+    .epicm-margintop10 {margin-top: 10px !important;}
+    .epicm-width100p {width: 100% !important;}
 }
 @media screen and (max-width: 290px) {
     .epic-weekdays li, .epic-days li {width: 12.2%;}

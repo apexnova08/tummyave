@@ -9,6 +9,14 @@ $userid = "empty";
 if (isset($_SESSION["user_id"])) $userid = $_SESSION["user_id"];
 session_abort();
 
+// GET VARS
+$vars = array();
+$resultvars = $mysqli->query("SELECT * FROM vars");
+while ($row = $resultvars->fetch_assoc())
+{
+    $vars[$row["name"]] = $row["value"];
+}
+
 // GET FOODS
 $foodarray = array();
 $foodresult = $mysqli->query("SELECT * FROM foods");
@@ -84,9 +92,10 @@ $foodtotal = 0;
     </div>
     <div class="container" style="margin-top: 50px; overflow: hidden;">
         <form enctype="multipart/form-data" action="processes/checkout-process.php" method="post">
-            <button class="epic-btn">Place Order</button>
+            <button class="epic-btn" <?php if ($vars["store_closed"]) echo "disabled" ?>>Place Order</button>
             <label class="epic-sanss epic-txt25" style="margin-left: 30px;">₱<span class="epic-sanssb"><?= getPriceFormat($foodtotal) ?></span></label>
         </form>
+        <?php if ($vars["store_closed"]) echo "<p class='epic-sansr' style='color: #777'>( Orders are disabled during closing hours )</p>" ?>
     </div>
 </section>
 
