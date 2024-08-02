@@ -7,14 +7,25 @@ $userid = "empty";
 if (isset($_SESSION["user_id"])) $userid = $_SESSION["user_id"];
 session_abort();
 
+// GET FOODS
 $foodarray = array();
-$foodresult = $mysqli->query("SELECT * FROM foods");
-while ($foodrow = $foodresult->fetch_assoc())
+echo ('<script>let foodVDict = {};</script>');
+$result_food = $mysqli->query("SELECT * FROM foods");
+while ($rowfood = $result_food->fetch_assoc())
 {
-    $foodarray[$foodrow["id"]] = $foodrow;
+    $foodarray[$rowfood["id"]] = $rowfood;
+    echo ("<script>foodVDict[" . $rowfood["id"] . "] = " . $rowfood["hasVariations"] . ";</script>");
 }
-
 $foodtotalcost = 0;
+
+// GET FOOD VARIATIONS
+$variantarray = array();
+echo ('<script>const variationsArr = [];</script>');
+$result_variants = $mysqli->query("SELECT * FROM food_variations");
+while ($rowvariant = $result_variants->fetch_assoc())
+{
+    $variantarray[$rowvariant["id"]] = $rowvariant;
+}
 
 // GET USERS
 $users = array();
@@ -104,16 +115,32 @@ if ($ftscount['total'] != "0")
         </div>
         <div>
             <?php
+            $abletocheckout = true;
             $result_cart = $mysqli->query("SELECT * FROM carts WHERE user_id = '$userid'");
             while ($row = $result_cart->fetch_assoc()) {
-                $foodtotalcost = $foodtotalcost + ($foodarray[$row["food_id"]]["cost"] * $row["amount"]);
+                $cartitemcost = $foodarray[$row["food_id"]]["cost"];
+                $cartitemname = $foodarray[$row["food_id"]]["name"];
+                if ($row["variation_id"] != "0")
+                {
+                    $cartitemcost = $variantarray[$row["variation_id"]]["cost"];
+                    $cartitemname = $foodarray[$row["food_id"]]["name"] . " &nbsp; (" . $variantarray[$row["variation_id"]]["name"] . ")";
+                }
+                $foodtotalcost = $foodtotalcost + ($cartitemcost * $row["amount"]);
+
+                $cartitemavailable = true;
+                if ($foodarray[$row["food_id"]]["archived"] || !$foodarray[$row["food_id"]]["available"] || ($foodarray[$row["food_id"]]["hasVariations"] && $row["variation_id"] === "0") || (!$foodarray[$row["food_id"]]["hasVariations"] && $row["variation_id"] != "0") || ($row["variation_id"] != "0" && $variantarray[$row["variation_id"]]["disabled"]))
+                {
+                    $abletocheckout = false;
+                    $cartitemavailable = false;
+                    $cartitemname = $cartitemname . ' &nbsp; <span style="color: red;">[UNAVAILABLE]</span>';
+                }
             ?>
             <div class="row epic-li">
-                <div class="col-md-8" style="overflow: hidden; margin-bottom: 10px;">
+                <div class="col-md-8 <?php if (!$cartitemavailable) echo("epic-graytxt"); ?>" style="overflow: hidden; margin-bottom: 10px;">
                     <img src="<?= 'img-uploads/' . $foodarray[$row["food_id"]]["image"] ?>" style="width: 100px; height: 70px; object-fit: cover; float: left" alt="image"/>
                     <div style="margin: 10px 0 0 20px; float: left;">
-                        <h3 class="epic-bebas"><?= $foodarray[$row["food_id"]]["name"] ?></h3>
-                        <h4 class="epic-sanssb"><span class="epic-sanss">₱</span><?= getPriceFormat($foodarray[$row["food_id"]]["cost"]) ?> ea.</h4>
+                        <h3 class="epic-bebas"><?= $cartitemname ?></h3>
+                        <h4 class="epic-sanssb"><span class="epic-sanss">₱</span><?= getPriceFormat($cartitemcost) ?> ea.</h4>
                     </div>
                 </div>
                 <div class="col-md-4 right" style="margin-top: 10px;">
@@ -121,9 +148,9 @@ if ($ftscount['total'] != "0")
                         <button class="epic-btn">Remove</button>
                         <input type="hidden" name="id" value="<?= $row['id']; ?>"/>
                     </form>
-                    <div style="float: right;">
+                    <div style="float: right;" <?php if (!$cartitemavailable) echo("class='epic-graytxt'"); ?>>
                         <em>subtotal</em>
-                        <h4 class="epic-sanssb"><span class="epic-sanss">₱</span><?= getPriceFormat($foodarray[$row["food_id"]]["cost"] * $row["amount"]) ?></h4>
+                        <h4 class="epic-sanssb"><span class="epic-sanss">₱</span><?= getPriceFormat($cartitemcost * $row["amount"]) ?></h4>
                         <p class="epic-sanssb"><i>amount: <?= $row["amount"] ?></i></p>
                     </div>
                     
@@ -136,7 +163,7 @@ if ($ftscount['total'] != "0")
             <div style="margin-top: 30px;">
                 <h3 class="epic-bebas">Total</h3>
                 <h2 class="epic-sanss">₱<span class="epic-sanssb"><?= getPriceFormat($foodtotalcost) ?></span></h2>
-                <a href="usercustomer/checkout.php"><button class="epic-btn" style="margin-top: 20px;">Checkout</button></a>
+                <a href="usercustomer/checkout.php"><button class="epic-btn" style="margin-top: 20px;" <?php if (!$abletocheckout) echo("disabled"); ?>>Checkout</button></a>
             </div>
             
             <?php } ?>
@@ -178,6 +205,7 @@ if ($ftscount['total'] != "0")
                                 <div class="first" style="overflow: hidden; margin: 0 10px 30px 10px; box-shadow: 2px 2px 10px;">
                                     <div class="item-container" style="border-bottom: 2px solid #E25111;">
                                         <img src="img-uploads/<?=$row['image'] ?>" style="width: center; height: 255px; object-fit: cover;" alt="<?= $row['name'] ?>"/>
+                                        <?php if ($row["available"]) { ?>
                                         <div class="overlay food-item" style="cursor: pointer;">
                                             <p class="overlay-inner" style="pointer-events: none;"><?= $row['name'] ?></p>
                                             <input type="hidden" value="<?= $row['id'] ?>"/>
@@ -185,13 +213,24 @@ if ($ftscount['total'] != "0")
                                             <input type="hidden" value="<?= $row['image'] ?>"/>
                                             <input type="hidden" value="<?= $row['description'] ?>"/>
                                         </div>
+                                        <?php } else { ?>
+                                            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; text-align: center; background-color: black; opacity: .7;">
+                                                <label style="margin-top: 110px; color: white;" class="epic-sanss epic-txt20">UNAVAILABLE</label>
+                                            </div>
+                                        <?php } ?>
                                     </div>
                                     <div style="height: 30px; overflow: hidden; padding: 0 5px;">
                                         <div style="float: left; width: 70%; padding-top: 5px;">
                                             <h4><?= chars25Max($row['name']) ?></h4>
                                         </div>
                                         <div class="epic-orangetxt" style="float: right; width: 30%; text-align: right;">
-                                            ₱<span class="epic-txt20"><?= getPriceFormat($row['cost']) ?></span>
+                                            ₱<span class="epic-txt20"><?php if ($row["hasVariations"])
+                                            {
+                                                $foodid = $row["id"];
+                                                $rcostraw = $mysqli->query("SELECT cost AS c FROM food_variations WHERE food_id = '$foodid' AND NOT `disabled` LIMIT 1");
+                                                $rcost = $rcostraw->fetch_assoc();
+                                                echo(getPriceFormat($rcost["c"]));
+                                            } else echo getPriceFormat($row['cost']) ?></span>
                                         </div>
                                     </div>
                                     
@@ -252,6 +291,10 @@ include 'global/customerfooter.html';
 ?>
 <a href="#" id="back-top"><i class="fa fa-angle-up fa-2x"></i></a>
 
+<!--Notifications-->
+<section id="notifContainer" class="epic-notifcontainer">
+</section>
+
 <!-- The Modal -->
 <div id="epicModal" class="epic-modal">
     <div class="epic-modal-content">
@@ -271,7 +314,12 @@ include 'global/customerfooter.html';
                     <button class="epic-btnr" style="padding: 10px 20px;" onclick="amountAdd()" type="button"><i class="fa fa-plus"></i></button>
                     <input class="epic-btn" style="margin-left: 20px;" type="submit">
                     <label class="epic-orangetxt" style="margin-left: 20px;">₱<span id="modalFoodCost" style="font-size: 25px;">0.00</span></label>
+                    
+                    <!-- VARIATIONS -->
+                    <input type="hidden" id="modalVariantID" name="variantID">
                 </form>
+                <ul id="modalVariants" class="epic-variants">
+                </ul>
             </div>
         </div>
         <div class="epic-modal-footer"><i>tummy-avenue.com</i></div>
@@ -281,23 +329,62 @@ include 'global/customerfooter.html';
 <!--JS-->
 <?php 
 include 'global/customerjs.html';
+
+// APPEND FOOD VARIATIONS TO JS ARRAY
+
+echo ('<script>const variationsArr = [];</script>');
+foreach ($variantarray as $variant)
+{
+    if (!$variant["disabled"]) echo ("<script>variationsArr.push(new EpicVariation('" . $variant['id'] . "', '" . $variant['food_id'] . "', '" . $variant['name'] . "', '" . $variant['cost'] . "'));</script>");
+}
 ?>
+
 <script>
 const foodArr = document.querySelectorAll(".food-item");
 var txtAmount = document.getElementById("modalFoodAmount");
+var variantID = document.getElementById("modalVariantID");
 var selectedFoodCost = 0;
+var selectedFoodName = "";
 
+let variantContainer = document.getElementById("modalVariants");
 foodArr.forEach(bt=>{
     bt.addEventListener('click', (e) => {
+        foodid = e.target.children[1].value;
+        selectedFoodName = e.target.children[0].innerHTML;
         document.getElementById("modalFoodImage").src = "img-uploads/" + e.target.children[3].value;
-        document.getElementById("modalFoodName").innerHTML = e.target.children[0].innerHTML;
+        document.getElementById("modalFoodName").innerHTML = selectedFoodName;
         document.getElementById("modalFoodDesc").innerHTML =  e.target.children[4].value;
-        document.getElementById("modalFoodId").value =  e.target.children[1].value;
+        document.getElementById("modalFoodId").value = foodid;
 
         selectedFoodCost = parseInt(e.target.children[2].value);
         document.getElementById("modalFoodCost").innerHTML = getPriceFormat(e.target.children[2].value);
         txtAmount.value = "1";
 
+        variantID.value = "0";
+        variantContainer.innerHTML = '';
+        if (foodVDict[foodid])
+        {
+            variantID.value = "0";
+            variationsArr.forEach(v=>{
+                if (v.foodId === foodid)
+                {
+                    const node = document.createElement("li");
+                    const textnode = document.createTextNode(v.name);
+                    node.appendChild(textnode);
+                    node.addEventListener('click', (e) => {
+                        epicSelectVariation(e);
+                        selectVariation(v);
+                    })
+
+                    if (variantID.value === "0")
+                    {
+                        node.classList.add("epic-vActive");
+                        selectVariation(v);
+                    }
+                    variantContainer.appendChild(node);
+                }
+            });
+        }
         epicOpenModal();
     })
 })
@@ -325,6 +412,16 @@ function setNewAmount(amount)
     txtAmount.value = newAmount.toString();
     document.getElementById("modalFoodCost").innerHTML = getPriceFormat(selectedFoodCost * newAmount);
 }
+
+function selectVariation(variation)
+{
+    variantID.value = variation.id;
+    document.getElementById("modalFoodName").innerHTML = selectedFoodName + " &nbsp; (" + variation.name + ")";
+    selectedFoodCost = variation.cost;
+    setNewAmount(txtAmount.value);
+}
+
+loadDoc();
 </script>
  
 </body>

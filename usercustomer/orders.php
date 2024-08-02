@@ -78,10 +78,18 @@ include '../global/uf/footer.html';
 ?>
 <a href="#" id="back-top"><i class="fa fa-angle-up fa-2x"></i></a>
 
+<!--Notifications-->
+<section id="notifContainer" class="epic-notifcontainer">
+</section>
+
 <!--JS-->
 <?php 
 include '../global/uf/js.html';
 ?>
+
+<script type="text/javascript">
+    loadDoc(1);
+</script>
 
 </body>
 </html>

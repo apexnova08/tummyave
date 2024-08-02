@@ -59,6 +59,7 @@ $mysqli = require __DIR__ . "/../database.php";
                     <textarea placeholder="Type here..." class="epic-txtbox" name="desc" style="resize: none; height: 150px;"></textarea>
                 </div>
                 <br/>
+                
                 <button class="epic-btn" style="float: right;">Add</button>
             </form>
         </div>

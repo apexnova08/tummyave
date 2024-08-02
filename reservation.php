@@ -254,6 +254,10 @@ include 'global/customerfooter.html';
 ?>
 <a href="#" id="back-top"><i class="fa fa-angle-up fa-2x"></i></a>
 
+<!--Notifications-->
+<section id="notifContainer" class="epic-notifcontainer">
+</section>
+
 <!-- The Modal -->
 <div id="epicModal" class="epic-modal">
     <div class="epic-modal-content" style="width: 50%;">
@@ -363,6 +367,8 @@ timeEnd.addEventListener('change', (e) => {
     timeStart.max = timeEnd.value
     if (timeStart.value > timeEnd.value) timeStart.value = timeEnd.value;
 });
+
+loadDoc();
 </script>
  
 </body>

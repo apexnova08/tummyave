@@ -38,6 +38,9 @@ html {
 .epic-upper {
     text-transform: uppercase;
 }
+.epic-graytxt {
+    color: #ccc;
+}
 .epic-orangetxt {
     font-family: Arial;
     font-weight: normal;
@@ -125,6 +128,25 @@ html {
     background-color: black;
     transition: .5s;
 }
+.epic-btnrwhite {
+    padding: 10px 15px;
+    background-color: white;
+    color: black;
+    font-family: open_sanssemibold;
+    font-size: 15px;
+    font-weight: normal;
+    text-transform: uppercase;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+    cursor: pointer;
+    border: none;
+}
+.epic-btnrwhite:hover {
+    background-color: #ccc;
+    transition: .5s;
+}
 .epic-txtbox {
     padding: 10px;
     color: #222;
@@ -206,6 +228,150 @@ html {
     width: 100%;
     overflow: hidden;
 }
+
+
+
+
+
+/* ## NOTIFICATIONS ## */
+.epic-notifcontainer {
+    position: fixed;
+    bottom: 40px;
+    left: 50px;
+    z-index: 10;
+}
+@keyframes notif-slide {
+    from {
+        margin-left: -100px;
+        opacity: .5;
+    }
+    to {
+        margin-left: 0px;
+        opacity: 1;
+    }
+}
+.epic-notif {
+    background-color: #E25111;
+    color: white;
+    font-family: open_sansregular;
+    position: relative;
+    padding: 25px;
+    margin-top: 20px;
+    margin-left: 0px;
+    width: fit-content;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-top-left-radius: 20px;
+    opacity: 1;
+    animation-name: notif-slide;
+    animation-duration: .5s;
+}
+.epic-notif div {
+    position: absolute;
+    padding: 5px 10px;
+    top: -10px;
+    right: 0;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    background-color: black;
+    color: white;
+    font-family: open_sansregular;
+    cursor: pointer;
+}
+.epic-notif div:hover {
+    background-color: red;
+    transition: .2s;
+}
+
+
+
+
+
+/* ## VARIANTS ## */
+.epic-variants {
+    margin-top: 10px;
+    overflow: hidden;
+}
+.epic-variants li {
+    float: left;
+    margin: 5px;
+    padding: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    font-family: open_sansregular;
+    cursor: pointer;
+    background-color: white;
+    border: 2px solid #aaa;
+    color: black;
+}
+.epic-variants li:hover {
+    background-color: black;
+    border-color: black;
+    color: white;
+    transition: .5s;
+}
+.epic-vActive {
+    background-color: #E25111 !important;
+    border-color: #E25111 !important;
+    color: white !important;
+}
+
+
+
+
+
+/* ## TOGGLE SWITCH ## */
+.epic-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+.epic-switch input { /* Hide default HTML checkbox */
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.epic-slider { /* slider */
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #aaa;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 34px;
+}
+.epic-slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 50%;
+}
+input:checked + .epic-slider {
+    background-color: #E25111;
+}
+input:focus + .epic-slider {
+    box-shadow: 0 0 1px #E25111;
+}
+input:checked + .epic-slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
 
 
 

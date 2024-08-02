@@ -33,6 +33,7 @@ if (isset($_POST["update"]))
     {
         NotifyOrderReady($customer["email"], $customer["name"], $order["id"], $order["total_items"]);
         $sql = "UPDATE orders SET status = 'Ready for pickup' WHERE id = '$id'";
+        if (!$mysqli->query("INSERT INTO notifications (user_id, notification) VALUES ('$customerid', 'Your order is ready to pickup!')")) die ("Notification error");
     }
     elseif ($order["status"] === "Ready for pickup")
     {

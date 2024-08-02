@@ -21,6 +21,14 @@ $id = $_POST["id"];
 $result = $mysqli->query("SELECT * FROM orders WHERE id = '$id'");
 $order = $result->fetch_assoc();
 
+// GET FOOD VARIATIONS
+$variantarray = array();
+$result_variants = $mysqli->query("SELECT * FROM food_variations");
+while ($rowvariant = $result_variants->fetch_assoc())
+{
+    $variantarray[$rowvariant["id"]] = $rowvariant;
+}
+
 // GET USER AND CASHIER INFO
 $result = $mysqli->query(sprintf("SELECT * FROM users WHERE id = '%s'", $mysqli->real_escape_string($order["user_id"])));
 $customer = $result->fetch_assoc();
@@ -151,12 +159,14 @@ elseif ($order["status"] === "Ready for pickup") $btnstring = "Mark as picked up
             <?php
             $result = $mysqli->query("SELECT * FROM order_items WHERE order_id = '$id'");
             while ($row = $result->fetch_assoc()) {
+                $itemname = $foodarray[$row["food_id"]]["name"];
+                if ($row["variation_id"] != "0") $itemname = $foodarray[$row["food_id"]]["name"] . " &nbsp; (" . $variantarray[$row["variation_id"]]["name"] . ")";
             ?>
             <div class="row epic-li">
                 <div class="col-md-8" style="overflow: hidden; margin-bottom: 10px;">
                     <img src="<?= '../img-uploads/' . $foodarray[$row["food_id"]]["image"] ?>" style="width: 100px; height: 70px; object-fit: cover; float: left" alt="image"/>
                     <div style="margin: 10px 0 0 20px; float: left;">
-                        <h3 class="epic-bebas"><?= $foodarray[$row["food_id"]]["name"] ?></h3>
+                        <h3 class="epic-bebas"><?= $itemname ?></h3>
                         <h4 class="epic-sanssb"><span class="epic-sanss">₱</span><?= getPriceFormat($row["food_cost"]) ?> ea.</h4>
                     </div>
                 </div>

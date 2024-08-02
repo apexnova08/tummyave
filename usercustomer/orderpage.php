@@ -23,6 +23,14 @@ while ($foodrow = $foodresult->fetch_assoc())
     $foodarray[$foodrow["id"]] = $foodrow;
 }
 
+// GET FOOD VARIATIONS
+$variantarray = array();
+$result_variants = $mysqli->query("SELECT * FROM food_variations");
+while ($rowvariant = $result_variants->fetch_assoc())
+{
+    $variantarray[$rowvariant["id"]] = $rowvariant;
+}
+
 // GET ORDER
 $id = $_POST["id"];
 $result = $mysqli->query(sprintf("SELECT * FROM orders WHERE id = '%s'", $mysqli->real_escape_string($id)));
@@ -146,12 +154,14 @@ $cashier = $result->fetch_assoc();
             <?php
             $result = $mysqli->query("SELECT * FROM order_items WHERE order_id = '$id'");
             while ($row = $result->fetch_assoc()) {
+                $itemname = $foodarray[$row["food_id"]]["name"];
+                if ($row["variation_id"] != "0") $itemname = $foodarray[$row["food_id"]]["name"] . " &nbsp; (" . $variantarray[$row["variation_id"]]["name"] . ")";
             ?>
             <div class="row epic-li">
                 <div class="col-md-8" style="overflow: hidden; margin-bottom: 10px;">
                     <img src="<?= '../img-uploads/' . $foodarray[$row["food_id"]]["image"] ?>" style="width: 100px; height: 70px; object-fit: cover; float: left" alt="image"/>
                     <div style="margin: 10px 0 0 20px; float: left;">
-                        <h3 class="epic-bebas"><?= $foodarray[$row["food_id"]]["name"] ?></h3>
+                        <h3 class="epic-bebas"><?= $itemname ?></h3>
                         <h4 class="epic-sanssb"><span class="epic-sanss">₱</span><?= getPriceFormat($row["food_cost"]) ?> ea.</h4>
                     </div>
                 </div>
@@ -178,6 +188,10 @@ $cashier = $result->fetch_assoc();
 include '../global/uf/footer.html';
 ?>
 <a href="#" id="back-top"><i class="fa fa-angle-up fa-2x"></i></a>
+
+<!--Notifications-->
+<section id="notifContainer" class="epic-notifcontainer">
+</section>
 
 <!-- The Modal -->
 <div id="epicModal" class="epic-modal">
@@ -212,6 +226,10 @@ include '../global/uf/footer.html';
 <?php 
 include '../global/uf/js.html';
 ?>
+
+<script type="text/javascript">
+    loadDoc(1);
+</script>
 
 </body>
 </html>

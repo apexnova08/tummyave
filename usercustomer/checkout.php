@@ -25,7 +25,15 @@ while ($foodrow = $foodresult->fetch_assoc())
     $foodarray[$foodrow["id"]] = $foodrow;
 }
 
-$foodtotal = 0;
+// GET FOOD VARIATIONS
+$variantarray = array();
+$result_variants = $mysqli->query("SELECT * FROM food_variations");
+while ($rowvariant = $result_variants->fetch_assoc())
+{
+    $variantarray[$rowvariant["id"]] = $rowvariant;
+}
+
+$foodtotalcost = 0;
 ?>
 
 <!doctype html>
@@ -67,21 +75,37 @@ $foodtotal = 0;
         <div class="col-md-12" style="margin-top: 40px;">
             <h3 class="epic-bebas">Items</h3>
             <?php
+            $abletoorder = true;
             $result = $mysqli->query("SELECT * FROM carts WHERE user_id = '$userid'");
             while ($row = $result->fetch_assoc()) {
-                $foodtotal = $foodtotal + ($foodarray[$row["food_id"]]["cost"] * $row["amount"]);
+                $cartitemcost = $foodarray[$row["food_id"]]["cost"];
+                $cartitemname = $foodarray[$row["food_id"]]["name"];
+                if ($row["variation_id"] != "0")
+                {
+                    $cartitemcost = $variantarray[$row["variation_id"]]["cost"];
+                    $cartitemname = $foodarray[$row["food_id"]]["name"] . " &nbsp; (" . $variantarray[$row["variation_id"]]["name"] . ")";
+                }
+                $foodtotalcost = $foodtotalcost + ($cartitemcost * $row["amount"]);
+
+                $cartitemavailable = true;
+                if ($foodarray[$row["food_id"]]["archived"] || !$foodarray[$row["food_id"]]["available"] || ($foodarray[$row["food_id"]]["hasVariations"] && $row["variation_id"] === "0") || (!$foodarray[$row["food_id"]]["hasVariations"] && $row["variation_id"] != "0") || ($row["variation_id"] != "0" && $variantarray[$row["variation_id"]]["disabled"]))
+                {
+                    $abletoorder = false;
+                    $cartitemavailable = false;
+                    $cartitemname = $cartitemname . ' &nbsp; <span style="color: red;">[UNAVAILABLE]</span>';
+                }
             ?>
             <div class="row epic-li">
-                <div class="col-md-8" style="overflow: hidden; margin-bottom: 10px;">
+                <div class="col-md-8 <?php if (!$cartitemavailable) echo("epic-graytxt"); ?>" style="overflow: hidden; margin-bottom: 10px;">
                     <img src="<?= '../img-uploads/' . $foodarray[$row["food_id"]]["image"] ?>" style="width: 100px; height: 70px; object-fit: cover; float: left" alt="image"/>
                     <div style="margin: 10px 0 0 20px; float: left;">
-                        <h3 class="epic-bebas"><?= $foodarray[$row["food_id"]]["name"] ?></h3>
-                        <h4 class="epic-sanssb"><span class="epic-sanss">₱</span><?= getPriceFormat($foodarray[$row["food_id"]]["cost"]) ?> ea.</h4>
+                        <h3 class="epic-bebas"><?= $cartitemname ?></h3>
+                        <h4 class="epic-sanssb"><span class="epic-sanss">₱</span><?= getPriceFormat($cartitemcost) ?> ea.</h4>
                     </div>
                 </div>
                 <div class="col-md-4 right" style="margin-top: 10px;">
                     <em>subtotal</em>
-                    <h4 class="epic-sanssb"><span class="epic-sanss">₱</span><?= getPriceFormat($foodarray[$row["food_id"]]["cost"] * $row["amount"]) ?></h4>
+                    <h4 class="epic-sanssb"><span class="epic-sanss">₱</span><?= getPriceFormat($cartitemcost * $row["amount"]) ?></h4>
                     <p class="epic-sanssb"><i>amount: <?= $row["amount"] ?></i></p>
                 </div>
             </div>
@@ -92,8 +116,8 @@ $foodtotal = 0;
     </div>
     <div class="container" style="margin-top: 50px; overflow: hidden;">
         <form enctype="multipart/form-data" action="processes/checkout-process.php" method="post">
-            <button class="epic-btn" <?php if ($vars["store_closed"]) echo "disabled" ?>>Place Order</button>
-            <label class="epic-sanss epic-txt25" style="margin-left: 30px;">₱<span class="epic-sanssb"><?= getPriceFormat($foodtotal) ?></span></label>
+            <button class="epic-btn" <?php if ($vars["store_closed"] || !$abletoorder || mysqli_num_rows($result) === 0) echo "disabled" ?>>Place Order</button>
+            <label class="epic-sanss epic-txt25" style="margin-left: 30px;">₱<span class="epic-sanssb"><?= getPriceFormat($foodtotalcost) ?></span></label>
         </form>
         <?php if ($vars["store_closed"]) echo "<p class='epic-sansr' style='color: #777'>( Orders are disabled during closing hours )</p>" ?>
     </div>
@@ -106,10 +130,18 @@ include '../global/uf/footer.html';
 ?>
 <a href="#" id="back-top"><i class="fa fa-angle-up fa-2x"></i></a>
 
+<!--Notifications-->
+<section id="notifContainer" class="epic-notifcontainer">
+</section>
+
 <!--JS-->
 <?php 
 include '../global/uf/js.html';
 ?>
+
+<script type="text/javascript">
+    loadDoc(1);
+</script>
 
 </body>
 </html>

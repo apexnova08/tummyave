@@ -33,6 +33,71 @@ window.onclick = function(event) {
 
 
 
+// # NOTIFICATIONS
+function loadDoc(updir = 0)
+{
+    datadir = "usercustomer/processes/getnotif.php";
+    for (let i = 0; i < updir; i++) datadir = "../" + datadir;
+
+    setInterval(function(){
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function()
+        {
+            container = document.getElementById("notifContainer");
+            if (this.readyState == 4 && this.status == 200)
+            {
+                if (this.responseText)
+                {
+                    const notifnode = document.createElement("div");
+                    notifnode.appendChild(document.createTextNode(this.responseText));
+                    const closenode = document.createElement("div");
+                    closenode.appendChild(document.createTextNode("✖"))
+                    
+                    closenode.addEventListener('click', function() {
+                        notifnode.remove();
+                    })
+
+                    notifnode.appendChild(closenode);
+                    notifnode.classList.add("epic-notif");
+                    container.appendChild(notifnode);
+                }
+            }
+        };
+        xhttp.open("GET", datadir, true);
+        xhttp.send();
+    }, 1000);
+}
+
+
+
+
+
+// # VARIATIONS
+class EpicVariation
+{
+    constructor(id, foodId, name, cost)
+    {
+        this.id = id;
+        this.foodId = foodId;
+        this.name = name;
+        this.cost = cost;
+    }
+}
+function epicSelectVariation(obj)
+{
+    container = obj.target.parentElement;
+    var children = [].slice.call(container.children);
+    children.forEach(c=>{
+        c.classList.remove("epic-vActive");
+    })
+
+    obj.target.classList.add("epic-vActive");
+}
+
+
+
+
+
 // # RATING
 const stars = [
     document.getElementById("epicStar1"),

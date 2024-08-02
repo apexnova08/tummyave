@@ -31,6 +31,14 @@ while ($foodrow = $foodresult->fetch_assoc())
     $foodarray[$foodrow["id"]] = $foodrow;
 }
 
+// GET FOOD VARIATIONS
+$variantarray = array();
+$result_variants = $mysqli->query("SELECT * FROM food_variations");
+while ($rowvariant = $result_variants->fetch_assoc())
+{
+    $variantarray[$rowvariant["id"]] = $rowvariant;
+}
+
 // GET ORDER
 $id = $_POST["id"];
 $result = $mysqli->query("SELECT * FROM orders WHERE id = '$id'");
@@ -44,8 +52,11 @@ $tablehtml = "";
 $result = $mysqli->query("SELECT * FROM order_items WHERE order_id = '$id'");
 while ($row = $result->fetch_assoc())
 {
+    $itemname = $foodarray[$row["food_id"]]["name"];
+    if ($row["variation_id"] != "0") $itemname = $foodarray[$row["food_id"]]["name"] . " (" . $variantarray[$row["variation_id"]]["name"] . ")";
+    
     $tablehtml .= "<tr>
-        <td>" . $foodarray[$row["food_id"]]["name"] . "</td>
+        <td>" . $itemname . "</td>
         <td>P" . getPriceFormat($row["food_cost"]) . "</td>
         <td>" . $row["amount"] . "</td>
         <td>P" . getPriceFormat($row["subtotal"]) . "</td>

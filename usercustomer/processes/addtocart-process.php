@@ -13,17 +13,18 @@ if (isset($_SESSION["user_id"])) $userid = $_SESSION["user_id"];
 session_abort();
 
 $food = $_POST["foodId"];
+$variant = $_POST["variantID"];
 
-$cartitemraw = $mysqli->query("SELECT * FROM carts WHERE user_id = $userid AND food_id = $food");
+$cartitemraw = $mysqli->query("SELECT * FROM carts WHERE user_id = $userid AND food_id = $food AND variation_id = $variant");
 $cartitem = $cartitemraw->fetch_assoc();
 if (!$cartitem)
 {
-    $sql = "INSERT INTO carts (user_id, food_id, amount) VALUES (?, ?, ?)";
+    $sql = "INSERT INTO carts (user_id, food_id, variation_id, amount) VALUES (?, ?, ?, ?)";
     $stmt = $mysqli->stmt_init();
     if (!$stmt->prepare($sql)) {
         die("SQL error: " . $mysqli->errno);
     }
-    mysqli_stmt_bind_param($stmt, "sss", $userid, $food, $_POST["amount"]);
+    mysqli_stmt_bind_param($stmt, "ssss", $userid, $food, $variant, $_POST["amount"]);
     if ($stmt->execute())
     {
         header("location: ../../food.php#food");

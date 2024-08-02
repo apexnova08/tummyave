@@ -87,10 +87,18 @@ include 'global/customerfooter.html';
 ?>
 <a href="#" id="back-top"><i class="fa fa-angle-up fa-2x"></i></a>
 
+<!--Notifications-->
+<section id="notifContainer" class="epic-notifcontainer">
+</section>
+
 <!--JS-->
 <?php 
 include 'global/customerjs.html';
 ?>
+
+<script type="text/javascript">
+    loadDoc();
+</script>
  
 </body>
 </html>
