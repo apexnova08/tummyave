@@ -36,7 +36,7 @@ window.onclick = function(event) {
 // # NOTIFICATIONS
 function loadDoc(updir = 0)
 {
-    datadir = "usercustomer/processes/getnotif.php";
+    datadir = "global/getnotif.php";
     for (let i = 0; i < updir; i++) datadir = "../" + datadir;
 
     setInterval(function(){

@@ -643,6 +643,7 @@ input:checked + .epic-slider:before {
 /* Add media queries for smaller screens */
 @media screen and (max-width:720px) {
     .epic-weekdays li, .epic-days li {width: 13.1%;}
+    .epic-notifcontainer {left: 5px !important;}
 }
 @media screen and (max-width: 420px) {
     .epic-weekdays li, .days li {width: 12.5%;}

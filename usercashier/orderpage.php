@@ -204,11 +204,18 @@ elseif ($order["status"] === "Ready for pickup") $btnstring = "Mark as picked up
     </div>
 </div>
 
+<!--Notifications-->
+<section id="notifContainer" class="epic-notifcontainer">
+</section>
+
 <!--JS-->
 <?php 
 include '../global/uf/js.html';
 include '../global/uf/adminfooter.php';
 ?>
+<script type="text/javascript">
+    loadDoc(1);
+</script>
 
 </body>
 </html>

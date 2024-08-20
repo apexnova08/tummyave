@@ -69,11 +69,18 @@ $mysqli = require __DIR__ . "/../database.php";
 
 <a href="#" id="back-top"><i class="fa fa-angle-up fa-2x"></i></a>
 
+<!--Notifications-->
+<section id="notifContainer" class="epic-notifcontainer">
+</section>
+
 <!--JS-->
 <?php 
 include '../global/uf/js.html';
 include '../global/uf/adminfooter.php';
 ?>
+<script type="text/javascript">
+    loadDoc(1);
+</script>
 
 </body>
 </html>

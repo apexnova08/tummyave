@@ -86,6 +86,9 @@ if (!$stmt->execute()) die ("Error.");
 // REMOVE ITEMS FROM CART
 $sql = "DELETE FROM carts WHERE user_id = '$userid'";
 
+// NOTIF
+if (!$mysqli->query("INSERT INTO notifications (user_id, notification) VALUES ('0', 'A new order have just been placed!')")) die ("Notification error");
+
 if ($mysqli->query($sql)) {
     header("location: ../orders.php");
 } else die ("Error.");
